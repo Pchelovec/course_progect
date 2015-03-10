@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/pictures">
+        <file>res/ILLITA_STPOITEL3.gif</file>
+        <file>res/сохранить.jpg</file>
+        <file>res/home.ico</file>
+        <file>res/exit.jpg</file>
+        <file>res/cargo1.ico</file>
+        <file>res/адрессная книга.gif</file>
+        <file>res/контракт.gif</file>
+        <file>res/поиск.gif</file>
+        <file>res/чел.gif</file>
+        <file>res/dollar.jpg</file>
+        <file>res/Stroitelnyie-materialyi.gif</file>
+        <file>res/материалы.gif</file>
+    </qresource>
+</RCC>

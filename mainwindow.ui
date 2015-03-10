@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>711</width>
+    <height>476</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Строительная Компания &quot;FastoBild&quot;</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="currentIndex">
+       <number>4</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <widget class="QLabel" name="label_6">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>60</y>
+          <width>46</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>NULL</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0" colspan="3">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QTableWidget" name="tableWidget_technics">
+            <property name="sortingEnabled">
+             <bool>true</bool>
+            </property>
+            <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+             <bool>true</bool>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="GroopBox_techicaDETAI_INFO_3">
+            <property name="title">
+             <string>подробная информация</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_24">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>название</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1" colspan="4">
+                <widget class="QLineEdit" name="lineEdit_technics_name_write"/>
+               </item>
+               <item row="1" column="0" colspan="4">
+                <widget class="QLabel" name="label_31">
+                 <property name="text">
+                  <string>техническое состояние</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="4">
+                <widget class="QProgressBar" name="progressBar_technic_sost_print">
+                 <property name="value">
+                  <number>24</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <widget class="QLabel" name="label_32">
+                 <property name="text">
+                  <string>номер авто</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="3" colspan="2">
+                <widget class="QLineEdit" name="lineEdit_technic_namber_write"/>
+               </item>
+               <item row="3" column="3" colspan="2">
+                <widget class="QLineEdit" name="lineEdit_technic_gruzop_write"/>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>дата покупки</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2" colspan="3">
+                <widget class="QLineEdit" name="lineEdit_technic_was_buyed"/>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>год выпуска</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2" colspan="3">
+                <widget class="QLineEdit" name="lineEdit_technic_was_builded"/>
+               </item>
+               <item row="6" column="0" colspan="4">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>пройденное расстояние</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="4">
+                <widget class="QLineEdit" name="lineEdit_technics_distance_write"/>
+               </item>
+               <item row="3" column="0" colspan="3">
+                <widget class="QLabel" name="label_33">
+                 <property name="text">
+                  <string>грузоподъемность</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+            <zorder></zorder>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="Butt_Buy_car">
+          <property name="text">
+           <string>buy</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QToolButton" name="toolBtt_sell_technics">
+          <property name="toolTip">
+           <string>продать</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="resurs.qrc">
+            <normaloff>:/pictures/res/dollar.jpg</normaloff>:/pictures/res/dollar.jpg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>476</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_3">
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>сотрудник</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="4" column="1">
+            <layout class="QGridLayout" name="gridLayout_17">
+             <item row="0" column="1">
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <item>
+                <widget class="QPushButton" name="pusB_Sotrudnic_del">
+                 <property name="text">
+                  <string>уволить</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_add_ne_worker">
+                 <property name="text">
+                  <string>нанять</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="0">
+              <widget class="QTableWidget" name="tableWidget_worker">
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <attribute name="horizontalHeaderMinimumSectionSize">
+                <number>50</number>
+               </attribute>
+               <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                <bool>true</bool>
+               </attribute>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_5">
+       <layout class="QGridLayout" name="gridLayout_10">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>поиск по проектам домов</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_20">
+           <item row="1" column="0">
+            <layout class="QGridLayout" name="gridLayout_13">
+             <item row="0" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="CB_House_poisk">
+                 <property name="text">
+                  <string>поиск</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_add_last_house">
+                 <property name="text">
+                  <string>сохранить элемент элемент</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>30</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item row="0" column="0">
+            <widget class="QTableWidget" name="tableWidget_house_poisk">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>50</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QTableWidget" name="tableWidget_house">
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+              <bool>true</bool>
+             </attribute>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_4">
+       <layout class="QGridLayout" name="gridLayout_18">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_15">
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox_5">
+              <property name="maximumSize">
+               <size>
+                <width>500</width>
+                <height>1000</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>клиент</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_11">
+               <item row="2" column="2">
+                <widget class="QLineEdit" name="lineEdit_client_pasport_input"/>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>фио</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit_client_mestoJit_input"/>
+               </item>
+               <item row="5" column="1" colspan="2">
+                <widget class="QCheckBox" name="checkBox_is_ynical_progect">
+                 <property name="text">
+                  <string>уникальный проект</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLabel" name="label_20">
+                 <property name="text">
+                  <string>номер теелефона</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>место жительства</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QLineEdit" name="lineEdit_client_fio_input"/>
+               </item>
+               <item row="3" column="2">
+                <widget class="QLineEdit" name="lineEdit_client_yearBir_input"/>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLabel" name="label_19">
+                 <property name="text">
+                  <string>год рождения</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLabel" name="label_18">
+                 <property name="text">
+                  <string>серия паспорта</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2">
+                <widget class="QLineEdit" name="lineEdit_client_phone_input"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="2">
+           <layout class="QGridLayout" name="gridLayout_12">
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="GroBox_Indiv_Prog">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="title">
+               <string>конструктор проект</string>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="text">
+                  <string>метраж</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_ynicalBuil_meter_input"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>крыши</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBox_material_kriLll"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>стены</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_stena_material"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_23">
+                 <property name="text">
+                  <string>высота этажа</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="lineEdit_ynicalBuil_heiter_input"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_24">
+                 <property name="text">
+                  <string>этажность</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QSpinBox" name="spinBox_ynicalBuil_levels_input"/>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="QRadioButton" name="radioButton_fundament">
+                 <property name="text">
+                  <string>наличие фундамента</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>прим.цена</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLabel" name="label_progect_future_price">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>свай</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLabel" name="label_swai_ynical_prog">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groBox_Progect_Standart_progect">
+              <property name="maximumSize">
+               <size>
+                <width>400</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>стандартный проект</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_16">
+               <item row="0" column="0">
+                <widget class="QLineEdit" name="lineEdit_3"/>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_2"/>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLineEdit" name="lineEdit"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="3">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_6">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>приход материала</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_19">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_7">
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_6">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEdit_materialAdd_count"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>количество</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="lineEdit_materialAdd_name"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>название</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="lineEdit_materialAdd_Price"/>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>цена</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_Raport">
+                 <property name="toolTip">
+                  <string>формировать отчет о оборотах материала</string>
+                 </property>
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resurs.qrc">
+                   <normaloff>:/pictures/res/поиск.gif</normaloff>:/pictures/res/поиск.gif</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>99</width>
+                   <height>99</height>
+                  </size>
+                 </property>
+                 <property name="checkable">
+                  <bool>false</bool>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <property name="autoRepeat">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>711</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>программа</string>
+    </property>
+    <addaction name="new_contract"/>
+    <addaction name="action_4"/>
+    <addaction name="person"/>
+    <addaction name="material"/>
+    <addaction name="home_progect"/>
+    <addaction name="separator"/>
+    <addaction name="action_8"/>
+    <addaction name="action_9"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>информация</string>
+    </property>
+    <addaction name="action"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>60</width>
+     <height>60</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_4"/>
+   <addaction name="person"/>
+   <addaction name="home_progect"/>
+   <addaction name="new_contract"/>
+   <addaction name="material"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="action">
+   <property name="text">
+    <string>разработчик</string>
+   </property>
+  </action>
+  <action name="new_contract">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/контракт.gif</normaloff>:/pictures/res/контракт.gif</iconset>
+   </property>
+   <property name="text">
+    <string>заключение контракта</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K, Ctrl+N</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/cargo1.ico</normaloff>:/pictures/res/cargo1.ico</iconset>
+   </property>
+   <property name="text">
+    <string>парк техники</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="person">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/чел.gif</normaloff>:/pictures/res/чел.gif</iconset>
+   </property>
+   <property name="text">
+    <string>работники</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="home_progect">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/home.ico</normaloff>:/pictures/res/home.ico</iconset>
+   </property>
+   <property name="text">
+    <string>постройки</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="action_8">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/сохранить.jpg</normaloff>:/pictures/res/сохранить.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>сохранить и выйти</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_9">
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/exit.jpg</normaloff>:/pictures/res/exit.jpg</iconset>
+   </property>
+   <property name="text">
+    <string>выйти</string>
+   </property>
+  </action>
+  <action name="material">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resurs.qrc">
+     <normaloff>:/pictures/res/материалы.gif</normaloff>:/pictures/res/материалы.gif</iconset>
+   </property>
+   <property name="text">
+    <string>материалы</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="resurs.qrc"/>
+ </resources>
+ <connections/>
+</ui>
