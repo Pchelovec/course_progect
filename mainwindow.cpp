@@ -450,7 +450,7 @@ DB->query->clear();
 void MainWindow::on_nestandart_material_button_OK_clicked()
 {
     //запись в бд
-    QStrng s;
+    QString s;
     s=s+"update all_material set count=";
     ui->statusBar->showMessage(tr("редактирование материала произведено!"));
     ui->stackedWidget->setCurrentIndex(5);
