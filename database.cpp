@@ -2,8 +2,8 @@
 
 database::database()
 {
+    correct_connected=true;
     connect();
-    //query.exec("SELECT name, salary FROM employee WHERE salary > 50000");
     query=new QSqlQuery;
 }
 
@@ -17,10 +17,12 @@ void database::connect()
     if(DB.open())
     {
         qDebug()<<"OK";
+        correct_connected=true;
     }
     else
     {
         qDebug()<<"fail";
+        correct_connected=false;
     }
 }
 

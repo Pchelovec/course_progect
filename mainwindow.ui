@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
-    <height>476</height>
+    <width>709</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,28 +15,248 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_4">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="lineWidth">
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="page">
-       <widget class="QLabel" name="label_6">
+       <widget class="QGroupBox" name="material_nestandart_GB">
         <property name="geometry">
          <rect>
-          <x>120</x>
-          <y>60</y>
-          <width>46</width>
-          <height>16</height>
+          <x>20</x>
+          <y>20</y>
+          <width>671</width>
+          <height>271</height>
          </rect>
         </property>
-        <property name="text">
-         <string>NULL</string>
+        <property name="title">
+         <string>обнаружена ошибка слияния двух схожих записей для таблицы материалы</string>
         </property>
+        <layout class="QGridLayout" name="gridLayout_19">
+         <item row="4" column="2" colspan="3">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>скорректированниые данные</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QDoubleSpinBox" name="price_c_DSB">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="2" colspan="3">
+          <widget class="QPushButton" name="nestandart_material_button_OK">
+           <property name="text">
+            <string>согласен</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="5">
+          <widget class="QComboBox" name="ed_izmer_c_CB"/>
+         </item>
+         <item row="5" column="3">
+          <widget class="QComboBox" name="funct_c_CB"/>
+         </item>
+         <item row="5" column="4">
+          <widget class="QSpinBox" name="count_c_SPB"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLineEdit" name="name_c_LE">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>значение в таблице</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>50</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="4">
+          <widget class="QLineEdit" name="count_b_LE">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLineEdit" name="name_a_LE">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>50</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="5">
+          <widget class="QLineEdit" name="ed_izmer_b">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QDoubleSpinBox" name="price_b_DSB">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLineEdit" name="name_b_LE">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2" colspan="3">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>вводимые значения пользователем</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QDoubleSpinBox" name="price_a_DSB">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QLineEdit" name="ed_izmer_a">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="funct_a">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLineEdit" name="cocunt_a_LE">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="price_a_ChBox">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QLineEdit" name="funct_b">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="price_b_ChBox">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>21</width>
+               <height>35</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLCDNumber" name="material_ID">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
+       <zorder>material_nestandart_GB</zorder>
+       <zorder>lineEdit_4</zorder>
+       <zorder>horizontalSpacer_3</zorder>
+       <zorder>label_5</zorder>
+       <zorder>horizontalSpacer_4</zorder>
+       <zorder>horizontalSpacer_8</zorder>
+       <zorder></zorder>
       </widget>
       <widget class="QWidget" name="page_2">
        <layout class="QGridLayout" name="gridLayout">
@@ -591,111 +811,91 @@
       </widget>
       <widget class="QWidget" name="page_6">
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+        <item row="0" column="1">
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
            <string>приход материала</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_19">
+          <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_7">
+            <layout class="QGridLayout" name="gridLayout_6">
              <item row="0" column="0">
-              <layout class="QGridLayout" name="gridLayout_6">
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_materialAdd_count"/>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_13">
-                 <property name="text">
-                  <string>количество</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLineEdit" name="lineEdit_materialAdd_name"/>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_11">
-                 <property name="text">
-                  <string>название</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_materialAdd_Price"/>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>цена</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>название</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="material_name_LE"/>
              </item>
              <item row="1" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButton_Raport">
-                 <property name="toolTip">
-                  <string>формировать отчет о оборотах материала</string>
-                 </property>
-                 <property name="autoFillBackground">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="resurs.qrc">
-                   <normaloff>:/pictures/res/поиск.gif</normaloff>:/pictures/res/поиск.gif</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>99</width>
-                   <height>99</height>
-                  </size>
-                 </property>
-                 <property name="checkable">
-                  <bool>false</bool>
-                 </property>
-                 <property name="checked">
-                  <bool>false</bool>
-                 </property>
-                 <property name="autoRepeat">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>цена</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="dSpBo_material_price"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>количество</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QSpinBox" name="material_count_sp_box"/>
+             </item>
+             <item row="3" column="1">
+              <widget class="QFontComboBox" name="ed_izmeren">
+               <property name="currentText">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>функциональное назначение</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QFontComboBox" name="funct_naznach">
+               <property name="currentText">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="material_add_PB">
+             <property name="text">
+              <string>занести</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -711,7 +911,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>711</width>
+     <width>709</width>
      <height>21</height>
     </rect>
    </property>
@@ -734,7 +934,16 @@
     </property>
     <addaction name="action"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>настройки</string>
+    </property>
+    <addaction name="action_2"/>
+    <addaction name="separator"/>
+    <addaction name="action_5"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_3"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -847,6 +1056,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>изменение БД</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>управление рабочим процессом</string>
    </property>
   </action>
  </widget>

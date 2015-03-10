@@ -12,11 +12,11 @@ public:
     QSqlDatabase DB;
     QSqlQuery *query;
     database();
-
     ~database();
-private:
+public:
     void connect();
 
+    bool correct_connected;
 };
 
 #endif // DATABASE_H

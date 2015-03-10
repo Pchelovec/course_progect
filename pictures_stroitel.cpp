@@ -22,6 +22,10 @@ pictures_stroitel::pictures_stroitel(QWidget *parent) :
 
         splash->move(300,50);
         splash->show();
+
+        //connect(splash,SIGNAL(splash->close()), this, SLOT(stat_now()));
+        //connect(splash,SIGNAL(splash->destroyed();), this, SLOT(stat_now()));
+
         //splash->is
 
 }
@@ -43,8 +47,14 @@ void pictures_stroitel::IncCount()
         delete splash;
         delete time;
 
-        MW.show();
+        //MW.show();
+        this->stat_now();
     }
+}
+
+void pictures_stroitel::stat_now()
+{
+   MW.show();
 }
 
 pictures_stroitel::~pictures_stroitel()

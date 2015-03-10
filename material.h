@@ -7,7 +7,7 @@ class material
 public:
     QString name;
     double price;
-    double weiter;
+    QString funct;
     QString izmeren;
     int count;
     int ID;

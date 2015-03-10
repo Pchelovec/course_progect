@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 #include <QMessageBox>
-#include <QDebug>
+//#include <QDebug>
 #include <QSqlTableModel>
 #include <QAbstractItemModel>
 #include <QTableView>
@@ -22,6 +22,8 @@
 #include <Qt>
 #include <QRegExp>
 #include <QRegExpValidator>
+#include "material.h"
+#include <QtDebug>
 namespace Ui {
 class MainWindow;
 }
@@ -45,7 +47,7 @@ private:                                                            //перем
     void load_building();
     void load_worker();
     void initial_detel_ifo_technics();
-
+    void clear_material();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -72,8 +74,10 @@ private slots:
     void on_material_triggered();
     void on_Butt_Buy_car_clicked();
     void on_checkBox_is_ynical_progect_clicked(bool checked);
-    void on_toolButton_Raport_clicked();
     void on_radioButton_fundament_clicked(bool checked);
+    void on_material_add_PB_clicked();
+    void on_nestandart_material_button_OK_clicked();
+    void on_price_a_ChBox_clicked(bool checked);
+    void on_price_b_ChBox_clicked(bool checked);
 };
-
 #endif // MAINWINDOW_H

@@ -4,6 +4,7 @@
 #include "new_person.h"
 #include "poisk_material.h"
 
+
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setCentralWidget(ui->stackedWidget);
     connect_to_DB();
-    ui->statusBar->showMessage(tr("Ready to work!"));
     first_initial_component();
 }
 MainWindow::~MainWindow()
@@ -43,17 +43,20 @@ void MainWindow::on_home_progect_triggered()
 void MainWindow::on_material_triggered()
 {
     ui->stackedWidget->setCurrentIndex(5);
+    clear_material();
+    ui->ed_izmeren->activateWindow();
+
 }
 void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
 {
     ui->groBox_Progect_Standart_progect->setVisible(!checked);
     ui->GroBox_Indiv_Prog->setVisible(checked);
 }
-void MainWindow::on_toolButton_Raport_clicked()
-{
-    poisk_material *poi=new poisk_material;
-    poi->show();
-}
+//void MainWindow::on_toolButton_Raport_clicked()
+//{
+//    poisk_material *poi=new poisk_material;
+//    poi->show();
+//}
 void MainWindow::on_Butt_Buy_car_clicked()
 {
     texhica_widget *tec=new texhica_widget;
@@ -63,23 +66,27 @@ void MainWindow::on_Butt_Buy_car_clicked()
 void MainWindow::connect_to_DB()
 {
     DB=new database;
+    //DB->connect();
+    if(DB->correct_connected)//если не ошибка подключения
+        ui->statusBar->showMessage(tr("Готов к работе!"));
+    else
+    {
+        ui->statusBar->showMessage(tr("НЕ Готов к работе, БД не открыта!!!"));
+        ui->stackedWidget->setVisible(false);
+    }
 }
 
 void MainWindow::first_initial_component()
 {
-
-//connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),build,);
-    //connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),build,SLOT(set_fundament(bool)));
-
     ui->GroBox_Indiv_Prog->setVisible(false);
-
+    ui->material_nestandart_GB->setVisible(false);
     ui->groBox_Progect_Standart_progect->setVisible(true);
 
     ui->pusB_Sotrudnic_del->setEnabled(false);
 
     ui->stackedWidget->setCurrentIndex(0);
 
-    ui->GroopBox_techicaDETAI_INFO_3->setVisible(false);//невидимость подробной инфы о технике
+    ui->GroopBox_techicaDETAI_INFO_3->setVisible(false);//невидимость подробной инфы об оборудовании
 
     ui->tableWidget_house_poisk->setVisible(false);//невидимость формы поиска
 
@@ -109,10 +116,26 @@ void MainWindow::first_initial_component()
     QRegExp year("[1-2]{1}[0-9]{3}");
     ui->lineEdit_client_yearBir_input->setValidator(new QRegExpValidator(year,this));
 
-    //connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label,SLOT(setVisible(bool)));
+    QRegExp material_name("[а-я А-Я]{20}");
+    ui->material_name_LE->setValidator(new QRegExpValidator(material_name,this));
+
+    QRegExp ed_iz("[а-я А-Я 0-9]{10}");
+    ui->ed_izmeren->setValidator(new QRegExpValidator(ed_iz,this));
+
+    QRegExp F_nazn("[а-я А-Я 0-9]{15}");
+    ui->ed_izmeren->setValidator(new QRegExpValidator(F_nazn,this));
+
+
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_3,SLOT(setVisible(bool)));
-    //connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_progect_future_price,SLOT(setVisible(bool)));
+    //connect(ui->price_a_ChBox,SIGNAL(clicked(bool)),ui->price_b_ChBox, SLOT(setChecked(bool)));
+    //connect(ui->price_b_ChBox,SIGNAL(clicked(bool)),ui->price_a_ChBox,SLOT(setChecked(bool)));
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_swai_ynical_prog,SLOT(setVisible(bool)));
+
+    ui->material_count_sp_box->setMaximum(99999999);
+    ui->count_c_SPB->setMaximum(99999999);
+    ui->dSpBo_material_price->setMaximum(999999999);
+    ui->ed_izmeren->clear();
+    ui->funct_naznach->clear();
 }
 
 void MainWindow::load_building()
@@ -152,9 +175,6 @@ void MainWindow::load_building()
 
         QTableWidgetItem *item_name = new QTableWidgetItem();
         item_name->setText(name);
-            //qDebug()<<"Name "<<row<<"="<<name;
-//        QTableWidgetItem *item_yn=new QTableWidgetItem();
-
 
         QWidget *pWidget = new QWidget();
         QCheckBox *pCheckBox = new QCheckBox();
@@ -165,17 +185,6 @@ void MainWindow::load_building()
         pLayout->setContentsMargins(0,0,0,0);
         pWidget->setLayout(pLayout);
         ui->tableWidget_house->setCellWidget(row,1,pWidget);
-        //pMyTableWidget->setCellWidget(0,0,pWidget);
-        //if (ynic)
-        //{
-
-//            item_yn->setText("уникальный");
-        //}
-        //else
-//            item_yn->setText("не уникальный");
-        //QAbstractItemDelegate *ynical_delegate=new QAbstractItemDelegate(this);
-        //ynical_delegate->setEditorData();
-
 
         QTableWidgetItem *item_time = new QTableWidgetItem();
         item_time->setText(st_time);
@@ -194,8 +203,6 @@ void MainWindow::load_building()
         //ui->tableWidget_house->setRowCount(row);
         row++;
     }
-
-
 }
 
 void MainWindow::load_technics()
@@ -322,4 +329,142 @@ void MainWindow::add_house_to_db()
 void MainWindow::on_radioButton_fundament_clicked(bool checked)
 {
     build->fundament=checked;
+}
+
+void MainWindow::on_material_add_PB_clicked()
+{
+    if ((ui->material_name_LE->text()!=0)&& (ui->dSpBo_material_price->value()!=0) && (ui->material_count_sp_box->value()!=0))
+    {
+        QString lik("select * from all_material where name like ");
+        lik=lik+"'"+ui->material_name_LE->text()+"';";
+        DB->query->exec(lik);
+        if (DB->query->next())
+        {
+        material mat_like_my;
+        mat_like_my.name=DB->query->value(0).toString();
+        mat_like_my.price=DB->query->value(1).toDouble();
+        mat_like_my.funct=DB->query->value(2).toString();
+        mat_like_my.izmeren=DB->query->value(3).toString();
+        mat_like_my.count=DB->query->value(4).toInt();
+        mat_like_my.ID=DB->query->value(5).toInt();
+        if (mat_like_my.price==ui->dSpBo_material_price->value() && mat_like_my.izmeren==ui->ed_izmeren->currentText())
+        {
+            DB->query->clear();
+            QString updt("update all_material set count=");
+            updt=updt+QString::number(mat_like_my.count+ui->material_count_sp_box->value())+" where id_material="+QString::number(mat_like_my.ID)+";";
+            DB->query->exec(updt);
+            ui->statusBar->showMessage(tr("данные занесены успешно (суммирование)"));
+            qDebug()<<updt<<endl;
+            clear_material();
+        }
+        else
+        {
+            ui->material_nestandart_GB->setVisible(true);
+            ui->name_a_LE->setText(mat_like_my.name);
+            ui->name_b_LE->setText(mat_like_my.name);
+            ui->name_c_LE->setText(mat_like_my.name);
+
+            ui->price_a_DSB->setValue(mat_like_my.price);
+            ui->price_b_DSB->setValue(ui->dSpBo_material_price->value());
+
+            ui->cocunt_a_LE->setText(QString::number(mat_like_my.count));
+            ui->count_b_LE->setText(QString::number(ui->material_count_sp_box->value()));
+            ui->count_c_SPB->setValue(mat_like_my.count+(ui->material_count_sp_box->value()));
+
+            ui->funct_a->setText(mat_like_my.funct);
+            ui->funct_b->setText(ui->funct_naznach->currentText());
+            ui->funct_c_CB->clear();
+            ui->funct_c_CB->addItem(mat_like_my.funct);
+            ui->funct_c_CB->addItem(ui->funct_naznach->currentText());
+
+            ui->ed_izmer_a->setText(mat_like_my.izmeren);
+            ui->ed_izmer_b->setText(ui->ed_izmeren->currentText());
+            ui->ed_izmer_c_CB->clear();
+            ui->ed_izmer_c_CB->addItem(mat_like_my.izmeren);
+            ui->ed_izmer_c_CB->addItem(ui->ed_izmeren->currentText());
+
+            ui->material_ID->display(mat_like_my.ID);
+            ui->stackedWidget->setCurrentIndex(0);
+            //solution
+            clear_material();
+            ui->statusBar->showMessage(tr("требуется реакия пользователя на нестандартную линию поведения программы"));
+        }
+        }
+        else
+        {
+        QString s;
+        s="insert into all_material(name,price,naznachenie,izmerenie,count)values('";
+        s=s+ui->material_name_LE->text()+"'";
+        s=s+",'"+QString::number(ui->dSpBo_material_price->value())+"'";
+        if (ui->funct_naznach->currentText()!="")
+        {
+          s=s+",'"+ui->funct_naznach->currentText()+"'";
+        }
+        else s=s+",NULL";
+        if (ui->ed_izmeren->currentText()!="")
+        {
+           s=s+",'"+ui->ed_izmeren->currentText()+"'";
+        }
+        else s=s+",NULL";
+        s=s+","+QString::number(ui->material_count_sp_box->value())+");";
+        qDebug()<<s;
+        DB->query->exec(s);
+        DB->query->clear();
+        ui->statusBar->showMessage(tr("данные занесены успешно"));
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("данные не занесены, Заполните ключевые поля!"));
+        ui->label_10->setText("<font color=red> название </font>");
+        ui->label_11->setText("<font color=red> цена </font>");
+        ui->label_13->setText("<font color=red> количество </font>");
+    }
+}
+void MainWindow::clear_material()
+{
+ui->material_name_LE->setText("");
+ui->dSpBo_material_price->setValue(0);
+ui->material_count_sp_box->setValue(0);
+DB->query->clear();
+ui->ed_izmeren->addItem("");
+DB->query->exec("call material_list_izmer();");
+while (DB->query->next())
+{
+     QString name = DB->query->value(0).toString();
+     ui->ed_izmeren->addItem(name);
+     //qDebug() << name<<endl;
+}
+DB->query->clear();
+ui->funct_naznach->addItem("");
+DB->query->exec("call material_list_naz();");
+while (DB->query->next())
+{
+     QString name = DB->query->value(0).toString();
+     ui->funct_naznach->addItem(name);
+     //qDebug() << name<<endl;
+}
+DB->query->clear();
+}
+
+void MainWindow::on_nestandart_material_button_OK_clicked()
+{
+    //запись в бд
+    QStrng s;
+    s=s+"update all_material set count=";
+    ui->statusBar->showMessage(tr("редактирование материала произведено!"));
+    ui->stackedWidget->setCurrentIndex(5);
+
+}
+
+void MainWindow::on_price_a_ChBox_clicked(bool checked)
+{
+    ui->price_c_DSB->setValue(ui->price_a_DSB->value());
+    ui->price_b_ChBox->setChecked(!checked);
+}
+
+void MainWindow::on_price_b_ChBox_clicked(bool checked)
+{
+    ui->price_c_DSB->setValue(ui->price_b_DSB->value());
+    ui->price_a_ChBox->setChecked(!checked);
 }

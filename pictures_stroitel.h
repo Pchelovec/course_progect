@@ -33,6 +33,7 @@ private:
     QSplashScreen *splash;
     private slots:
     void IncCount();
+    void stat_now();
 
 };
 
