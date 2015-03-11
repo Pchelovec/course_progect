@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "texhica_widget.h"
 #include "new_person.h"
 #include "poisk_material.h"
-
 
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
@@ -28,21 +26,21 @@ void MainWindow::on_action_4_triggered()
 }
 void MainWindow::on_person_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
     load_worker();
 }
 void MainWindow::on_new_contract_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 void MainWindow::on_home_progect_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(4);
     load_building();
 }
 void MainWindow::on_material_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->setCurrentIndex(6);
     clear_material();
     ui->ed_izmeren->activateWindow();
 
@@ -59,8 +57,9 @@ void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
 //}
 void MainWindow::on_Butt_Buy_car_clicked()
 {
-    texhica_widget *tec=new texhica_widget;
-    tec->show();
+    ui->stackedWidget->setCurrentIndex(2);
+    //texhica_widget *tec=new texhica_widget;
+    //tec->show();
 }
 
 void MainWindow::connect_to_DB()
@@ -92,7 +91,7 @@ void MainWindow::first_initial_component()
 
     connect(ui->CB_House_poisk,SIGNAL(clicked(bool)),ui->tableWidget_house_poisk,SLOT(setVisible(bool)));
 
-    ui->toolBtt_sell_technics->setEnabled(false);
+    //ui->toolBtt_sell_technics->setEnabled(false);
 
     ui->tableWidget_worker->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_house->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -116,26 +115,41 @@ void MainWindow::first_initial_component()
     QRegExp year("[1-2]{1}[0-9]{3}");
     ui->lineEdit_client_yearBir_input->setValidator(new QRegExpValidator(year,this));
 
-    QRegExp material_name("[а-я А-Я]{20}");
+    QRegExp material_name("[а-я А-Я]{20}");//
     ui->material_name_LE->setValidator(new QRegExpValidator(material_name,this));
 
-    QRegExp ed_iz("[а-я А-Я 0-9]{10}");
+    QRegExp ed_iz("[а-я А-Я , . 0-9]{10}");
     ui->ed_izmeren->setValidator(new QRegExpValidator(ed_iz,this));
 
     QRegExp F_nazn("[а-я А-Я 0-9]{15}");
     ui->ed_izmeren->setValidator(new QRegExpValidator(F_nazn,this));
 
+    ui->oborud_name_LE->setValidator(new QRegExpValidator(F_nazn,this));
+    QRegExp INN("[0-9]{6}");
+    ui->oborud_INV_namber_LE->setValidator(new QRegExpValidator(INN,this));
+    ui->obor_ear_build_SpBx->setMaximum(2015);//текуший год
+
+    QRegExp name_adr_post_fio("[а-я А-Я . , /]{20}");
+    ui->new_worker_FIO_LE->setValidator(new QRegExpValidator(name_adr_post_fio,this));
+    ui->new_worker_aderss_LE->setValidator(new QRegExpValidator(name_adr_post_fio,this));
+    ui->new_worker_year_bir_LE->setValidator(new QRegExpValidator(year,this));
 
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_3,SLOT(setVisible(bool)));
-    //connect(ui->price_a_ChBox,SIGNAL(clicked(bool)),ui->price_b_ChBox, SLOT(setChecked(bool)));
-    //connect(ui->price_b_ChBox,SIGNAL(clicked(bool)),ui->price_a_ChBox,SLOT(setChecked(bool)));
+    connect(ui->new_worker_team_CkBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_swai_ynical_prog,SLOT(setVisible(bool)));
+    connect(ui->new_eqw_plas_team_ChBox,SIGNAL(clicked(bool)),ui->new_eq_team_GrBox,SLOT(setVisible(bool)));
 
     ui->material_count_sp_box->setMaximum(99999999);
     ui->count_c_SPB->setMaximum(99999999);
     ui->dSpBo_material_price->setMaximum(999999999);
+    ui->new_worker_OKLAD_doubSpBox->setMaximum(999999999);
+
     ui->ed_izmeren->clear();
     ui->funct_naznach->clear();
+    ui->work_option_GB->setVisible(false);
+    ui->new_eq_team_GrBox->setVisible(false);
+    ui->new_worker_team_GrBox->setVisible(false);
+    ui->dell_eqvmnt->setEnabled(false);
 }
 
 void MainWindow::load_building()
@@ -207,46 +221,46 @@ void MainWindow::load_building()
 
 void MainWindow::load_technics()
 {
-    ui->tableWidget_technics->setColumnCount(5);
-    ui->tableWidget_technics->setHorizontalHeaderLabels(QStringList()<<"имя"<<"номер"<<"дистанция"<<"грузоп"<<"год выпуска");
+    ui->tableWidget_technics->setColumnCount(4);
+    ui->tableWidget_technics->setHorizontalHeaderLabels(QStringList()<<"название"<<"инвентарный номер"<<"год выпуска"<<"дата покупки");
     ui->tableWidget_technics->setRowCount(1);
-    int row=0;
-    DB->query->exec("SELECT * FROM technics;");
-
+    //int row=0;
+    DB->query->exec("SELECT * FROM equipment;");
+    vector <technics> list_tech;
     while(DB->query->next())
     {
-        QString name = DB->query->value(0).toString();
-        QString namber = DB->query->value(1).toString();
-        QString distance=DB->query->value(2).toString();
-        QString gruzop=DB->query->value(3).toString();
-        QString year=DB->query->value(4).toString();
-
-        QTableWidgetItem *item_name = new QTableWidgetItem();
-        item_name->setText(name);
-
-        QTableWidgetItem *item_namber=new QTableWidgetItem();
-        item_namber->setText(namber);
-
-        QTableWidgetItem *item_distance = new QTableWidgetItem();
-        item_distance->setText(distance);
-
-        QTableWidgetItem *item_gruzop = new QTableWidgetItem();
-        item_gruzop->setText(gruzop);
-
-        QTableWidgetItem *item_year = new QTableWidgetItem();
-        item_year->setText(year);
-
-        ui->tableWidget_technics->setItem(row,0,item_name);
-        ui->tableWidget_technics->setItem(row,1,item_namber);
-        ui->tableWidget_technics->setItem(row,2,item_distance);
-        ui->tableWidget_technics->setItem(row,3,item_gruzop);
-        ui->tableWidget_technics->setItem(row,4,item_year);
-        row++;
-        ui->tableWidget_technics->setRowCount(row);
-
+        technics temp;
+        temp.name=DB->query->value(0).toString();
+        temp.namber= DB->query->value(1).toInt();
+        temp.Year_vip=DB->query->value(2).toString();
+        temp.Date_pok=DB->query->value(3).toString();
+        list_tech.push_back(temp);
     }
 
-    row_technics=row;
+    row_technics=list_tech.size();
+    ui->tableWidget_technics->setRowCount(row_technics);
+
+    for (int i=0;i<row_technics;i++)
+    {
+        technics temp=list_tech[i];
+
+        QTableWidgetItem *item_name = new QTableWidgetItem();
+        item_name->setText(temp.name);
+
+        QTableWidgetItem *item_namber=new QTableWidgetItem();
+        item_namber->setText(QString::number(temp.namber));
+
+        QTableWidgetItem *item_year = new QTableWidgetItem();
+        item_year->setText(temp.Year_vip);
+
+        QTableWidgetItem *item_date = new QTableWidgetItem();
+        item_date->setText(temp.Date_pok);
+
+        ui->tableWidget_technics->setItem(i,0,item_name);
+        ui->tableWidget_technics->setItem(i,1,item_namber);
+        ui->tableWidget_technics->setItem(i,2,item_year);
+        ui->tableWidget_technics->setItem(i,3,item_date);
+    }
 }
 
 void MainWindow::load_worker()
@@ -259,62 +273,66 @@ void MainWindow::load_worker()
         worker temp;
         temp.adress=DB->query->value(0).toString();
         temp.post=DB->query->value(1).toString();
-        temp.date_start_in_firm=DB->query->value(2).toString();
-        temp.birthday=DB->query->value(3).toString();
-        temp.fio=DB->query->value(4).toString();
-        temp.Pol=DB->query->value(5).toBool();
-        temp.id=DB->query->value(6).toString();
-        temp.pay=DB->query->value(7).toString();
+        temp.birthday=DB->query->value(2).toString();
+        if (temp.birthday=="0")
+        {
+            temp.birthday="";
+        }
+        temp.fio=DB->query->value(3).toString();
+        temp.id=DB->query->value(4).toInt();
+        temp.pay=DB->query->value(5).toInt();
       work_vect.push_back(temp);
     }
-    int row=work_vect.size()+1;
+    int row=work_vect.size();
     row_worker=row;
     //qDebug()<<row;
     ui->tableWidget_worker->setRowCount(row);
-    ui->tableWidget_worker->setColumnCount(8);
-    ui->tableWidget_worker->setHorizontalHeaderLabels(QStringList()<<"адресс"<<"должность"<<"год начала работы"<<"год рождения"<<"фио"<<"пол"<<"ID"<<"зарплата");
+    ui->tableWidget_worker->setColumnCount(6);
+    ui->tableWidget_worker->setHorizontalHeaderLabels(QStringList()<<"адресс"<<"должность"<<"год рождения"<<"фио"<<"ID"<<"зарплата");
 
-    for (int i=0;i<row-1;i++)
+    for (int i=0;i<row;i++)
     {
         worker temp;
         temp=work_vect[i];
         QTableWidgetItem *item_adress = new QTableWidgetItem();
         item_adress->setText(temp.adress);
+
         QTableWidgetItem *item_dol = new QTableWidgetItem();
         item_dol->setText(temp.post);
         item_dol->setTextAlignment(Qt::AlignHCenter);
-        QTableWidgetItem *item_year_start = new QTableWidgetItem();
-        item_year_start->setText(temp.date_start_in_firm);          //наложить маски для таблицы
-        item_year_start->setTextAlignment(Qt::AlignHCenter);
+
         QTableWidgetItem *item_year_bir = new QTableWidgetItem();
-        item_year_bir->setText(temp.birthday);                      //--||--
+        if (temp.birthday!="0")
+        {
+            item_year_bir->setText(temp.birthday);                      //наложить маски на таблицы
+        }
+        else
+        {
+            item_year_bir->setText("");
+        }
         item_year_bir->setTextAlignment(Qt::AlignHCenter);
+
         QTableWidgetItem *item_fio = new QTableWidgetItem();
         item_fio->setText(temp.fio);
         item_fio->setTextAlignment(Qt::AlignHCenter);
-        QTableWidgetItem *item_sex = new QTableWidgetItem();
-        item_sex->setTextAlignment(Qt::AlignHCenter);
-        if (temp.Pol)
-            item_sex->setText("м");
-        else
-            item_sex->setText("ж");
+
         QTableWidgetItem *item_ID = new QTableWidgetItem();
-        item_ID->setText(temp.id);
+        item_ID->setText(QString::number(temp.id));
         item_ID->setTextAlignment(Qt::AlignHCenter);
+
         QTableWidgetItem *item_pay = new QTableWidgetItem();
-        item_pay->setText(temp.pay);
+        item_pay->setText(QString::number(temp.pay));
         item_pay->setTextAlignment(Qt::AlignHCenter);
 
         //ui->tableWidget_worker->setItemDelegateForColumn();               //!!!!!!!!!!!!!!!!!!
         ui->tableWidget_worker->setItem(i,0,item_adress);
         ui->tableWidget_worker->setItem(i,1,item_dol);
-        ui->tableWidget_worker->setItem(i,2,item_year_start);
-        ui->tableWidget_worker->setItem(i,3,item_year_bir);
-        ui->tableWidget_worker->setItem(i,4,item_fio);
-        ui->tableWidget_worker->setItem(i,5,item_sex);
-        ui->tableWidget_worker->setItem(i,6,item_ID);
-        ui->tableWidget_worker->setItem(i,7,item_pay);
 
+            ui->tableWidget_worker->setItem(i,2,item_year_bir);
+
+        ui->tableWidget_worker->setItem(i,3,item_fio);
+        ui->tableWidget_worker->setItem(i,4,item_ID);
+        ui->tableWidget_worker->setItem(i,5,item_pay);
     }
 ui->tableWidget_worker->setFocusPolicy(Qt::ClickFocus);
 }
@@ -382,6 +400,9 @@ void MainWindow::on_material_add_PB_clicked()
             ui->ed_izmer_c_CB->clear();
             ui->ed_izmer_c_CB->addItem(mat_like_my.izmeren);
             ui->ed_izmer_c_CB->addItem(ui->ed_izmeren->currentText());
+
+            ui->price_a_ChBox->setChecked(true);
+            ui->price_c_DSB->setValue(ui->price_a_DSB->value());
 
             ui->material_ID->display(mat_like_my.ID);
             ui->stackedWidget->setCurrentIndex(0);
@@ -452,8 +473,31 @@ void MainWindow::on_nestandart_material_button_OK_clicked()
     //запись в бд
     QString s;
     s=s+"update all_material set count=";
+    s=s+QString::number(ui->count_c_SPB->value())+", price='";
+    s=s+QString::number(ui->price_c_DSB->value())+"', naznachenie='";
+    if (ui->funct_c_CB->currentText()!="")
+    {
+    s=s+ui->funct_c_CB->currentText()+"',";
+    }
+    else
+    {
+       s=s+"NULL',";
+    }
+    if(ui->ed_izmer_c_CB->currentText()!="")
+    {
+       s=s+ " izmerenie='"+ui->ed_izmer_c_CB->currentText();
+    }
+    else
+    {
+      s=s+" izmerenie='"+"NULL";
+    }
+    s=s+"' where name like '";
+    s=s+ui->name_c_LE->text()+"';";
+    DB->query->exec(s);
+    qDebug()<<s<<endl;
+
     ui->statusBar->showMessage(tr("редактирование материала произведено!"));
-    ui->stackedWidget->setCurrentIndex(5);
+    ui->stackedWidget->setCurrentIndex(6);
 
 }
 
@@ -467,4 +511,125 @@ void MainWindow::on_price_b_ChBox_clicked(bool checked)
 {
     ui->price_c_DSB->setValue(ui->price_b_DSB->value());
     ui->price_a_ChBox->setChecked(!checked);
+}
+
+void MainWindow::on_option_work_exit_PB_clicked()
+{
+    ui->work_day_LE->clear();
+    ui->holl_day_LE->clear();
+    ui->work_option_GB->setVisible(false);
+    fin.close();
+}
+
+void MainWindow::on_option_worker_OK_PB_clicked()
+{
+    //save to file
+
+
+    ui->work_day_LE->clear();
+    ui->holl_day_LE->clear();
+    ui->work_option_GB->setVisible(false);
+    fin.close();
+}
+
+void MainWindow::on_work_process_option_triggered()
+{
+    int work_day=0;
+    int holl_day=0;
+
+        fin.open("work_process.txt", ios::in);
+        qDebug() << "fie opened";
+
+        fin >> work_day >> holl_day;
+    ui->work_day_LE->setText(QString::number(work_day));
+    ui->holl_day_LE->setText(QString::number(holl_day));
+    ui->work_option_GB->setVisible(true);
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_tableWidget_worker_clicked(const QModelIndex &index)
+{
+    ui->pusB_Sotrudnic_del->setEnabled(true);
+}
+
+void MainWindow::on_pusB_Sotrudnic_del_clicked()
+{
+    int row=ui->tableWidget_worker->currentRow();
+    QString s("delete from worker where id_worker=");//удаление из табл работники
+    QString s_brig("delete from grup where id_worker="); //удаление из бригады
+    QTableWidgetItem *item= new QTableWidgetItem();
+    item=ui->tableWidget_worker->item(row,4);
+    s=s+item->text()+";";
+    s_brig=s_brig+item->text()+";";
+    //qDebug()<<s;
+
+    DB->query->clear();
+    DB->query->exec(s);
+
+    DB->query->clear();
+    DB->query->exec(s_brig);
+
+    ui->statusBar->showMessage(tr("информация о сотруднике удалена"));
+    ui->pusB_Sotrudnic_del->setEnabled(false);
+
+    load_worker();
+    //перезагрузка таблицы
+}
+
+void MainWindow::on_pushButton_add_ne_worker_clicked()
+{
+
+    ui->stackedWidget->setCurrentIndex(7);
+
+}
+
+void MainWindow::on_new_eqv_exit_PB_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->statusBar->showMessage(tr("покупка оборудования отменена"));
+}
+
+void MainWindow::on_new_eqv_OK_PB_clicked()
+{
+    //занести в БД
+    //скрыть 2 часть, очистить
+
+    ui->statusBar->showMessage(tr("оборудоание успешно куплено"));
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_new_worker_Exit_PB_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+    ui->statusBar->showMessage(tr("отмена добавления работника!"));
+}
+
+void MainWindow::on_new_worker_OK_PB_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_tableWidget_technics_clicked(const QModelIndex &index)
+{
+    ui->dell_eqvmnt->setEnabled(true);
+}
+
+void MainWindow::on_dell_eqvmnt_clicked()
+{
+    QString s("delete from equipment where eq_namber=");
+    QString s2("delete from group_eq where id_namber=");
+    int row=ui->tableWidget_technics->currentRow();
+            QTableWidgetItem *item= new QTableWidgetItem();
+            item=ui->tableWidget_technics->item(row,1);
+            s=s+item->text()+";";
+            s2=s2+item->text()+";";
+            qDebug()<<s<<endl;
+            DB->query->clear();
+            DB->query->exec(s);
+
+            DB->query->clear();
+            DB->query->exec(s2);
+    ui->statusBar->showMessage(tr("информация о оборудовании удалена"));
+    ui->dell_eqvmnt->setEnabled(false);
+    load_technics();
 }

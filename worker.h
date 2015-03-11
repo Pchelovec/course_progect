@@ -12,12 +12,11 @@ public:
     QString adress;
     QString post;
 
-    QString date_start_in_firm;
     QString birthday;
     QString fio;
-    bool Pol;
-    QString id;
-    QString pay;
+
+    int id;
+    double pay;
 
 };
 

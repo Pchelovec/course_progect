@@ -6,11 +6,9 @@ class technics
 {
 public:
     QString name;
-    QString gos_nomer;
-    unsigned int distance;
-    double gruzop;
-    int year;
-    QDate date_pokupki;
+    int namber;
+    QString Year_vip;
+    QString Date_pok;
 
     technics();
     ~technics();

@@ -16,7 +16,6 @@ RC_ICONS=res\home.ico
 SOURCES += main.cpp\
         mainwindow.cpp \
     pictures_stroitel.cpp \
-    texhica_widget.cpp \
     poisk_material.cpp \
     database.cpp \
     worker.cpp \
@@ -26,19 +25,16 @@ SOURCES += main.cpp\
     client.cpp
 
 HEADERS  += mainwindow.h \
-    pictures_stroitel.h \
-    texhica_widget.h \
     poisk_material.h \
     database.h \
     worker.h \
     building.h \
     technics.h \
     material.h \
-    client.h
+    client.h \
+    pictures_stroitel.h
 
 FORMS    += mainwindow.ui \
-    worker_widget.ui \
-    texhica_widget.ui \
     poisk_material.ui
 
 

@@ -4,14 +4,14 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 #include <QMessageBox>
-//#include <QDebug>
+#include <QtDebug>
 #include <QSqlTableModel>
 #include <QAbstractItemModel>
 #include <QTableView>
+
 #include <vector>
-#include "database.h"
-#include "building.h"
-#include "worker.h"
+#include <fstream>
+
 #include <QString>
 #include <QHeaderView>
 #include <QSqlTableModel>
@@ -23,7 +23,11 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include "material.h"
-#include <QtDebug>
+#include "technics.h"
+#include "database.h"
+#include "building.h"
+#include "worker.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -34,6 +38,7 @@ class MainWindow : public QMainWindow
 private:                                                            //переменные
     Ui::MainWindow *ui;
     database *DB;
+    ifstream fin;
     int row_technics;
     int row_worker;
     int row_building;
@@ -79,5 +84,17 @@ private slots:
     void on_nestandart_material_button_OK_clicked();
     void on_price_a_ChBox_clicked(bool checked);
     void on_price_b_ChBox_clicked(bool checked);
+    void on_option_work_exit_PB_clicked();
+    void on_option_worker_OK_PB_clicked();
+    void on_work_process_option_triggered();
+    void on_tableWidget_worker_clicked(const QModelIndex &index);
+    void on_pusB_Sotrudnic_del_clicked();
+    void on_pushButton_add_ne_worker_clicked();
+    void on_new_eqv_exit_PB_clicked();
+    void on_new_eqv_OK_PB_clicked();
+    void on_new_worker_Exit_PB_clicked();
+    void on_new_worker_OK_PB_clicked();
+    void on_tableWidget_technics_clicked(const QModelIndex &index);
+    void on_dell_eqvmnt_clicked();
 };
 #endif // MAINWINDOW_H
