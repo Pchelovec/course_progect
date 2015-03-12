@@ -22,12 +22,12 @@ MainWindow::~MainWindow()
 void MainWindow::on_action_4_triggered()
 {
         ui->stackedWidget->setCurrentIndex(1);
-        load_technics();
+        load_technics("SELECT * FROM equipment;");
 }
 void MainWindow::on_person_triggered()
 {
     ui->stackedWidget->setCurrentIndex(3);
-    load_worker();
+    load_worker("SELECT * FROM worker;");
 }
 void MainWindow::on_new_contract_triggered()
 {
@@ -36,7 +36,7 @@ void MainWindow::on_new_contract_triggered()
 void MainWindow::on_home_progect_triggered()
 {
     ui->stackedWidget->setCurrentIndex(4);
-    load_building();
+    load_building("SELECT * FROM building;");
 }
 void MainWindow::on_material_triggered()
 {
@@ -50,16 +50,24 @@ void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
     ui->groBox_Progect_Standart_progect->setVisible(!checked);
     ui->GroBox_Indiv_Prog->setVisible(checked);
 }
-//void MainWindow::on_toolButton_Raport_clicked()
-//{
-//    poisk_material *poi=new poisk_material;
-//    poi->show();
-//}
+
 void MainWindow::on_Butt_Buy_car_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
-    //texhica_widget *tec=new texhica_widget;
-    //tec->show();
+
+    DB->query->clear();
+    DB->query->exec("call special_brig_list");
+    //QString s;
+    list<QString> list_special;
+    while (DB->query->next())
+    {
+         QString name = DB->query->value(0).toString();
+         //ui->new_eq_team_comBOX->
+         //ui->new_eq_team_comBOX
+         ui->new_eq_Com_box->addItem(name);
+         list_special.push_back(name);
+         qDebug() << name << endl;
+     }
 }
 
 void MainWindow::connect_to_DB()
@@ -77,10 +85,13 @@ void MainWindow::connect_to_DB()
 
 void MainWindow::first_initial_component()
 {
+    ui->new_special_brig_FCB->clear();
+    ui->new_eq_team_comBOX->setVisible(false);
+    ui->new_brigada_GrBox->setVisible(false);
     ui->GroBox_Indiv_Prog->setVisible(false);
     ui->material_nestandart_GB->setVisible(false);
     ui->groBox_Progect_Standart_progect->setVisible(true);
-
+    ui->brig_obor_GRBox->setVisible(false);
     ui->pusB_Sotrudnic_del->setEnabled(false);
 
     ui->stackedWidget->setCurrentIndex(0);
@@ -137,8 +148,11 @@ void MainWindow::first_initial_component()
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_3,SLOT(setVisible(bool)));
     connect(ui->new_worker_team_CkBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
     connect(ui->radioButton_fundament,SIGNAL(clicked(bool)),ui->label_swai_ynical_prog,SLOT(setVisible(bool)));
-    connect(ui->new_eqw_plas_team_ChBox,SIGNAL(clicked(bool)),ui->new_eq_team_GrBox,SLOT(setVisible(bool)));
+    //connect(ui->new_eqw_plas_team_ChBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
+    connect(ui->new_worker_team_CkBox, SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
 
+    ui->new_worker_team_GrBox->setVisible(false);
+    //ui->new_worker_team_GrBox->setVisible();
     ui->material_count_sp_box->setMaximum(99999999);
     ui->count_c_SPB->setMaximum(99999999);
     ui->dSpBo_material_price->setMaximum(999999999);
@@ -147,12 +161,13 @@ void MainWindow::first_initial_component()
     ui->ed_izmeren->clear();
     ui->funct_naznach->clear();
     ui->work_option_GB->setVisible(false);
-    ui->new_eq_team_GrBox->setVisible(false);
+
+    ui->new_worker_team_GrBox->setVisible(false);
     ui->new_worker_team_GrBox->setVisible(false);
     ui->dell_eqvmnt->setEnabled(false);
 }
 
-void MainWindow::load_building()
+void MainWindow::load_building(QString q)
 {
     ui->tableWidget_house->setColumnCount(5);
     //ui->tableWidget_house->setVerticalHeaderLabels(QStringList()<<"имя"<<"уникальность"<<"ср t постройки"<<"м/кв"<<"цена");
@@ -162,13 +177,8 @@ void MainWindow::load_building()
     ui->tableWidget_house_poisk->setRowCount(1);
 
     int All_row=0;                              //не оптимально
-    //ui->tableWidget_house->setRowCount(All_row);
-    //DB->query->exec("SELECT COUNT (*) FROM building;");
-    //qDebug()<<"rows="<<All_row;
-    //qDebug()<<"selected7= "<<DB->query->isSelect();
-
     int row=0;
-    DB->query->exec("SELECT * FROM building;");
+    DB->query->exec(q);
     while(DB->query->next())
     {
         All_row++;
@@ -219,13 +229,13 @@ void MainWindow::load_building()
     }
 }
 
-void MainWindow::load_technics()
+void MainWindow::load_technics(QString q)
 {
     ui->tableWidget_technics->setColumnCount(4);
     ui->tableWidget_technics->setHorizontalHeaderLabels(QStringList()<<"название"<<"инвентарный номер"<<"год выпуска"<<"дата покупки");
     ui->tableWidget_technics->setRowCount(1);
     //int row=0;
-    DB->query->exec("SELECT * FROM equipment;");
+    DB->query->exec(q);
     vector <technics> list_tech;
     while(DB->query->next())
     {
@@ -258,15 +268,16 @@ void MainWindow::load_technics()
 
         ui->tableWidget_technics->setItem(i,0,item_name);
         ui->tableWidget_technics->setItem(i,1,item_namber);
+        if (temp.Year_vip!="0")
         ui->tableWidget_technics->setItem(i,2,item_year);
         ui->tableWidget_technics->setItem(i,3,item_date);
     }
 }
 
-void MainWindow::load_worker()
+void MainWindow::load_worker(QString q)
 {
 
-    DB->query->exec("SELECT * FROM worker;");
+    DB->query->exec(q);
     vector<worker> work_vect;
     while(DB->query->next())
     {
@@ -341,7 +352,7 @@ void MainWindow::add_house_to_db()
 {
     QTableWidgetItem *item=new QTableWidgetItem;
     qDebug()<<ui->tableWidget_house->itemAt(row_building,1);
-    load_building();
+    load_building("SELECT * FROM building;");
 }
 
 void MainWindow::on_radioButton_fundament_clicked(bool checked)
@@ -498,7 +509,6 @@ void MainWindow::on_nestandart_material_button_OK_clicked()
 
     ui->statusBar->showMessage(tr("редактирование материала произведено!"));
     ui->stackedWidget->setCurrentIndex(6);
-
 }
 
 void MainWindow::on_price_a_ChBox_clicked(bool checked)
@@ -572,15 +582,32 @@ void MainWindow::on_pusB_Sotrudnic_del_clicked()
     ui->statusBar->showMessage(tr("информация о сотруднике удалена"));
     ui->pusB_Sotrudnic_del->setEnabled(false);
 
-    load_worker();
+    load_worker("SELECT * FROM worker;");
     //перезагрузка таблицы
 }
 
 void MainWindow::on_pushButton_add_ne_worker_clicked()
 {
+    DB->query->clear();
+    DB->query->exec("call worker_dolg_list");
+    ui->new_worker_post_Fou_CoBox->clear();
+    while (DB->query->next())
+    {
+         QString name = DB->query->value(0).toString();
+         ui->new_worker_post_Fou_CoBox->addItem(name);
+         qDebug() << name;
+    }
 
     ui->stackedWidget->setCurrentIndex(7);
-
+    DB->query->clear();
+    DB->query->exec("call special_brig_list");
+    while (DB->query->next())
+    {
+         QString name = DB->query->value(0).toString();
+         //int salary = query.value(1).toInt();
+         qDebug() << name ;
+         ui->new_worker_special_Comb_box->addItem(name);
+    }
 }
 
 void MainWindow::on_new_eqv_exit_PB_clicked()
@@ -593,9 +620,45 @@ void MainWindow::on_new_eqv_OK_PB_clicked()
 {
     //занести в БД
     //скрыть 2 часть, очистить
+    QString s_1("insert into equipment (eq_name, eq_namber");
+    QString s_2("values (");
 
-    ui->statusBar->showMessage(tr("оборудоание успешно куплено"));
-    ui->stackedWidget->setCurrentIndex(2);
+    if ((ui->oborud_INV_namber_LE->text()!="") && (ui->oborud_name_LE->text()!=""))
+    {
+        s_2=s_2+"'"+ui->oborud_name_LE->text()+"'";
+        s_2=s_2+",'"+ui->oborud_INV_namber_LE->text()+"'";
+        if (ui->obor_ear_build_SpBx->value()>=1900)
+        {
+            s_1=s_1+", eq_year ";
+            s_2=s_2+","+QString::number(ui->obor_ear_build_SpBx->value());
+        }
+        if(ui->pokupka_obor_dateE->date().year()>=2015)
+        {
+            QDate dat=ui->pokupka_obor_dateE->date();
+            s_1=s_1+", eq_buy_date ";
+            s_2=s_2+",'"+QString::number(dat.year())+"-"+QString::number(dat.month())+"-"+QString::number(dat.day())+"'";
+        }
+        s_1=s_1+") ";
+        s_2=s_2+");";
+        QString s(s_1+s_2);
+        qDebug()<<s;
+        DB->query->clear();
+        DB->query->exec(s);
+        load_technics("SELECT * FROM equipment;");
+
+        if (ui->new_eqw_plas_team_ChBox->checkState()==Qt::Checked)
+        {
+            QString qe("insert into grup (worker_ID, group_id) values (");
+            //if ()//связывание к группе
+        }
+
+        ui->statusBar->showMessage(tr("оборудоание успешно куплено"));
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("Заполните ключевые поля(название и инвентарный номер!)"));
+    }
 }
 
 void MainWindow::on_new_worker_Exit_PB_clicked()
@@ -606,7 +669,60 @@ void MainWindow::on_new_worker_Exit_PB_clicked()
 
 void MainWindow::on_new_worker_OK_PB_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    //занести в БД
+    //скрыть 2 часть, очистить
+    QString s_1("insert into worker (");
+    QString s_2("values (");
+    if (ui->new_worker_FIO_LE->text()!="")
+    {
+        s_1=s_1+"fio";
+        s_2=s_2+"'"+ui->new_worker_FIO_LE->text()+"'";
+        if (ui->new_worker_aderss_LE->text()!="")
+        {
+            s_1=s_1+",adress";
+            s_2=s_2+",'"+ui->new_worker_aderss_LE->text()+"'";
+        }
+        if (ui->new_worker_post_Fou_CoBox->currentText()!="")
+        {
+            s_1=s_1+",post";
+            s_2=s_2+",'"+ui->new_worker_post_Fou_CoBox->currentText()+"'";
+        }
+        if (ui->new_worker_year_bir_LE->text()!="")
+        {
+            s_1=s_1+",birthday";
+            s_2=s_2+",'"+ui->new_worker_year_bir_LE->text()+"'";
+        }
+        if (ui->new_worker_OKLAD_doubSpBox->value()!=0)
+        {
+            s_1=s_1+",price";
+            s_2=s_2+",'"+QString::number(ui->new_worker_OKLAD_doubSpBox->value())+"'";
+        }
+        s_1=s_1+") ";
+        s_2=s_2+");";
+        QString s(s_1+s_2);
+        qDebug()<<s;
+        DB->query->clear();
+        DB->query->exec(s);
+        load_worker("SELECT * FROM worker;");
+
+        if(ui->new_worker_team_CkBox->checkState()==Qt::Checked)
+        {
+            //QString qe("insert into grup (worker_ID, group_id) values (");
+
+            //if ()//связывание к группе
+        }
+        ui->new_worker_FIO_LE->clear();
+        ui->new_worker_aderss_LE->clear();
+        ui->new_worker_post_Fou_CoBox->clear();
+        ui->new_worker_year_bir_LE->clear();
+        ui->new_worker_OKLAD_doubSpBox->clear();
+        ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
+        ui->stackedWidget->setCurrentIndex(3);
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("Заполните ключевые (ФИО сотрудника)"));
+    }
 }
 
 void MainWindow::on_tableWidget_technics_clicked(const QModelIndex &index)
@@ -631,5 +747,170 @@ void MainWindow::on_dell_eqvmnt_clicked()
             DB->query->exec(s2);
     ui->statusBar->showMessage(tr("информация о оборудовании удалена"));
     ui->dell_eqvmnt->setEnabled(false);
-    load_technics();
+    load_technics("SELECT * FROM equipment;");
+}
+
+void MainWindow::on_new_worker_team_CkBox_clicked(bool checked)
+{
+    ui->new_worker_team_GrBox->setVisible(checked);
+}
+
+void MainWindow::on_new_eq_Com_box_activated(const QString &arg1)
+{
+    DB->query->clear();
+    QString s("SELECT special_brig.id_brig FROM special_brig , special WHERE special.id = special_brig.id_special and special.`name` = '");
+    s=s+arg1+"';";
+    qDebug()<<s;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+         QString val = DB->query->value(0).toString();
+         //int salary = query.value(1).toInt();
+         qDebug() << val;
+         ui->new_eq_id_Combox->addItem(val);
+    }
+}
+
+void MainWindow::on_new_eqw_plas_team_ChBox_clicked(bool checked)
+{
+    ui->new_eq_team_comBOX->setVisible(checked);
+}
+
+void MainWindow::on_new_worker_special_Comb_box_activated(const QString &arg1)
+{
+    DB->query->clear();
+    QString s("SELECT special_brig.id_brig FROM special_brig , special WHERE special.id = special_brig.id_special and special.`name` = '");
+    s=s+arg1+"';";
+    qDebug()<<s;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+         QString val = DB->query->value(0).toString();
+         //int salary = query.value(1).toInt();
+         ui->new_worker_special_CoBox->addItem(val);
+         qDebug() << val;
+         ui->new_eq_id_Combox->addItem(val);
+    }
+}
+
+void MainWindow::on_brigada_sostav_triggered()
+{
+    ui->stackedWidget->setCurrentIndex(8);
+    ui->del_from_brig->setEnabled(false);
+    DB->query->clear();
+    DB->query->exec("SELECT special.`name` FROM special GROUP BY special.`name`;");
+    ui->special_obor_brig_ComBox->clear();
+    while (DB->query->next())
+    {
+        ui->special_obor_brig_ComBox->addItem(DB->query->value(0).toString());
+        ui->new_special_brig_FCB->addItem(DB->query->value(0).toString());
+    }
+}
+
+void MainWindow::on_add_new_brigada_PB_clicked()
+{
+    //занесение в бд
+
+    QString ID;
+    QString s1("SELECT special.id FROM special WHERE special.`name`='");
+    s1=s1+ui->new_special_brig_FCB->currentText()+"';";
+    qDebug()<<s1<<endl;
+    DB->query->clear();
+    DB->query->exec(s1);
+
+    if (DB->query->next() && DB->query->value(0).toString()!="")
+    {
+    qDebug()<<"true"<<endl;
+    int a=DB->query->value(0).toInt();
+    ID=QString::number(a);
+    DB->query->clear();
+    QString s("insert into special_brig (id_special) value(");
+    s=s+ID+");";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    ui->statusBar->showMessage(tr("бригаа создана"));
+    }
+    else
+    {
+qDebug()<<"else"<<endl;
+        QString q("insert into special (name) value('"+ui->new_special_brig_FCB->currentText()+"');");
+        DB->query->clear();
+        qDebug()<<q<<endl;
+        DB->query->exec(q);
+
+        DB->query->clear();
+        qDebug()<<s1<<endl;
+        DB->query->exec(s1);
+        DB->query->next();
+
+        int a=DB->query->value(0).toInt();
+        qDebug()<<a<<"++++++*********++++++++="<<endl;
+        ID=QString::number(a);
+        DB->query->clear();
+        QString s("insert into special_brig (id_special) value(");
+        s=s+ID+");";
+        qDebug()<<s<<endl;
+        DB->query->exec(s);
+        ui->statusBar->showMessage(tr("бригада создана"));
+    }
+    ui->new_brigada_ChBox->setChecked(false);
+    ui->new_brigada_GrBox->setVisible(false);
+    //перезагрузка group box
+}
+
+void MainWindow::on_new_brigada_ChBox_clicked(bool checked)
+{
+    ui->new_brigada_GrBox->setVisible(checked);
+}
+
+void MainWindow::on_special_obor_brig_ComBox_activated(const QString &arg1)
+{
+    ui->namber_obor_brig_ComBox->clear();
+    QString res;
+    QString s_3;
+    s_3="SELECT special_brig.id_brig FROM special , special_brig WHERE special.id = special_brig.id_special and special.name='";
+    s_3=s_3+arg1+"';";
+    DB->query->clear();
+    qDebug()<<s_3<<endl;
+    DB->query->exec(s_3);
+
+    while (DB->query->next())
+    {
+        ui->namber_obor_brig_ComBox->addItem(DB->query->value(0).toString());
+    }
+}
+
+void MainWindow::on_obor_worker_table_wid_activated(const QModelIndex &index)
+{
+    ui->del_from_brig->setEnabled(true);
+}
+
+void MainWindow::on_add_to_brig_clicked()
+{
+    if((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->obor_brigada_RB->isChecked())))
+    {
+        ui->brig_obor_GRBox->setVisible(true);
+        ui->pushButton->setEnabled(false);
+    }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    //бд
+
+    ui->brig_obor_GRBox->setVisible(false);
+    ui->statusBar->showMessage(tr("бригада пополнена"));
+
+}
+
+void MainWindow::on_tableWidget_activated(const QModelIndex &index)
+{
+
+    ui->pushButton->setEnabled(true);
+}
+
+void MainWindow::on_select_obor_eqw_clos_PB_clicked()
+{
+    ui->brig_obor_GRBox->setVisible(false);
 }

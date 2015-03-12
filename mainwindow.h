@@ -45,12 +45,11 @@ private:                                                            //перем
     building *build;
 
                                                                     //функции
-
     void connect_to_DB();
     void first_initial_component();
-    void load_technics();
-    void load_building();
-    void load_worker();
+    void load_technics(QString q);
+    void load_building(QString q);
+    void load_worker(QString q);
     void initial_detel_ifo_technics();
     void clear_material();
 
@@ -61,8 +60,6 @@ private:
     //void set_row_to_table(int row);//
                                                                     //сигналы и слоты
 //signals:
-
-
 
 //private:
 
@@ -96,5 +93,19 @@ private slots:
     void on_new_worker_OK_PB_clicked();
     void on_tableWidget_technics_clicked(const QModelIndex &index);
     void on_dell_eqvmnt_clicked();
+    void on_new_worker_team_CkBox_clicked(bool checked);
+    void on_new_eq_Com_box_activated(const QString &arg1);
+    void on_new_eqw_plas_team_ChBox_clicked(bool checked);
+    void on_new_worker_special_Comb_box_activated(const QString &arg1);
+    void on_brigada_sostav_triggered();
+    void on_add_new_brigada_PB_clicked();
+    void on_new_brigada_ChBox_clicked(bool checked);
+
+    void on_special_obor_brig_ComBox_activated(const QString &arg1);
+    void on_obor_worker_table_wid_activated(const QModelIndex &index);
+    void on_add_to_brig_clicked();
+    void on_pushButton_clicked();
+    void on_tableWidget_activated(const QModelIndex &index);
+    void on_select_obor_eqw_clos_PB_clicked();
 };
 #endif // MAINWINDOW_H
