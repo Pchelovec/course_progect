@@ -1,16 +1,18 @@
+#include <QString>
 #ifndef MATERIAL_H
 #define MATERIAL_H
-#include <QString>
+
 
 class material
 {
 public:
     QString name;
-    double price;
-    QString funct;
-    QString izmeren;
-    int count;
-    int ID;
+    QString price;
+    QString naznach;
+    QString izmer;
+    QString count;
+    int count_int;
+    QString ID;
     material();
     ~material();
 };

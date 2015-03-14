@@ -15,8 +15,8 @@ public:
     QString birthday;
     QString fio;
 
-    int id;
-    double pay;
+    QString id;
+    QString pay;
 
 };
 

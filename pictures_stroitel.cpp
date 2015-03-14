@@ -1,7 +1,5 @@
 #include "pictures_stroitel.h"
-
 #include "mainwindow.h"
-
 
 pictures_stroitel::pictures_stroitel(QWidget *parent) :
     QMainWindow(parent)
@@ -23,11 +21,6 @@ pictures_stroitel::pictures_stroitel(QWidget *parent) :
         splash->move(300,50);
         splash->show();
 
-        //connect(splash,SIGNAL(splash->close()), this, SLOT(stat_now()));
-        //connect(splash,SIGNAL(splash->destroyed();), this, SLOT(stat_now()));
-
-        //splash->is
-
 }
 void pictures_stroitel::IncCount()
 {
@@ -43,11 +36,9 @@ void pictures_stroitel::IncCount()
     if (n==40)
     {
         //close
-
         delete splash;
         delete time;
 
-        //MW.show();
         this->stat_now();
     }
 }

@@ -2,11 +2,8 @@
 
 worker::worker()
 {
-
 }
 
 worker::~worker()
 {
-
 }
-

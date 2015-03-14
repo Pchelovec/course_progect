@@ -6,7 +6,7 @@ class technics
 {
 public:
     QString name;
-    int namber;
+    QString namber;
     QString Year_vip;
     QString Date_pok;
 
