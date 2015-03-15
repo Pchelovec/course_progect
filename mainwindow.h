@@ -44,14 +44,28 @@ private:                                                            //перем
     void load_building();
     void load_worker();
 
+    void reload_double_table();
+
     void initial_detel_ifo_technics();
     void clear_material();
+    void clear_obor_worker_table_wid();
     //void load_spec_situat_material();
+    void new_worker_initial();
     void load_new_eqwt();
     void load_brig_num_for_new_eqw(QString val);
+    void load_brig_num_for_new_worker(QString val);
     void load_obor_to_double_TabWid();
     void load_worker_to_double_Tab_Wid();
-
+    void load_brig_name_to_new_worker_special_Comb_box();
+    void load_special_obor_brig_ComBox();
+    void load_namber_obor_brig_ComBox(QString s);
+    void load_all_special_to_new_special_brig_FCB();
+    void load_main_infor_new_build_GrBox();
+    void clear_bezicxodnost_Table_wid();
+    void new_standart_level_table_clear();
+    void new_standart_material_table_clear();
+    void load_info_level_building_GrBox();
+    void load_info_material_for_building_GrBox();
 public:
     Ui::MainWindow *ui;
     //database *DB;
@@ -59,7 +73,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private:
-    //void set_row_to_table(int row);//
+    //void set_row_to_table(int row);
                                                                     //сигналы и слоты
 //signals:
 
@@ -73,7 +87,6 @@ private slots:
     void on_material_triggered();
     void on_Butt_Buy_car_clicked();
     void on_checkBox_is_ynical_progect_clicked(bool checked);
-    //void on_radioButton_fundament_clicked(bool checked);
     void on_material_add_PB_clicked();
     void on_nestandart_material_button_OK_clicked();
     void on_price_a_ChBox_clicked(bool checked);
@@ -91,13 +104,10 @@ private slots:
     void on_tableWidget_technics_clicked(const QModelIndex &index);
     void on_dell_eqvmnt_clicked();
     void on_new_worker_team_CkBox_clicked(bool checked);
-    void on_new_eq_Com_box_activated(const QString &arg1);
     void on_new_eqw_plas_team_ChBox_clicked(bool checked);
-    void on_new_worker_special_Comb_box_activated(const QString &arg1);
     void on_brigada_sostav_triggered();
     void on_add_new_brigada_PB_clicked();
     void on_new_brigada_ChBox_clicked(bool checked);
-    void on_special_obor_brig_ComBox_activated(const QString &arg1);
     void on_add_to_brig_clicked();
     void on_pushButton_clicked();
     void on_select_obor_eqw_clos_PB_clicked();
@@ -108,5 +118,18 @@ private slots:
     void on_del_from_brig_clicked();
     void on_tableWidget_house_poisk_itemChanged(QTableWidgetItem *item);
     void on_new_eq_Com_box_currentTextChanged(const QString &arg1);
+    void on_new_worker_special_Comb_box_currentTextChanged(const QString &arg1);
+    void on_pushButton_3_clicked();
+    void on_Standart_progect_new_triggered();
+    void on_special_obor_brig_ComBox_currentTextChanged(const QString &arg1);
+    void on_namber_obor_brig_ComBox_currentTextChanged(const QString &arg1);
+    void on_post_name_sh_LE_textChanged(const QString &arg1);
+    void on_fio_inventarnN_LE_textChanged(const QString &arg1);
+    void on_new_standart_level_add_clicked();
+    void on_new_standart_material_add_PB_clicked();
+    void on_new_standart_material_OK_PB_clicked();
+    void on_new_standart_level_OK_clicked();
+    void on_new_standart_OK_PB_clicked();
+    void on_House_progect_main_dell_PB_clicked();
 };
 #endif // MAINWINDOW_H

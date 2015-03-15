@@ -7,10 +7,12 @@ class building
 {
 public:
     QString name;
+    QString metter;
     bool is_ynical_bool;
     QString id_ynical_string;
     QString Standart_time_building;
-    QString metter;
+    QList <QString> neded_material;
+    QList <QString> time_plan;
     QString price;
     QString ID;
     building();

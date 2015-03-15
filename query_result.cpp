@@ -10,7 +10,7 @@ query_result::~query_result()
 }
 void query_result::connect()
 {
-DB=new database;
+    DB=new database;
 }
 
 void query_result::close_connect()
@@ -20,10 +20,7 @@ void query_result::close_connect()
 
 QList <building> query_result::building_main_class_ret()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QString q("SELECT building.`name`, building.building_ynical, building.`standart-time`, building.meter, building.price, building.ID_b, building.description FROM building;");
     QList <building> local_res;
     DB->query->clear();
@@ -56,10 +53,7 @@ QList <building> query_result::building_main_class_ret()
 
 QList <technics> query_result::eqw_all_load()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <technics> result;
     QString q("select * from equipment;");
     DB->query->clear();
@@ -78,10 +72,7 @@ QList <technics> query_result::eqw_all_load()
 
 QList <worker> query_result::worker_all()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
 QList <worker> result;
 QString q("select * from worker;");
 DB->query->exec(q);
@@ -105,10 +96,7 @@ return result;
 
 QList <technics> query_result::avto_eq_list_free()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <technics> result;
     DB->query->clear();
     DB->query->exec("call eq_list_free();");
@@ -125,10 +113,7 @@ QList <technics> query_result::avto_eq_list_free()
 
 QList <QString> query_result::avto_material_list_izmer()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <QString> result;
     DB->query->clear();
     DB->query->exec("call material_list_izmer();");
@@ -143,10 +128,7 @@ QList <QString> query_result::avto_material_list_izmer()
 
 QList <QString> query_result::avto_material_list_naz()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <QString> result;
     DB->query->clear();
     DB->query->exec("call material_list_naz();");
@@ -161,10 +143,7 @@ QList <QString> query_result::avto_material_list_naz()
 
 QList <QString> query_result::avto_special_brig_list()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <QString> result;
     DB->query->clear();
     DB->query->exec("call special_brig_list();");
@@ -177,12 +156,9 @@ QList <QString> query_result::avto_special_brig_list()
     return result;
 }
 
-QList <QString> query_result::worker_dolg_list()
+QList <QString> query_result::avto_worker_dolg_list()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <QString> result;
     DB->query->clear();
     DB->query->exec("call worker_dolg_list();");
@@ -197,10 +173,7 @@ QList <QString> query_result::worker_dolg_list()
 
 QList <worker> query_result::avto_worker_list_free()
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <worker> result;
     DB->query->clear();
     DB->query->exec("call worker_list_free();");
@@ -218,10 +191,7 @@ QList <worker> query_result::avto_worker_list_free()
 
 QList <material> query_result::mater_like_my(QString name)
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QList <material> result;
     DB->query->clear();
     QString q;
@@ -244,12 +214,10 @@ QList <material> query_result::mater_like_my(QString name)
 
 QList <QString> query_result::ID_group_with_name(QString name)
 {
-    if(!DB->DB.open())
-    {
-        DB->connect();
-    }
+reset();
     QString s("SELECT special_brig.id_brig FROM special_brig , special WHERE special_brig.id_special = special.id AND special.`name`='");
     s=s+name+"';";
+    qDebug()<<s<<endl;
     DB->query->exec(s);
     QList <QString> result;
     while (DB->query->next())
@@ -257,4 +225,59 @@ QList <QString> query_result::ID_group_with_name(QString name)
         result.push_back(DB->query->value(0).toString());
     }
   return result;
+}
+
+QList <QString> query_result::avto_special_all()
+{
+    reset();
+    QList <QString> result;
+    QString q("call special_all();");
+    DB->query->exec(q);
+    while (DB->query->next())
+    {
+        result.push_back(DB->query->value(0).toString());
+    }
+    return result;
+}
+
+QList <worker> query_result::worker_with_group(QString ID_gr)
+{
+    reset();
+    QString s("SELECT worker.adress, worker.post, worker.birthday, worker.fio, worker.ID_worker, worker.price FROM worker , grup WHERE worker.ID_worker = grup.worker_ID and  grup.group_id=");
+    s=s+ID_gr+";";
+    QList <worker> result;
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+      worker temp;
+        temp.adress=DB->query->value(0).toString();
+        temp.post=DB->query->value(1).toString();
+        temp.birthday=DB->query->value(2).toString();
+        temp.fio=DB->query->value(3).toString();
+        temp.id=DB->query->value(4).toString();
+        temp.pay=DB->query->value(5).toString();
+      result.push_back(temp);
+    }
+    return result;
+}
+
+QList <technics> query_result::eqw_with_group (QString ID_gr)
+{
+    reset();
+    QString s("SELECT equipment.eq_name, equipment.eq_namber, equipment.eq_year, equipment.eq_buy_date FROM equipment , group_eq WHERE equipment.eq_namber = group_eq.id_namber and group_eq.id_brig=");
+    s=s+ID_gr+";";
+    QList <technics> result;
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+      technics temp;
+        temp.name=DB->query->value(0).toString();
+        temp.namber=DB->query->value(1).toString();
+        temp.Year_vip=DB->query->value(2).toString();
+        temp.Date_pok=DB->query->value(3).toString();
+      result.push_back(temp);
+    }
+    return result;
 }

@@ -14,6 +14,7 @@ class query_result
 public:
     query_result();
     ~query_result();
+    void reset();
                                                         //SELECT
     QList <technics> eqw_all_load();//+
     QList <worker> worker_all();//+1
@@ -21,9 +22,13 @@ public:
 
     QList <material> mater_like_my(QString name);
 
-    void building_main(QVector <QString>);
+    //void building_main(QVector <QString>);
 
     QList <QString> ID_group_with_name(QString name);
+
+    QList <worker> worker_with_group(QString ID_gr);
+
+    QList <technics> eqw_with_group (QString ID_gr);
                                                         //DELETE
     void worker_del(QString ID);
 
@@ -39,11 +44,13 @@ public:
 
     void insert_new_worker(worker val);
 
-    void worker_to_brig(worker val);
-    void worker_to_brig(QString ID);
+    void worker_to_brig(worker val, QString ID_brig);
+    void worker_to_brig(QString ID_w, QString ID_brig);
 
-    void eqw_to_brig(technics val);
-    void eqw_to_brig(QString ID);
+    void eqw_to_brig(technics val, QString ID_brig);
+    void eqw_to_brig(QString ID_e, QString ID_brig);
+
+    void new_brig_with_special(QString special_name);
 
 
                                                         //update
@@ -61,9 +68,12 @@ public:
 
     QList <QString> avto_special_brig_list();
 
-    QList <QString> worker_dolg_list();
+    QList <QString> avto_worker_dolg_list();
 
     QList <worker> avto_worker_list_free();
+
+    QList <QString> avto_special_all();
+
 
 
 

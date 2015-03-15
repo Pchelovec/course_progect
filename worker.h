@@ -18,6 +18,8 @@ public:
     QString id;
     QString pay;
 
+    //QString grup;
+
 };
 
 #endif // WORKER_H
