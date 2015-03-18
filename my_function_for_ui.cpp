@@ -96,9 +96,10 @@ ui->tableWidget_worker->setFocusPolicy(Qt::ClickFocus);
 
 void MainWindow::load_building()
 {
+    ui->stackedWidget->setCurrentIndex(4);
+    ui->House_progect_main_this_PB->setEnabled(false);
     ui->active_progect_TW->setVisible(false);
     ui->close_active_progect_PB->setVisible(false);
-
     ui->tableWidget_house->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget_house_poisk->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->show_PB->setEnabled(false);
@@ -144,7 +145,7 @@ void MainWindow::Q_Object_connect()
 
 void MainWindow::set_visible_enabled()
 {
-    ui->House_progect_main_dell_PB->setEnabled(false);
+    //ui->House_progect_main_dell_PB->setEnabled(false);
     ui->main_infor_new_build_GrBox->setVisible(false);
     ui->level_list_GrBox->setVisible(false);
     ui->needed_material_for_bu_GrBox->setVisible(false);
@@ -158,7 +159,7 @@ void MainWindow::set_visible_enabled()
     ui->new_eq_team_comBOX->setVisible(false);
     ui->new_brigada_GrBox->setVisible(false);
     ui->material_nestandart_GB->setVisible(false);
-    ui->groBox_Progect_Standart_progect->setVisible(true);
+    //ui->groBox_Progect_Standart_progect->setVisible(true);
     ui->brig_obor_GRBox->setVisible(false);
     ui->pusB_Sotrudnic_del->setEnabled(false);
     ui->tableWidget_house_poisk->setVisible(false);//невидимость формы поиска
@@ -218,6 +219,7 @@ void MainWindow::clear_first()
     ui->funct_naznach->clear();
     ui->new_special_brig_FCB->clear();
     ui->new_standart_DSpBox->clear();
+    unshow_percent();
 }
 
 void MainWindow::load_new_eqwt()
@@ -508,6 +510,7 @@ ui->new_standart_time_SpB->clear();
 
 void MainWindow::load_info_level_building_GrBox()
 {
+    clear_needed_material_standart();
     ui->info_level_building_GrBox->setVisible(true);
     ui->new_standart_need_special_worker_FCB->clear();
     ui->new_standart_level_dayLong_SPbx->clear();
@@ -733,6 +736,8 @@ void MainWindow::load_ynic_progect_building(bool ynic)
 }
 void MainWindow::new_standart_main_clear()
 {
+    ui->level_list_GrBox->setVisible(false);
+    ui->needed_material_for_bu_GrBox->setVisible(false);
     ui->info_material_for_building_GrBox->setVisible(false);
     ui->info_level_building_GrBox->setVisible(false);
     ui->new_standart_show_neded_material_ChB->setChecked(false);
@@ -783,8 +788,33 @@ void MainWindow::delete_current_level()
     ui->new_standart_grafic_TW->removeRow(ui->new_standart_grafic_TW->currentRow());
     ui->new_standart_level_dell->setEnabled(false);
 }
-void MainWindow::delete_current_aterial()
+void MainWindow::delete_current_material()
 {
     ui->new_standart_ned_material_TW->removeRow(ui->new_standart_ned_material_TW->currentRow());
     ui->new_standart_material_dell_PB->setEnabled(false);
+}
+bool MainWindow::correct_data_client()
+{
+    if (ui->lineEdit_client_fio_input->text()!="" && ui->lineEdit_client_phone_input->text()!="" && ui->lineEdit_client_pasport_input->text()!="" && ui->lineEdit_client_phone_input->text().length()>=7 && ui->lineEdit_client_pasport_input->text().length()>=8)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void MainWindow::set_id_progect_standart()
+{
+QTableWidgetItem *item=new QTableWidgetItem;
+item=ui->tableWidget_house->item(ui->tableWidget_house->currentRow(), 5);
+ui->building_id_for_progect->setText(item->text());
+ui->stackedWidget->setCurrentIndex(5);
+}
+
+void  MainWindow::unshow_percent()
+{
+    ui->percent->setVisible(false);
+    ui->statusBar->showMessage(tr("наценка сохранена"));
 }

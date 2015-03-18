@@ -35,7 +35,6 @@ void MainWindow::on_new_contract_triggered()
 }
 void MainWindow::on_home_progect_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(4);
     load_building();
 }
 void MainWindow::on_material_triggered()
@@ -43,15 +42,10 @@ void MainWindow::on_material_triggered()
     ui->stackedWidget->setCurrentIndex(6);
     clear_material();
 }
-void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
-{
-    if (checked)
-    {
-        load_ynic_progect_building(true);
-    }
+//void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
+//{
 
-    ui->groBox_Progect_Standart_progect->setVisible(!checked);
-}
+//}
 
 void MainWindow::on_Butt_Buy_car_clicked()
 {
@@ -601,14 +595,12 @@ void MainWindow::on_new_worker_special_Comb_box_currentTextChanged(const QString
 void MainWindow::on_pushButton_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(9);
-    //load_sarai();
     load_ynic_progect_building(false);
 }
 
 void MainWindow::on_Standart_progect_new_triggered()
 {
     ui->stackedWidget->setCurrentIndex(9);
-    //load_sarai();
     load_ynic_progect_building(false);
 }
 
@@ -663,28 +655,37 @@ void MainWindow::on_new_standart_material_add_PB_clicked()
 void MainWindow::on_new_standart_material_OK_PB_clicked()
 {
     ui->info_material_for_building_GrBox->setVisible(false);
+    set_price();
 }
 
 void MainWindow::on_new_standart_level_OK_clicked()
 {
     ui->info_level_building_GrBox->setVisible(false);
+    set_day_count();
 }
 
 void MainWindow::on_new_standart_OK_PB_clicked()
 {
-    //запись всего в бд о проекте здания
-    new_standart_level_table_clear();
-    new_standart_material_table_clear();
     if (correct_data_new_building_progect())
     {
-        save_all_info_buildin(true);
+        //запись всего в бд о проекте здания
+
+        save_all_info_buildin(false);
+
+        new_standart_main_clear();
+        new_standart_level_table_clear();
+        new_standart_material_table_clear();
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("сформируйте информацию о проекте здания"));
     }
 }
 
-void MainWindow::on_House_progect_main_dell_PB_clicked()
-{
-    //удаления проекта здания из бд+ графика и материалов
-}
+//void MainWindow::on_House_progect_main_dell_PB_clicked()
+//{
+//    //удаления проекта здания из бд+ графика и материалов
+//}
 
 void MainWindow::on_money_for_progect_triggered()
 {
@@ -694,6 +695,7 @@ void MainWindow::on_money_for_progect_triggered()
 void MainWindow::on_tableWidget_house_clicked(const QModelIndex &index)
 {
     ui->show_PB->setEnabled(true);
+    ui->House_progect_main_this_PB->setEnabled(true);
 }
 
 void MainWindow::on_show_PB_clicked()
@@ -712,13 +714,19 @@ void MainWindow::on_close_active_progect_PB_clicked()
 
 void MainWindow::on_new_standart_level_add_to_table_PB_clicked()
 {
+    if (ui->new_standart_level_dayLong_SPbx->value()!=0 && ui->new_standart_need_special_worker_FCB->currentText()!="")
+    {
     add_standart_grafic_TW(ui->new_standart_need_special_worker_FCB->currentText(), QString ::number(ui->new_standart_level_dayLong_SPbx->value()));
-    clear_needed_material_standart();
+    load_info_level_building_GrBox();
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("заполните данные"));
+    }
 }
 void MainWindow::clear_needed_material_standart()
 {
-    ui->new_standart_level_dayLong_SPbx->clear();
-
+    ui->new_standart_level_dayLong_SPbx->setValue(0);
 }
 
 void MainWindow::on_new_standart_grafic_TW_clicked(const QModelIndex &index)
@@ -731,4 +739,98 @@ void MainWindow::on_new_standart_level_dell_clicked()
     delete_current_level();
 }
 
+void MainWindow::on_new_standart_material_name_activated(const QString &arg1)
+{
+    set_naznachen(arg1);
+}
+
+void MainWindow::on_new_standart_ned_materisl_naznach_activated(const QString &arg1)
+{
+    set_name_need_material(arg1);
+
+}
+
+void MainWindow::on_new_standart_material_dell_PB_clicked()
+{
+    delete_current_material();
+}
+
+
+void MainWindow::on_new_standart_ned_material_add_to_table_PB_clicked()
+{
+    if (ui->new_standart_count_SpB->value()!=0 && ui->new_standart_material_name->currentText()!="")
+    {
+        add_to_need_material_TW(ui->new_standart_material_name->currentText(), QString::number(ui->new_standart_count_SpB->value()));
+        ui->new_standart_ned_materisl_naznach->setEditable(true);
+        load_info_material_for_building_GrBox();
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("количество или название не заполнено"));
+    }
+}
+
+void MainWindow::on_order_PB_clicked()
+{
+    if (correct_data_client())
+    {
+        if (correct_data_new_building_progect())
+        {
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //занесение
+        }
+        else
+        {
+            ui->statusBar->showMessage(tr("заполните данные проекта"));
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage("Заполите данные о клиенте");
+    }
+}
+
+void MainWindow::on_new_ynic_OK_PB_clicked()
+{
+    if (correct_data_new_building_progect())
+    {
+        ui->stackedWidget->setCurrentIndex(5);
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    bool checked=ui->checkBox_is_ynical_progect->isChecked();
+    if (ui->checkBox_is_ynical_progect->isChecked())
+    {
+        load_ynic_progect_building(true);
+    }
+    else
+    {
+        load_building();
+    }
+}
+
+void MainWindow::on_House_progect_main_this_PB_clicked()
+{
+    set_id_progect_standart();
+}
+
+void MainWindow::on_new_standart_ned_material_TW_clicked()
+{
+    ui->new_standart_material_dell_PB->setEnabled(true);
+}
+
+void MainWindow::on_action_3_triggered()
+{
+    ui->percent->setVisible(true);
+    //загрузка из файла
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    unshow_percent();
+
+    //сохранение в файл
+}
 

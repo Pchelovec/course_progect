@@ -41,7 +41,7 @@ private:                                                            //перем
 
 
     void load_ynic_progect_building(bool checked);
-
+    void load_main_infor_new_build_GrBox();//
 
     void add_standart_grafic_TW(QString Brig_special, QString Count);//--создание проекта здания
     void add_to_need_material_TW(QString Name_mater, QString Count);
@@ -50,12 +50,12 @@ private:                                                            //перем
     void set_name_need_material(QString val);
     void set_day_count();
     void set_price();
+    void set_id_progect_standart();
+
     bool correct_data_new_building_progect();
     QList <material_ned> return_list_need_material();
     QList <level> return_time_plane();
     void save_all_info_buildin(bool ynic);
-
-    void load_main_infor_new_build_GrBox();//
 
     void new_standart_level_table_clear();//
     void new_standart_material_table_clear();
@@ -75,7 +75,7 @@ private:                                                            //перем
     void minus_material();
 
     void delete_current_level();
-    void delete_current_aterial();
+    void delete_current_material();
 
     //----------------------------------------------работники
     void load_worker();
@@ -123,7 +123,7 @@ private:                                                            //перем
     void set_visible_enabled();
     void set_validator_all();
 
-
+    void  unshow_percent();
     //void clear_first();
     void clear_main_infor_new_build_GrBox();
     //--------------------------------------------------------------------
@@ -156,7 +156,7 @@ private slots:
     void on_home_progect_triggered();
     void on_material_triggered();
     void on_Butt_Buy_car_clicked();
-    void on_checkBox_is_ynical_progect_clicked(bool checked);
+    //void on_checkBox_is_ynical_progect_clicked(bool checked);
     void on_material_add_PB_clicked();
     void on_nestandart_material_button_OK_clicked();
     void on_price_a_ChBox_clicked(bool checked);
@@ -200,7 +200,7 @@ private slots:
     void on_new_standart_material_OK_PB_clicked();
     void on_new_standart_level_OK_clicked();
     void on_new_standart_OK_PB_clicked();
-    void on_House_progect_main_dell_PB_clicked();
+    //void on_House_progect_main_dell_PB_clicked();//
     void on_money_for_progect_triggered();
     void on_tableWidget_house_clicked(const QModelIndex &index);
     void on_show_PB_clicked();
@@ -208,5 +208,16 @@ private slots:
     void on_new_standart_level_add_to_table_PB_clicked();
     void on_new_standart_grafic_TW_clicked(const QModelIndex &index);
     void on_new_standart_level_dell_clicked();
+    void on_new_standart_material_name_activated(const QString &arg1);
+    void on_new_standart_ned_materisl_naznach_activated(const QString &arg1);
+    void on_new_standart_material_dell_PB_clicked();
+    void on_new_standart_ned_material_add_to_table_PB_clicked();
+    void on_order_PB_clicked();
+    void on_new_ynic_OK_PB_clicked();
+    void on_pushButton_2_clicked();
+    void on_House_progect_main_this_PB_clicked();
+    void on_new_standart_ned_material_TW_clicked();
+    void on_action_3_triggered();
+    void on_pushButton_4_clicked();
 };
 #endif // MAINWINDOW_H
