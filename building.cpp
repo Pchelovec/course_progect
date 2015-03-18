@@ -1,5 +1,4 @@
 #include "building.h"
-#include <vector>
 using namespace std;
 building::building()
 {
@@ -10,12 +9,11 @@ building::building()
     metter="";
     price="";
     ID="";
+    neded_material.clear();
+    time_plan.clear();
 }
 
 building::~building()
 {
 
 }
-
-
-

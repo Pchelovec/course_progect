@@ -9,9 +9,11 @@
         <file>res/контракт.gif</file>
         <file>res/поиск.gif</file>
         <file>res/чел.gif</file>
-        <file>res/dollar.jpg</file>
         <file>res/Stroitelnyie-materialyi.gif</file>
         <file>res/материалы.gif</file>
         <file>../../../изображения/строительная тема/бригада материалы.png</file>
+        <file>res/saraj.png</file>
+        <file>res/dollar.gif</file>
+        <file>res/дворец.png</file>
     </qresource>
 </RCC>

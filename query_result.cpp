@@ -21,15 +21,16 @@ void query_result::close_connect()
 QList <building> query_result::building_main_class_ret()
 {
 reset();
-    QString q("SELECT building.`name`, building.building_ynical, building.`standart-time`, building.meter, building.price, building.ID_b, building.description FROM building;");
+    QString q("SELECT building.`name`, building.building_ynical, building.`standart_time`, building.meter, building.price, building.ID_b, building.description FROM building;");
     QList <building> local_res;
     DB->query->clear();
     DB->query->exec(q);
-    int row=0;
+    qDebug()<<q<<endl;
+    //int row=0;
     while (DB->query->next())
     {
-        row++;
-        qDebug()<<row;
+        //row++;
+        //qDebug()<<row;
         building temp;
             temp.name=DB->query->value(0).toString();
             temp.is_ynical_bool=DB->query->value(1).toBool();
@@ -47,7 +48,6 @@ reset();
             temp.ID=DB->query->value(5).toString();
         local_res.push_back(temp);
     }
-    DB->query->clear();
     return local_res;
 }
 
@@ -188,14 +188,18 @@ reset();
     return result;
 }
 
-
 QList <material> query_result::mater_like_my(QString name)
 {
 reset();
     QList <material> result;
-    DB->query->clear();
     QString q;
-    q="select * from all_material where name like '"+name+"';";
+    q="select * from all_material ";
+    if (name=="") q=q+";";
+    else
+    {
+        q=q+"where name like '"+name+"';";
+    }
+    qDebug()<<q<<endl;
     DB->query->exec(q);
     while (DB->query->next())
     {
@@ -280,4 +284,117 @@ QList <technics> query_result::eqw_with_group (QString ID_gr)
       result.push_back(temp);
     }
     return result;
+}
+
+QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
+{
+    QList<person_plas_prog> result;
+    QString s("SELECT client.client_fio, client.client_phone, progect.oplata, progect.data_"
+              " FROM building , progect , client"
+              " WHERE client.client_passport = progect.passport_client AND progect.house_id = building.ID_b and building.ID_b=");
+    s=s+ID_B+";";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+        person_plas_prog temp;
+            temp.fio=DB->query->value(0).toString();
+            temp.ph=DB->query->value(1).toString();
+            temp.price=DB->query->value(2).toString();
+            temp.date=DB->query->value(3).toString();
+        result.push_back(temp);
+    }
+    return result;
+}
+QList <material> query_result::material_with_function(QString function)
+{
+    reset();
+    QString s("select * from all_material ");
+    if (function=="") s=s+" group by naznachenie;";
+    else
+    {
+        s=s+"where naznachenie=like'"+function+"' group by naznachenie;";
+    }
+    QList<material> result;
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+       material temp;
+        temp.name=DB->query->value(0).toString();
+        temp.price=DB->query->value(1).toString();
+        temp.naznach=DB->query->value(2).toString();
+        temp.izmer=DB->query->value(3).toString();
+        temp.count=DB->query->value(4).toString();
+       result.push_back(temp);
+    }
+    return result;
+}
+
+QString query_result::material_ret_naznach_with_name(QString name)
+{
+    reset();
+    QString s("select naznachenie from all_material where name='");
+    s=s+name+"';";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    DB->query->next();
+    return DB->query->value(0).toString();
+}
+
+QList<QString> query_result::material_ret_name_with_naznach(QString naznach)
+{
+    reset();
+    QList <QString> result;
+    QString s("select name from all_material where naznachenie='");
+    if (naznach!="")
+    {
+    s=s+naznach+"';";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while(DB->query->next())
+    {
+        QString temp;
+        temp=DB->query->value(0).toString();
+        result.push_back(temp);
+    }
+    }
+    return result;
+}
+double query_result::sum_material(QList<material_ned> val)
+{
+    reset();
+    int row=val.size();
+    double result=0;
+    for (int i=0;i<row;i++)
+    {
+        QString s("select price from all_material where name='");
+        s=s+val[i].name_material+"';";
+        qDebug()<<s<<endl;
+        DB->query->exec(s);
+        DB->query->next();
+        result=result+DB->query->value(0).toDouble()*val[i].count_material.toInt();
+    }
+    return result;
+}
+QString query_result::ret_building_ID_with_name(QString name)
+{
+    reset();
+    QString s("select ID_b from building where name='");
+    s=s+name+"';";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    DB->query->next();
+    return DB->query->value(0).toString();
+}
+
+QString  query_result::ret_id_special_with_name(QString name_spec)
+{
+    reset();
+    QString s("select id from special where name='");
+    s=s+name_spec+"';";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    DB->query->next();
+    return DB->query->value(0).toString();
 }

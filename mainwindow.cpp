@@ -31,6 +31,7 @@ void MainWindow::on_person_triggered()
 void MainWindow::on_new_contract_triggered()
 {
     ui->stackedWidget->setCurrentIndex(5);
+    clear_client_info();
 }
 void MainWindow::on_home_progect_triggered()
 {
@@ -44,8 +45,12 @@ void MainWindow::on_material_triggered()
 }
 void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
 {
+    if (checked)
+    {
+        load_ynic_progect_building(true);
+    }
+
     ui->groBox_Progect_Standart_progect->setVisible(!checked);
-    ui->GroBox_Indiv_Prog->setVisible(checked);
 }
 
 void MainWindow::on_Butt_Buy_car_clicked()
@@ -596,13 +601,15 @@ void MainWindow::on_new_worker_special_Comb_box_currentTextChanged(const QString
 void MainWindow::on_pushButton_3_clicked()
 {
     ui->stackedWidget->setCurrentIndex(9);
-    load_main_infor_new_build_GrBox();
+    //load_sarai();
+    load_ynic_progect_building(false);
 }
 
 void MainWindow::on_Standart_progect_new_triggered()
 {
     ui->stackedWidget->setCurrentIndex(9);
-    load_main_infor_new_build_GrBox();
+    //load_sarai();
+    load_ynic_progect_building(false);
 }
 
 void MainWindow::on_special_obor_brig_ComBox_currentTextChanged(const QString &arg1)
@@ -668,9 +675,60 @@ void MainWindow::on_new_standart_OK_PB_clicked()
     //запись всего в бд о проекте здания
     new_standart_level_table_clear();
     new_standart_material_table_clear();
+    if (correct_data_new_building_progect())
+    {
+        save_all_info_buildin(true);
+    }
 }
 
 void MainWindow::on_House_progect_main_dell_PB_clicked()
 {
     //удаления проекта здания из бд+ графика и материалов
 }
+
+void MainWindow::on_money_for_progect_triggered()
+{
+    load_oplata_progecta();
+}
+
+void MainWindow::on_tableWidget_house_clicked(const QModelIndex &index)
+{
+    ui->show_PB->setEnabled(true);
+}
+
+void MainWindow::on_show_PB_clicked()
+{
+    ui->active_progect_TW->setVisible(true);
+    ui->close_active_progect_PB->setVisible(true);
+    load_active_progect_TW();
+}
+
+void MainWindow::on_close_active_progect_PB_clicked()
+{
+    ui->active_progect_TW->setVisible(false);
+    ui->close_active_progect_PB->setVisible(false);
+}
+
+
+void MainWindow::on_new_standart_level_add_to_table_PB_clicked()
+{
+    add_standart_grafic_TW(ui->new_standart_need_special_worker_FCB->currentText(), QString ::number(ui->new_standart_level_dayLong_SPbx->value()));
+    clear_needed_material_standart();
+}
+void MainWindow::clear_needed_material_standart()
+{
+    ui->new_standart_level_dayLong_SPbx->clear();
+
+}
+
+void MainWindow::on_new_standart_grafic_TW_clicked(const QModelIndex &index)
+{
+    ui->new_standart_level_dell->setEnabled(true);
+}
+
+void MainWindow::on_new_standart_level_dell_clicked()
+{
+    delete_current_level();
+}
+
+

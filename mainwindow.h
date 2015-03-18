@@ -34,38 +34,108 @@ private:                                                            //перем
     building *build;
                                                                     //функции
 
+    //----------------------------------------------постройки
+    void load_building();
+    void load_sarai();
+    void load_dworec();
+
+
+    void load_ynic_progect_building(bool checked);
+
+
+    void add_standart_grafic_TW(QString Brig_special, QString Count);//--создание проекта здания
+    void add_to_need_material_TW(QString Name_mater, QString Count);
+
+    void set_naznachen(QString val);
+    void set_name_need_material(QString val);
+    void set_day_count();
+    void set_price();
+    bool correct_data_new_building_progect();
+    QList <material_ned> return_list_need_material();
+    QList <level> return_time_plane();
+    void save_all_info_buildin(bool ynic);
+
+    void load_main_infor_new_build_GrBox();//
+
+    void new_standart_level_table_clear();//
+    void new_standart_material_table_clear();
+    void new_standart_main_clear();
+
+    void load_material_name_all_for_need_material(QString val);
+    void load_naznach_mater_standart(QString val);
+
+    void clear_needed_material_standart();
+
+    void load_info_level_building_GrBox();//
+    void load_info_material_for_building_GrBox();
+
+    void load_active_progect_TW();
+
+    void minus_level();
+    void minus_material();
+
+    void delete_current_level();
+    void delete_current_aterial();
+
+    //----------------------------------------------работники
+    void load_worker();
+    void clear_obor_worker_table_wid();
+
+    void new_worker_initial();
+    void save_worker();
+
+    //----------------------------------------------оборудование
+    void load_technics();
+    void load_new_eqwt();
+    void save_new_eqw();
+    void clear_eqw();
+    void poisk_eqw_or_worker_with_2_string();
+
+    //----------------------------------------------материалы
+    void clear_material();
+    void load_newstandart_situat_stack_wid(material mat_like_my);
+    void save_material_from_ui_to_DB();
+    void incorrect_data_material();
+    void update_material(material mat_like_my);
+
+    //----------------------------------------------бригада (оборудование + работнтки)
+    void reload_double_table();
+
+    void load_brig_num_for_new_eqw(QString val);
+    void load_brig_num_for_new_worker(QString val);
+
+    void load_obor_to_double_TabWid();
+    void load_worker_to_double_Tab_Wid();
+
+    void load_brig_name_to_new_worker_special_Comb_box();
+    void load_special_obor_brig_ComBox();
+    void load_namber_obor_brig_ComBox(QString s);
+
+    void load_all_special_to_new_special_brig_FCB();
+
+    void clear_bezicxodnost_Table_wid();
+    //----------------------------------------------клиент
+    void clear_client_info();
+    bool correct_data_client();
+    //----------------------------------------------общие
     void first_initial_component();
     void Q_Object_connect();
     void set_visible_enabled();
     void set_validator_all();
+
+
+    //void clear_first();
+    void clear_main_infor_new_build_GrBox();
+    //--------------------------------------------------------------------
+
     void clear_first();
 
-    void load_technics();
-    void load_building();
-    void load_worker();
+    void load_oplata_progecta();
 
-    void reload_double_table();
+//    void reload_double_table();
 
     void initial_detel_ifo_technics();
-    void clear_material();
-    void clear_obor_worker_table_wid();
-    //void load_spec_situat_material();
-    void new_worker_initial();
-    void load_new_eqwt();
-    void load_brig_num_for_new_eqw(QString val);
-    void load_brig_num_for_new_worker(QString val);
-    void load_obor_to_double_TabWid();
-    void load_worker_to_double_Tab_Wid();
-    void load_brig_name_to_new_worker_special_Comb_box();
-    void load_special_obor_brig_ComBox();
-    void load_namber_obor_brig_ComBox(QString s);
-    void load_all_special_to_new_special_brig_FCB();
-    void load_main_infor_new_build_GrBox();
-    void clear_bezicxodnost_Table_wid();
-    void new_standart_level_table_clear();
-    void new_standart_material_table_clear();
-    void load_info_level_building_GrBox();
-    void load_info_material_for_building_GrBox();
+
 public:
     Ui::MainWindow *ui;
     //database *DB;
@@ -131,5 +201,12 @@ private slots:
     void on_new_standart_level_OK_clicked();
     void on_new_standart_OK_PB_clicked();
     void on_House_progect_main_dell_PB_clicked();
+    void on_money_for_progect_triggered();
+    void on_tableWidget_house_clicked(const QModelIndex &index);
+    void on_show_PB_clicked();
+    void on_close_active_progect_PB_clicked();
+    void on_new_standart_level_add_to_table_PB_clicked();
+    void on_new_standart_grafic_TW_clicked(const QModelIndex &index);
+    void on_new_standart_level_dell_clicked();
 };
 #endif // MAINWINDOW_H

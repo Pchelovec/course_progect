@@ -249,3 +249,55 @@ void query_result::new_brig_with_special(QString special_name)
     qDebug()<<s<<endl;
     DB->query->exec(s);
 }
+void query_result::insert_new_building(building val)
+{
+    reset ();
+    if (val.is_ynical_bool)
+    {
+        val.id_ynical_string="1";
+    }
+    else
+    {
+        val.id_ynical_string="0";
+    }
+    QString q("insert into building (name, building_ynical, standart_time, meter, price) values(");
+    q=q+"'"+val.name+"', "+val.id_ynical_string +", "+val.Standart_time_building+", "+val.metter+", '"+val.price+"');";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+    DB->query->clear();
+    QString ID;
+    ID=ret_building_ID_with_name(val.name);
+    int row_level=val.time_plan.size();
+    for (int i=0;i<row_level;i++)
+    {
+        insert_level(QString ::number(i),ID, val.time_plan[i]);
+    }
+    int row_worker=val.neded_material.size();
+    for (int i=0;i<row_worker;i++)
+    {
+        insert_need_material_for_b(ID, val.neded_material[i]);
+    }
+}
+
+void query_result::insert_level(QString lev_str, QString id_building_s,  level val)
+{
+    reset ();
+    QString q("INSERT INTO building_plan (level, building_id_plan, day, special) VALUES (");
+    QString id_special=ret_id_special_with_name(val.special_brig);
+    q=q+lev_str+", "+id_building_s+", "+val.day_count+", "+id_special+");";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}
+
+void query_result::insert_need_material_for_b(QString ID_b, material_ned material_)
+{
+    QString t=material_.name_material;
+    reset ();
+    QString q("insert into neded_materials (number_of_building, namber_material, count) values(");
+    QList <material> list_mat=mater_like_my(t);
+    material mat=list_mat[0];
+    QString ID_M=mat.ID;
+    q=q+ID_b+", "+ID_M+", "+material_.count_material+");";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}
