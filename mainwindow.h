@@ -3,7 +3,7 @@
 #include <QObject>                          //
 #include <QMainWindow>                      //
 #include <QSqlTableModel>
-#include <QMessageBox>                      ////
+#include <QMessageBox>                      //
 #include <QtDebug>                          //
 #include <QSqlTableModel>
 #include <QAbstractItemModel>
@@ -118,7 +118,10 @@ private:                                                            //перем
     void clear_bezicxodnost_Table_wid();
     //----------------------------------------------клиент
     void clear_client_info();
+    void clear_pay_info();
     bool correct_data_client();
+    void set_need_to_pay();
+    void pay_progect();
     //----------------------------------------------общие
     void first_initial_component();
     void Q_Object_connect();
@@ -126,7 +129,6 @@ private:                                                            //перем
     void set_validator_all();
     void save_price_to_file();
     void  unshow_percent();
-    //void clear_first();
     void clear_main_infor_new_build_GrBox();
     //--------------------------------------------------------------------
 
@@ -202,7 +204,6 @@ private slots:
     void on_new_standart_material_OK_PB_clicked();
     void on_new_standart_level_OK_clicked();
     void on_new_standart_OK_PB_clicked();
-    //void on_House_progect_main_dell_PB_clicked();//
     void on_money_for_progect_triggered();
     void on_tableWidget_house_clicked(const QModelIndex &index);
     void on_show_PB_clicked();
@@ -221,5 +222,7 @@ private slots:
     void on_new_standart_ned_material_TW_clicked();
     void on_action_3_triggered();
     void on_pushButton_4_clicked();
+    void on_need_to_pay_PB_clicked();
+    void on_pay_OK_PB_clicked();
 };
 #endif // MAINWINDOW_H

@@ -289,7 +289,7 @@ QList <technics> query_result::eqw_with_group (QString ID_gr)
 QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
 {
     QList<person_plas_prog> result;
-    QString s("SELECT client.client_fio, client.client_phone, progect.oplata, progect.data_"
+    QString s("SELECT client.client_fio, client.client_phone, progect.oplata, progect.ID"
               " FROM building , progect , client"
               " WHERE client.client_passport = progect.passport_client AND progect.house_id = building.ID_b and building.ID_b=");
     s=s+ID_B+";";
@@ -397,4 +397,50 @@ QString  query_result::ret_id_special_with_name(QString name_spec)
     DB->query->exec(s);
     DB->query->next();
     return DB->query->value(0).toString();
+}
+double query_result::need_to_pay(QString ID_progect)
+{
+    reset();
+    QString s("SELECT (building.price-progect.oplata) FROM building , progect WHERE progect.house_id = building.ID_b and progect.ID=");
+    s=s+ID_progect+";";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    if(DB->query->next())
+    {
+        return DB->query->value(0).toDouble();
+    }
+    else return -1;
+}
+double query_result::sum_pay(QString ID_b)
+{
+    reset();
+    QString q;
+    q="select oplata from progect where ID="+ID_b+";";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+    if (DB->query->next())
+        return DB->query->value(0).toDouble();
+    else
+        return -1;
+}
+QList<client> query_result::is_client_with_passport(QString passport)
+{
+    reset();
+    QList<client> result;
+    QString s;
+    s="select * from client where client_passport=";
+    s=s+passport+";";
+        qDebug()<<s<<endl;
+        DB->query->exec(s);
+        while(DB->query->next())
+        {
+            client temp;
+            temp.passport=DB->query->value(0).toString();
+            temp.FIO=DB->query->value(1).toString();
+            temp.phone=DB->query->value(2).toString();
+            temp.year_birthday=DB->query->value(3).toString();
+            temp.plases_life=DB->query->value(4).toString();
+            result.push_back(temp);
+        }
+    return result;
 }

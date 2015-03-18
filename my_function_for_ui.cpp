@@ -192,6 +192,9 @@ void MainWindow::set_validator_all()
 
     ui->oborud_name_LE->setValidator(new QRegExpValidator(F_nazn,this));
     QRegExp INN("[0-9]{6}");
+
+    ui->summ_pay_LE->setMaximum(999999.99);
+
     ui->oborud_INV_namber_LE->setValidator(new QRegExpValidator(INN,this));
     ui->obor_ear_build_SpBx->setMaximum(2015);//текуший год
 
@@ -211,6 +214,8 @@ void MainWindow::set_validator_all()
     ui->new_standart_metter_SpBox->setMaximum(999999);
     ui->new_standart_DSpBox->setMaximum(99999999);
     ui->new_standart_time_SpB->setMaximum(9999);
+
+    ui->pore_pay_procent_SpB->setMaximum(999);
 }
 
 void MainWindow::clear_first()
@@ -469,6 +474,7 @@ void MainWindow::load_main_infor_new_build_GrBox()
     ui->new_standart_show_neded_material_ChB->setChecked(false);
     ui->new_standart_show_level_ChB->setChecked(false);
 }
+
 void MainWindow::new_standart_level_table_clear()
 {
     ui->new_standart_grafic_TW->clear();
@@ -483,10 +489,12 @@ void MainWindow::new_standart_material_table_clear()
     ui->new_standart_ned_material_TW->setRowCount(0);
 }
 
-
 void MainWindow::load_oplata_progecta()
 {
     ui->stackedWidget->setCurrentIndex(10);
+    ui->progect_money_add_GrBox->setVisible(true);
+    ui->progect_id->clear();
+    ui->summ_pay_LE->setValue(0);
 }
 //=========================================================================================================
 void MainWindow::minus_level()
@@ -549,7 +557,7 @@ void MainWindow::load_active_progect_TW()
     int table_row=list.size();
     ui->active_progect_TW->setRowCount(table_row);
     ui->active_progect_TW->setColumnCount(4);
-    ui->active_progect_TW->setHorizontalHeaderLabels(QStringList()<<"фамилия"<<"телефон"<<"оплаченная сумма"<<"дата заключения договора");
+    ui->active_progect_TW->setHorizontalHeaderLabels(QStringList()<<"фамилия"<<"телефон"<<"оплаченная сумма"<<"№ проекта");
 
     for (int i=0;i<table_row;i++)
     {
@@ -560,15 +568,13 @@ void MainWindow::load_active_progect_TW()
         QTableWidgetItem *price=new QTableWidgetItem;
         price->setText(list[i].price);
         QTableWidgetItem *date=new QTableWidgetItem;
-        date->setText(list[i].date);
+        date->setText(list[i].date);//!!
         ui->active_progect_TW->setItem(i,0,fio);
         ui->active_progect_TW->setItem(i,1,ph);
         ui->active_progect_TW->setItem(i,2,price);
         ui->active_progect_TW->setItem(i,3,date);
     }
 }
-
-
 
 void MainWindow::add_standart_grafic_TW(QString Brig_special, QString Count)
 {
@@ -813,14 +819,85 @@ bool MainWindow::correct_data_client()
 
 void MainWindow::set_id_progect_standart()
 {
-QTableWidgetItem *item=new QTableWidgetItem;
-item=ui->tableWidget_house->item(ui->tableWidget_house->currentRow(), 5);
-ui->building_id_for_progect->setText(item->text());
-ui->stackedWidget->setCurrentIndex(5);
+    QTableWidgetItem *item=new QTableWidgetItem;
+    item=ui->tableWidget_house->item(ui->tableWidget_house->currentRow(), 1);
+    if (item->text()!="+")
+    {
+        QTableWidgetItem *item=new QTableWidgetItem;
+        item=ui->tableWidget_house->item(ui->tableWidget_house->currentRow(), 5);
+        ui->building_id_for_progect->setText(item->text());
+        ui->stackedWidget->setCurrentIndex(5);
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("нельзя заказать уникальный проект"));
+    }
 }
 
 void  MainWindow::unshow_percent()
 {
     ui->percent->setVisible(false);
 
+}
+void MainWindow::set_need_to_pay()
+{
+    if (ui->progect_id->text()!="")
+    {
+        double n_p=QUERY->need_to_pay(ui->progect_id->text());
+        if (n_p>0)
+        {
+            QString pay;
+            pay=QString::number(n_p);
+            QString s;
+            s="необходимо заплатить "+pay;
+            ui->statusBar->showMessage(s);
+            ui->summ_pay_LE->setValue(n_p);
+        }
+        else
+        {
+            if (n_p==0)
+                ui->statusBar->showMessage(tr("уже оплачено"));
+            else
+            {
+                ui->statusBar->showMessage(tr("проекта нет"));
+            }
+        }
+    }
+    else ui->statusBar->showMessage(tr("заполните № вашего проекта"));
+}
+void MainWindow::pay_progect()
+{
+    if (ui->progect_id->text()!="")
+    {
+        double n_p=QUERY->need_to_pay(ui->progect_id->text());
+        if (n_p>0)
+        {
+            if (ui->summ_pay_LE->value()>n_p)
+            {
+                ui->statusBar->showMessage(tr("введенная вами сумма больше чем нужно!, введите корректную сумму "));
+            }
+            else
+            {
+                QUERY->update_pay_sum(ui->progect_id->text(), ui->summ_pay_LE->value());
+                ui->statusBar->showMessage(tr("платеж произведен"));
+                clear_pay_info();
+            }
+        }
+        else
+        {
+            if (n_p==0)
+                ui->statusBar->showMessage(tr("уже оплачено"));
+            else
+            {
+                ui->statusBar->showMessage(tr("проекта нет"));
+            }
+        }
+    }
+    else ui->statusBar->showMessage(tr("заполните № вашего проекта"));
+}
+void MainWindow::clear_pay_info()
+{
+    ui->progect_id->clear();
+    ui->summ_pay_LE->clear();
+    ui->summ_pay_LE->setValue(0);
 }

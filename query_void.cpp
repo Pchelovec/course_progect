@@ -301,3 +301,41 @@ void query_result::insert_need_material_for_b(QString ID_b, material_ned materia
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
+
+void query_result::insert_client_info(client val)
+{
+    reset();
+    QString q("insert into client (client_passport, client_fio, client_phone, client_bir, client_places_life) values(");
+    q=q+"'"+val.passport+"', '"+val.FIO+"', "+val.phone;
+    if (val.year_birthday!="")
+    {
+        q=q+", "+val.year_birthday;
+    }
+    else
+    {
+        q=q+", NULL";
+    }
+    if (val.plases_life!="")
+    {
+        q=q+", '"+val.plases_life+"'";
+    }
+    else
+    {
+        q=q+", NULL";
+    }
+    q=q+");";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}
+
+void query_result::update_pay_sum(QString ID_b, double pay_sum)
+{
+    reset();
+    QString q;
+    q="update progect set oplata=";
+    double pay_now=sum_pay(ID_b);
+    q=q+QString::number(pay_sum+pay_now)+" where ID="+ID_b+";";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}
+

@@ -15,8 +15,8 @@ class client
 public:
     QString passport;
     QString FIO;
-    unsigned long int phone;
-    QDate year_birthday;
+    QString phone;
+    QString year_birthday;
     QString plases_life;
     client();
     ~client();

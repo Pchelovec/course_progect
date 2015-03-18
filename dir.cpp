@@ -4,7 +4,6 @@ dir::dir()
 {
 
 }
-
 dir::~dir()
 {
 

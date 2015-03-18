@@ -682,11 +682,6 @@ void MainWindow::on_new_standart_OK_PB_clicked()
     }
 }
 
-//void MainWindow::on_House_progect_main_dell_PB_clicked()
-//{
-//    //удаления проекта здания из бд+ графика и материалов
-//}
-
 void MainWindow::on_money_for_progect_triggered()
 {
     load_oplata_progecta();
@@ -849,4 +844,15 @@ void MainWindow::save_price_to_file()
     {
         ui->statusBar->showMessage(tr("наценка не охранена"));
     }
+}
+
+void MainWindow::on_need_to_pay_PB_clicked()
+{
+    set_need_to_pay();
+}
+
+
+void MainWindow::on_pay_OK_PB_clicked()
+{
+    pay_progect();
 }

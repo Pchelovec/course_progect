@@ -92,8 +92,17 @@ public:
     void insert_need_material_for_b( QString ID_b, material_ned material);//INSERT
 
     void insert_new_building(building val);//INSERT
-    //
-    //
+
+    //-----------------------------------------------------------клиент
+    void insert_client_info(client val);//insert
+
+    double need_to_pay(QString ID_progect);//select
+    double sum_pay(QString ID_b);//select
+
+    void update_pay_sum(QString ID_b, double pay_sum);//update
+    void update_clienr(client cl);
+    QList<client> is_client_with_passport(QString passport);
+    //-----------------------------------------------------------занятость бригады
     //
     //-----------------------------------------------------------другие
      QList <person_plas_prog> person_with_ID_building(QString ID_B);//SELECT информация о заказчике с постройкий ID_B
