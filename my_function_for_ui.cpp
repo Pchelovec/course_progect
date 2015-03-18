@@ -668,7 +668,13 @@ void MainWindow::set_price()
     double price;
     if (ui->checkBox_is_ynical_progect->isChecked())
     {
-        price=QUERY->sum_material(return_list_need_material())*1.5;
+        dir t;
+        price=QUERY->sum_material(return_list_need_material());
+        int n=t.read_procent_File();
+        qDebug()<<n;
+        double nac=n/100.0;
+        qDebug()<<nac;
+        price=price+nac*price;
     }
     else
     {
@@ -816,5 +822,5 @@ ui->stackedWidget->setCurrentIndex(5);
 void  MainWindow::unshow_percent()
 {
     ui->percent->setVisible(false);
-    ui->statusBar->showMessage(tr("наценка сохранена"));
+
 }

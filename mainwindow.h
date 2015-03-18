@@ -21,6 +21,7 @@
 #include "worker.h"
 #include "material.h"
 #include "query_result.h"
+#include "dir.h"
 
 namespace Ui {
 class MainWindow;
@@ -51,6 +52,7 @@ private:                                                            //перем
     void set_day_count();
     void set_price();
     void set_id_progect_standart();
+    void set_dop_price();
 
     bool correct_data_new_building_progect();
     QList <material_ned> return_list_need_material();
@@ -122,7 +124,7 @@ private:                                                            //перем
     void Q_Object_connect();
     void set_visible_enabled();
     void set_validator_all();
-
+    void save_price_to_file();
     void  unshow_percent();
     //void clear_first();
     void clear_main_infor_new_build_GrBox();

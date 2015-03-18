@@ -6,26 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>871</width>
-    <height>475</height>
+    <width>941</width>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Строительная Компания &quot;FastoBild&quot;</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_34">
+   <layout class="QGridLayout" name="gridLayout_16">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="lineWidth">
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="page">
-       <layout class="QGridLayout" name="gridLayout_16">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
          <widget class="QGroupBox" name="material_nestandart_GB">
           <property name="title">
            <string>обнаружена ошибка слияния двух схожих записей для таблицы материалы</string>
@@ -245,7 +245,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item>
          <widget class="QGroupBox" name="work_option_GB">
           <property name="title">
            <string>настройки количества выходных для автоматической генерации занятости рабочих групп</string>
@@ -329,7 +329,7 @@
           </layout>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item>
          <widget class="QGroupBox" name="percent">
           <property name="title">
            <string>установите % , на сколько уникальный проект дороже стандартного</string>
@@ -342,14 +342,14 @@
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>650</width>
+               <width>375</width>
                <height>20</height>
               </size>
              </property>
             </spacer>
            </item>
            <item row="0" column="0">
-            <widget class="QSpinBox" name="ex">
+            <widget class="QSpinBox" name="pore_pay_procent_SpB">
              <property name="minimumSize">
               <size>
                <width>75</width>
@@ -368,7 +368,7 @@
           </layout>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item>
          <spacer name="verticalSpacer_7">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1660,7 +1660,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>871</width>
+     <width>941</width>
      <height>21</height>
     </rect>
    </property>

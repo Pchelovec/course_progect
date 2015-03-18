@@ -823,14 +823,30 @@ void MainWindow::on_new_standart_ned_material_TW_clicked()
 
 void MainWindow::on_action_3_triggered()
 {
-    ui->percent->setVisible(true);
-    //загрузка из файла
+    set_dop_price();
 }
 
 void MainWindow::on_pushButton_4_clicked()
 {
-    unshow_percent();
-
-    //сохранение в файл
+    save_price_to_file();
+    unshow_percent();   
 }
-
+void MainWindow::set_dop_price()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->percent->setVisible(true);
+    //загрузка из файла
+    ui->pore_pay_procent_SpB->clear();
+    dir t;
+    ui->pore_pay_procent_SpB->setValue(t.read_procent_File());
+}
+void MainWindow::save_price_to_file()
+{
+    dir d;//сохранение в файл
+    if (d.write_procent_File(ui->pore_pay_procent_SpB->value()))
+        ui->statusBar->showMessage(tr("наценка сохранена"));
+    else
+    {
+        ui->statusBar->showMessage(tr("наценка не охранена"));
+    }
+}
