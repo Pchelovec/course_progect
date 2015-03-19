@@ -36,10 +36,10 @@ private:                                                            //перем
                                                                     //функции
 
     //----------------------------------------------постройки
+    void clear_sh_building();
     void load_building();
     void load_sarai();
     void load_dworec();
-
 
     void load_ynic_progect_building(bool checked);
     void load_main_infor_new_build_GrBox();//
@@ -82,6 +82,7 @@ private:                                                            //перем
     //----------------------------------------------работники
     void load_worker();
     void clear_obor_worker_table_wid();
+    void clear_sh_worker();
 
     void new_worker_initial();
     void save_worker();
@@ -89,7 +90,10 @@ private:                                                            //перем
     //----------------------------------------------оборудование
     void load_technics();
     void load_new_eqwt();
+
     void save_new_eqw();
+
+    void clear_sh_eqw();
     void clear_eqw();
     void poisk_eqw_or_worker_with_2_string();
 
@@ -112,6 +116,10 @@ private:                                                            //перем
     void load_brig_name_to_new_worker_special_Comb_box();
     void load_special_obor_brig_ComBox();
     void load_namber_obor_brig_ComBox(QString s);
+    void load_eqw_or_worker_small();
+
+    void eqw_small();
+    void worker_small();
 
     void load_all_special_to_new_special_brig_FCB();
 
@@ -130,6 +138,8 @@ private:                                                            //перем
     void save_price_to_file();
     void  unshow_percent();
     void clear_main_infor_new_build_GrBox();
+
+    void dell_problem(QString v);
     //--------------------------------------------------------------------
 
     void clear_first();
@@ -190,7 +200,6 @@ private slots:
     void on_bezicxodnost_table_wid_clicked(const QModelIndex &index);
     void on_obor_worker_table_wid_clicked(const QModelIndex &index);
     void on_del_from_brig_clicked();
-    void on_tableWidget_house_poisk_itemChanged(QTableWidgetItem *item);
     void on_new_eq_Com_box_currentTextChanged(const QString &arg1);
     void on_new_worker_special_Comb_box_currentTextChanged(const QString &arg1);
     void on_pushButton_3_clicked();
@@ -224,5 +233,19 @@ private slots:
     void on_pushButton_4_clicked();
     void on_need_to_pay_PB_clicked();
     void on_pay_OK_PB_clicked();
+    void on_sh_worker_fam_textChanged(const QString &arg1);
+    void on_sh_worker_post_textChanged(const QString &arg1);
+    void on_sh_worker_start_price_SB_valueChanged(const QString &arg1);
+    void on_sh_worker_fin_price_SB_valueChanged(const QString &arg1);
+    void on_sh_eqw_name_textChanged(const QString &arg1);
+    void on_sh_eqw_namber_textChanged(const QString &arg1);
+    void on_sh_building_name_textChanged(const QString &arg1);
+    void on_sh_building_time_min_valueChanged(const QString &arg1);
+    void on_sh_building_time_max_valueChanged(const QString &arg1);
+    void on_sh_building_metter_min_valueChanged(const QString &arg1);
+    void on_sh_building_metter_max_valueChanged(const QString &arg1);
+    void on_sh_building_price_min_valueChanged(const QString &arg1);
+    void on_sh_building_price_max_valueChanged(const QString &arg1);
+    void on_CB_House_poisk_clicked(bool checked);
 };
 #endif // MAINWINDOW_H

@@ -18,16 +18,26 @@ struct material_ned
 
 struct period
 {
-    QDate date_start;
-    QDate date_fin;
+    QString date_start;
+    QString date_fin;
 };
-
+struct metter_double
+{
+    QString metter_start;
+    QString metter_fin;
+};
+struct price_double
+{
+    QString price_start;
+    QString price_fin;
+};
 using namespace std;
 class building
 {
 public:
     QString name;
     QString metter;
+
     bool is_ynical_bool;
     QString id_ynical_string;
     QString Standart_time_building;
@@ -35,6 +45,11 @@ public:
     QList <level> time_plan;
     QString price;
     QString ID;
+
+    period time_pair;
+    metter_double metter_pair;
+    price_double price_pair;
+    void make_and_save_time_plan_for_building(QString ID_progect);
     building();
     ~building();
 };

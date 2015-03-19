@@ -339,3 +339,31 @@ void query_result::update_pay_sum(QString ID_b, double pay_sum)
     DB->query->exec(q);
 }
 
+void query_result::update_client(client cl)
+{
+    reset();
+    QString q;
+    q="update client set ";
+    q=q+" client_fio='"+cl.FIO+"', client_phone="+cl.phone+", client_bir=";
+    if(cl.year_birthday!="" || cl.year_birthday!="0")
+    {
+        q=q+cl.year_birthday+", ";
+    }
+    else
+    {
+        q=q+"NULL, ";
+    }
+    q=q+" client_places_life=";
+    if (cl.plases_life!="")
+    {
+        q=q+"'"+cl.plases_life+"'";
+    }
+    else
+    {
+        q=q+"NULL";
+    }
+    q=q+"where client_passport='"+cl.passport+"'";
+    q=q+";";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}

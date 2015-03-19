@@ -26,6 +26,7 @@ void MainWindow::on_action_4_triggered()
 void MainWindow::on_person_triggered()
 {
     ui->stackedWidget->setCurrentIndex(3);
+    clear_sh_worker();
     load_worker();
 }
 void MainWindow::on_new_contract_triggered()
@@ -35,6 +36,7 @@ void MainWindow::on_new_contract_triggered()
 }
 void MainWindow::on_home_progect_triggered()
 {
+    clear_sh_building();
     load_building();
 }
 void MainWindow::on_material_triggered()
@@ -42,14 +44,9 @@ void MainWindow::on_material_triggered()
     ui->stackedWidget->setCurrentIndex(6);
     clear_material();
 }
-//void MainWindow::on_checkBox_is_ynical_progect_clicked(bool checked)
-//{
-
-//}
 
 void MainWindow::on_Butt_Buy_car_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
     load_new_eqwt();
 }
 
@@ -418,73 +415,9 @@ void MainWindow::on_new_brigada_ChBox_clicked(bool checked)
     load_all_special_to_new_special_brig_FCB();
 }
 
-
 void MainWindow::on_add_to_brig_clicked()
 {
-    if((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->worker_brigada_RB->isChecked())))
-    {
-        ui->bezicxodnost_table_wid->clear();
-        ui->bezicxodnost_table_wid->setColumnCount(3);
-
-        if ((ui->eqw_brigada_RB->isChecked()))
-        {
-            qDebug()<<"eqw small"<<endl;
-            ui->post_name_sh_LE->setStatusTip("название оборудования");
-            ui->fio_inventarnN_LE->setStatusTip("инвентарный номер");
-            ui->bezicxodnost_table_wid->setHorizontalHeaderLabels(QStringList()<<"название"<<"дата покупки"<<"инвентарный номер");
-            QList <technics> list_eq=QUERY->avto_eq_list_free();
-            int row=list_eq.size();
-            ui->bezicxodnost_table_wid->setRowCount(row);
-            for (int i=0;i<row;i++)
-            {
-                technics temp;
-                temp=list_eq[i];
-                QTableWidgetItem * name=new QTableWidgetItem;
-                name->setText(temp.name);
-                ui->bezicxodnost_table_wid->setItem(i,0,name);
-
-                QTableWidgetItem * date=new QTableWidgetItem;
-                date->setText(temp.Date_pok);
-                ui->bezicxodnost_table_wid->setItem(i,1,date);
-
-                QTableWidgetItem * id=new QTableWidgetItem;
-                id->setText(temp.namber);
-                ui->bezicxodnost_table_wid->setItem(i,2,id);
-            }
-        }
-        else
-        {
-            if ((ui->worker_brigada_RB->isChecked()))
-            {
-                qDebug()<<"worker small"<<endl;
-                ui->post_name_sh_LE->setStatusTip("должность сотрудника");
-                ui->fio_inventarnN_LE->setStatusTip("фио сотрудника");
-                ui->bezicxodnost_table_wid->setHorizontalHeaderLabels(QStringList()<<"должность"<<"фио"<<"ID");
-
-                QList <worker> list_work=QUERY->avto_worker_list_free();
-                int row=list_work.size();
-                ui->bezicxodnost_table_wid->setRowCount(row);
-                for (int i=0;i<row;i++)
-                {
-                    worker temp;
-                    temp=list_work[i];
-                    QTableWidgetItem * name=new QTableWidgetItem;
-                    name->setText(temp.post);
-                    ui->bezicxodnost_table_wid->setItem(i,0,name);
-
-                    QTableWidgetItem * fio=new QTableWidgetItem;
-                    fio->setText(temp.fio);
-                    ui->bezicxodnost_table_wid->setItem(i,1,fio);
-
-                    QTableWidgetItem * id=new QTableWidgetItem;
-                    id->setText(temp.id);
-                    ui->bezicxodnost_table_wid->setItem(i,2,id);
-                }
-            }
-        }  
-     ui->brig_obor_GRBox->setVisible(true);
-     ui->pushButton->setEnabled(false);
-    }
+load_eqw_or_worker_small();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -573,15 +506,6 @@ void MainWindow::on_del_from_brig_clicked()
     ui->del_from_brig->setEnabled(false);
 }
 
-void MainWindow::on_tableWidget_house_poisk_itemChanged(QTableWidgetItem *item)
-{
-    qDebug()<<"вызвать динамический поиск по домам"<<endl;
-    //qDebug()<<item->text();
-    //clear_obor_worker_table_wid();
-
-    //прозод по всем столбцым + проверка если не ""
-}
-
 void MainWindow::on_new_eq_Com_box_currentTextChanged(const QString &arg1)
 {
     load_brig_num_for_new_eqw(arg1);
@@ -614,32 +538,25 @@ void MainWindow::on_special_obor_brig_ComBox_currentTextChanged(const QString &a
 void MainWindow::on_namber_obor_brig_ComBox_currentTextChanged(const QString &arg1)
 {
     clear_obor_worker_table_wid();
+    dell_problem(arg1);
 }
 
 void MainWindow::on_post_name_sh_LE_textChanged(const QString &arg1)
 {
     clear_bezicxodnost_Table_wid();
-    if (ui->eqw_brigada_RB->isChecked())
-    {
-        //оборудование с поиском в безисходность
-    }
-    else
-    {
-        //работник с поиском в безисходность
-    }
+
+        load_eqw_or_worker_small();
+
+    dell_problem(arg1);
 }
 
 void MainWindow::on_fio_inventarnN_LE_textChanged(const QString &arg1)
 {
     clear_bezicxodnost_Table_wid();
-    if (ui->eqw_brigada_RB->isChecked())
-    {
-        //оборудование с поиском в безисходность
-    }
-    else
-    {
-        //работник с поиском в безисходность
-    }
+
+        load_eqw_or_worker_small();
+
+    dell_problem(arg1);
 }
 
 void MainWindow::on_new_standart_level_add_clicked()
@@ -802,6 +719,7 @@ void MainWindow::on_pushButton_2_clicked()
     }
     else
     {
+        clear_sh_building();
         load_building();
     }
 }
@@ -855,4 +773,92 @@ void MainWindow::on_need_to_pay_PB_clicked()
 void MainWindow::on_pay_OK_PB_clicked()
 {
     pay_progect();
+}
+
+void MainWindow::on_sh_worker_fam_textChanged(const QString &arg1)
+{
+    load_worker();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_worker_post_textChanged(const QString &arg1)
+{
+    load_worker();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_worker_start_price_SB_valueChanged(const QString &arg1)
+{
+    load_worker();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_worker_fin_price_SB_valueChanged(const QString &arg1)
+{
+    load_worker();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_eqw_name_textChanged(const QString &arg1)
+{
+    load_technics();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_eqw_namber_textChanged(const QString &arg1)
+{
+    load_technics();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_name_textChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_time_min_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+
+void MainWindow::on_sh_building_time_max_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_metter_min_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_metter_max_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_price_min_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_sh_building_price_max_valueChanged(const QString &arg1)
+{
+    load_building();
+    dell_problem(arg1);
+}
+
+void MainWindow::on_CB_House_poisk_clicked(bool checked)
+{
+    if (!checked)
+    {
+        clear_sh_building();
+        load_building();
+    }
 }

@@ -18,19 +18,73 @@ void query_result::close_connect()
     delete DB;
 }
 
-QList <building> query_result::building_main_class_ret()
+QList <building> query_result::building_main_class_ret(building sha)
 {
 reset();
-    QString q("SELECT building.`name`, building.building_ynical, building.`standart_time`, building.meter, building.price, building.ID_b, building.description FROM building;");
+    QString q("SELECT building.`name`, building.building_ynical, building.`standart_time`, building.meter, building.price, building.ID_b, building.description FROM building where ");
+    q=q+"name like'"+sha.name+"%'";
+    if (sha.time_pair.date_start!="0" && sha.time_pair.date_start!="" && sha.time_pair.date_fin!="0" && sha.time_pair.date_fin!="")
+    {
+        q=q+" and standart_time between "+sha.time_pair.date_start+" and "+sha.time_pair.date_fin;
+    }
+    else
+    {
+        if (sha.time_pair.date_start!="0" && sha.time_pair.date_start!="")
+        {
+            q=q+" and standart_time>"+sha.time_pair.date_start;
+        }
+        else
+        {
+            if (sha.time_pair.date_fin!="0" && sha.time_pair.date_fin!="")
+            {
+                q=q+" and standart_time<"+sha.time_pair.date_fin;
+            }
+        }
+    }
+
+    if (sha.metter_pair.metter_start!="0" && sha.metter_pair.metter_start!="" && sha.metter_pair.metter_fin!="0" && sha.metter_pair.metter_fin!="")
+    {
+        q=q+" and meter between "+sha.time_pair.date_start+" and "+sha.time_pair.date_fin;
+    }
+    else
+    {
+        if (sha.metter_pair.metter_start!="0" && sha.metter_pair.metter_start!="")
+        {
+            q=q+" and meter>"+sha.metter_pair.metter_start;
+        }
+        else
+        {
+            if (sha.metter_pair.metter_fin!="0" && sha.metter_pair.metter_fin!="")
+            {
+                q=q+" and meter<"+sha.metter_pair.metter_fin;
+            }
+        }
+    }
+    if (sha.price_pair.price_start!="0" && sha.price_pair.price_start!="" && sha.price_pair.price_fin!="0" && sha.price_pair.price_fin!="")
+    {
+        q=q+" and price between "+sha.price_pair.price_start+" and "+sha.price_pair.price_fin;
+    }
+    else
+    {
+        if (sha.price_pair.price_start!="0" && sha.price_pair.price_start!="")
+        {
+            q=q+" and price>"+sha.price_pair.price_start;
+        }
+        else
+        {
+            if (sha.price_pair.price_fin!="0" && sha.price_pair.price_fin!="")
+            {
+                q=q+" and price<"+sha.price_pair.price_fin;
+            }
+        }
+    }
+    q=q+";";
     QList <building> local_res;
-    DB->query->clear();
+    //DB->query->clear();
     DB->query->exec(q);
     qDebug()<<q<<endl;
-    //int row=0;
     while (DB->query->next())
     {
-        //row++;
-        //qDebug()<<row;
         building temp;
             temp.name=DB->query->value(0).toString();
             temp.is_ynical_bool=DB->query->value(1).toBool();
@@ -51,11 +105,14 @@ reset();
     return local_res;
 }
 
-QList <technics> query_result::eqw_all_load()
+QList <technics> query_result::eqw_all_load(technics share)
 {
 reset();
     QList <technics> result;
-    QString q("select * from equipment;");
+    QString q("select * from equipment where ");
+    q=q+"eq_name like '"+share.name+"%'";
+    q=q+" and eq_namber like '"+share.namber+"%' ;";
+    qDebug()<<q<<endl;
     DB->query->clear();
     DB->query->exec(q);
     while (DB->query->next())
@@ -70,11 +127,33 @@ reset();
     return result;
 }
 
-QList <worker> query_result::worker_all()
+QList <worker> query_result::worker_all(worker wor)
 {
 reset();
 QList <worker> result;
-QString q("select * from worker;");
+QString q("select * from worker where");
+q=q+" fio like'"+wor.fio+"%' "+"and post like'"+wor.post+"%' ";
+if (wor.pay_fin!="0" && wor.pay_fin!="" && wor.pay_start!="0" && wor.pay_start!="")
+{
+    q=q+"and price between "+wor.pay_start+" and "+wor.pay_fin;
+}
+else
+{
+    if (wor.pay_start!="0" && wor.pay_start!="")
+    {
+        q=q+"and price>"+wor.pay_start;
+    }
+    else
+    {
+        if (wor.pay_fin!="0" && wor.pay_fin!="")
+        {
+            q=q+"and price<"+wor.pay_fin;
+        }
+    }
+}
+
+q=q+";";
+qDebug()<<q<<endl;
 DB->query->exec(q);
 while(DB->query->next())
 {
@@ -94,12 +173,18 @@ while(DB->query->next())
 return result;
 }
 
-QList <technics> query_result::avto_eq_list_free()
+QList <technics> query_result::avto_eq_list_free(technics sha)
 {
 reset();
-    QList <technics> result;
-    DB->query->clear();
-    DB->query->exec("call eq_list_free();");
+QString s("SELECT e.eq_name, e.eq_buy_date, e.eq_namber FROM equipment e"
+          " WHERE e.eq_namber <> ALL ( SELECT group_eq.id_namber from group_eq ) and ");
+            s=s+"e.eq_name like '"+sha.name+"%'";
+            s=s+" and e.eq_namber like'"+sha.namber+"%';";
+            qDebug()<<s;
+        QList <technics> result;
+
+    DB->query->exec(s);
+
     while (DB->query->next())
     {
         technics temp;
@@ -171,12 +256,18 @@ reset();
     return result;
 }
 
-QList <worker> query_result::avto_worker_list_free()
+QList <worker> query_result::avto_worker_list_free(worker sha)
 {
 reset();
     QList <worker> result;
     DB->query->clear();
-    DB->query->exec("call worker_list_free();");
+    QString s("SELECT w.post, w.fio, w.ID_worker FROM worker w"
+              " WHERE w.ID_worker <> ALL (SELECT grup.worker_ID FROM grup) and ");
+            s=s+"w.post like'"+sha.post+"%' ";
+            s=s+"and w.fio like '"+sha.fio+"%';";
+
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
     while (DB->query->next())
     {
         worker temp;

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDate>
+
 using namespace std;
 class worker
 {
@@ -17,6 +18,11 @@ public:
 
     QString id;
     QString pay;
+
+    QString pay_start;
+    QString pay_fin;
+
+
 
     //QString grup;
 

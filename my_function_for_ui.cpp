@@ -9,7 +9,12 @@ void MainWindow::load_technics()
     ui->tableWidget_technics->setColumnCount(4);
     ui->tableWidget_technics->setHorizontalHeaderLabels(QStringList()<<"название"<<"инвентарный номер"<<"год выпуска"<<"дата покупки");
     QList <technics> list_tech;
-    list_tech=QUERY->eqw_all_load();
+
+    technics sh;
+    sh.name=ui->sh_eqw_name->text();
+    sh.namber=ui->sh_eqw_namber->text();
+
+    list_tech=QUERY->eqw_all_load(sh);
     int row=list_tech.size();
     ui->tableWidget_technics->setRowCount(row);
 
@@ -41,7 +46,17 @@ void MainWindow::load_worker()
 {
     ui->tableWidget_worker->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     QList <worker> work_vect;
-    work_vect=QUERY->worker_all();
+
+    worker temp;
+    temp.fio=ui->sh_worker_fam->text();
+    if (ui->sh_worker_start_price_SB->value()!=0 || ui->sh_worker_fin_price_SB->value()!=0)
+    {
+        temp.pay_start=QString::number(ui->sh_worker_start_price_SB->value());
+        temp.pay_fin=QString::number(ui->sh_worker_fin_price_SB->value());
+    }
+    temp.post=ui->sh_worker_post->text();
+
+    work_vect=QUERY->worker_all(temp);
     int row=work_vect.size();
     ui->tableWidget_worker->setRowCount(row);
     ui->tableWidget_worker->setColumnCount(6);
@@ -81,7 +96,7 @@ void MainWindow::load_worker()
         item_pay->setText(temp.pay);
         item_pay->setTextAlignment(Qt::AlignHCenter);
 
-        //ui->tableWidget_worker->setItemDelegateForColumn();               //!!!!!!!!!!!!!!!!!!
+        //ui->tableWidget_worker->setItemDelegateForColumn();               //
         ui->tableWidget_worker->setItem(i,0,item_adress);
         ui->tableWidget_worker->setItem(i,1,item_dol);
 
@@ -101,13 +116,20 @@ void MainWindow::load_building()
     ui->active_progect_TW->setVisible(false);
     ui->close_active_progect_PB->setVisible(false);
     ui->tableWidget_house->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableWidget_house_poisk->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->show_PB->setEnabled(false);
     ui->tableWidget_house->setColumnCount(6);
-    ui->tableWidget_house_poisk->setColumnCount(6);
     ui->tableWidget_house->setHorizontalHeaderLabels(QStringList()<<"имя"<<"уникальность"<<"ср t постройки"<<"м/кв"<<"цена"<<"ID");
-    ui->tableWidget_house_poisk->setHorizontalHeaderLabels(QStringList()<<"имя"<<"уникальность"<<"ср t постройки"<<"м/кв"<<"цена"<<"ID");
-    QList <building> table=QUERY->building_main_class_ret();
+
+    building sh;
+                sh.name=ui->sh_building_name->text();
+                sh.time_pair.date_start=QString::number(ui->sh_building_time_min->value());
+                sh.time_pair.date_fin=QString::number(ui->sh_building_time_max->value());
+                sh.metter_pair.metter_start=QString::number(ui->sh_building_metter_min->value());
+                sh.metter_pair.metter_fin=QString::number(ui->sh_building_metter_max->value());
+                sh.price_pair.price_start=QString::number(ui->sh_building_price_min->value());
+                sh.price_pair.price_fin=QString::number(ui->sh_building_price_max->value());
+
+    QList <building> table=QUERY->building_main_class_ret(sh);
     int row=table.size();
     ui->tableWidget_house->setRowCount(row);
 
@@ -115,37 +137,47 @@ void MainWindow::load_building()
     for (int i=0;i<table.size();i++)
     {
         temp=table[i];
+
             QTableWidgetItem * tw_name=new QTableWidgetItem;
-            tw_name->setText(temp.name);
-            ui->tableWidget_house->setItem(i,0,tw_name);
+            tw_name->setText(temp.name);       
             QTableWidgetItem * tw_ynic=new QTableWidgetItem;
-            tw_ynic->setText(temp.id_ynical_string);
-            ui->tableWidget_house->setItem(i,1,tw_ynic);
+            tw_ynic->setText(temp.id_ynical_string);           
             QTableWidgetItem * tw_time_b=new QTableWidgetItem;
-            tw_time_b->setText(temp.Standart_time_building);
-            ui->tableWidget_house->setItem(i,2,tw_time_b);
+            tw_time_b->setText(temp.Standart_time_building);          
             QTableWidgetItem * tw_metter=new QTableWidgetItem;
             tw_metter->setText(temp.metter);
-            ui->tableWidget_house->setItem(i,3,tw_metter);
             QTableWidgetItem * tw_price=new QTableWidgetItem;
-            tw_price->setText(temp.price);
-            ui->tableWidget_house->setItem(i,4,tw_price);
+            tw_price->setText(temp.price);           
             QTableWidgetItem * tw_id=new QTableWidgetItem;
             tw_id->setText(temp.ID);
+
+            if (tw_ynic->text()=="+")
+            {
+                tw_name->setBackgroundColor(Qt::green);
+                tw_ynic->setBackgroundColor(Qt::green);
+                tw_time_b->setBackgroundColor(Qt::green);
+                tw_metter->setBackgroundColor(Qt::green);
+                tw_price->setBackgroundColor(Qt::green);
+                tw_id->setBackgroundColor(Qt::green);
+            }
+
+            ui->tableWidget_house->setItem(i,0,tw_name);
+            ui->tableWidget_house->setItem(i,1,tw_ynic);
+            ui->tableWidget_house->setItem(i,2,tw_time_b);
+            ui->tableWidget_house->setItem(i,3,tw_metter);
+            ui->tableWidget_house->setItem(i,4,tw_price);
             ui->tableWidget_house->setItem(i,5,tw_id);
     }
 }
 void MainWindow::Q_Object_connect()
 {
     connect(ui->new_worker_team_CkBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
-
     connect(ui->new_worker_team_CkBox, SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
-    connect(ui->CB_House_poisk,SIGNAL(clicked(bool)),ui->tableWidget_house_poisk,SLOT(setVisible(bool)));
+    connect(ui->CB_House_poisk,SIGNAL(clicked(bool)),ui->sh_house_GB,SLOT(setVisible(bool)));
 }
 
 void MainWindow::set_visible_enabled()
 {
-    //ui->House_progect_main_dell_PB->setEnabled(false);
     ui->main_infor_new_build_GrBox->setVisible(false);
     ui->level_list_GrBox->setVisible(false);
     ui->needed_material_for_bu_GrBox->setVisible(false);
@@ -159,10 +191,8 @@ void MainWindow::set_visible_enabled()
     ui->new_eq_team_comBOX->setVisible(false);
     ui->new_brigada_GrBox->setVisible(false);
     ui->material_nestandart_GB->setVisible(false);
-    //ui->groBox_Progect_Standart_progect->setVisible(true);
     ui->brig_obor_GRBox->setVisible(false);
     ui->pusB_Sotrudnic_del->setEnabled(false);
-    ui->tableWidget_house_poisk->setVisible(false);//невидимость формы поиска
 }
 void MainWindow::set_validator_all()
 {
@@ -229,6 +259,7 @@ void MainWindow::clear_first()
 
 void MainWindow::load_new_eqwt()
 {
+    ui->stackedWidget->setCurrentIndex(2);
     ui->new_eq_Com_box->clear();
     QList<QString> list_special=QUERY->avto_special_brig_list();
     int row=list_special.size();
@@ -292,28 +323,28 @@ ui->new_worker_OKLAD_doubSpBox->clear();
 
 void MainWindow::clear_material()
 {
-ui->material_name_LE->setText("");
-ui->dSpBo_material_price->setValue(0);
-ui->material_count_sp_box->setValue(0);
-ui->ed_izmeren->clear();
-ui->ed_izmeren->addItem("");
+    ui->material_name_LE->setText("");
+    ui->dSpBo_material_price->setValue(0);
+    ui->material_count_sp_box->setValue(0);
+    ui->ed_izmeren->clear();
+    ui->ed_izmeren->addItem("");
 
-QList <QString> izmer_list=QUERY->avto_material_list_izmer();
-int row_a=izmer_list.size();
-for (int i=0;i<row_a;i++)
-{
-    QString temp=izmer_list[i];
-    ui->ed_izmeren->addItem(temp);
-}
-ui->funct_naznach->clear();
-ui->funct_naznach->addItem("");
-QList <QString> funct_list=QUERY->avto_material_list_naz();
-int row_b=funct_list.size();
-for (int i=0;i<row_b;i++)
-{
-    QString temp=funct_list[i];
-    ui->funct_naznach->addItem(temp);
-}
+    QList <QString> izmer_list=QUERY->avto_material_list_izmer();
+    int row_a=izmer_list.size();
+    for (int i=0;i<row_a;i++)
+    {
+        QString temp=izmer_list[i];
+        ui->ed_izmeren->addItem(temp);
+    }
+    ui->funct_naznach->clear();
+    ui->funct_naznach->addItem("");
+    QList <QString> funct_list=QUERY->avto_material_list_naz();
+    int row_b=funct_list.size();
+    for (int i=0;i<row_b;i++)
+    {
+        QString temp=funct_list[i];
+        ui->funct_naznach->addItem(temp);
+    }
 }
 void MainWindow::load_special_obor_brig_ComBox()
 {
@@ -463,7 +494,6 @@ void MainWindow::clear_bezicxodnost_Table_wid()
 {
     ui->bezicxodnost_table_wid->setColumnCount(0);
     ui->bezicxodnost_table_wid->setRowCount(0);
-    qDebug()<<"очистка безисходности";
 }
 void MainWindow::load_main_infor_new_build_GrBox()
 {
@@ -511,9 +541,9 @@ void MainWindow::minus_material()
 
 void MainWindow::clear_main_infor_new_build_GrBox()
 {
-ui->new_standart_name_LE->clear();
-ui->new_standart_metter_SpBox->clear();
-ui->new_standart_time_SpB->clear();
+    ui->new_standart_name_LE->clear();
+    ui->new_standart_metter_SpBox->clear();
+    ui->new_standart_time_SpB->clear();
 }
 
 void MainWindow::load_info_level_building_GrBox()
@@ -900,4 +930,128 @@ void MainWindow::clear_pay_info()
     ui->progect_id->clear();
     ui->summ_pay_LE->clear();
     ui->summ_pay_LE->setValue(0);
+}
+
+void MainWindow::clear_sh_eqw()
+{
+    ui->sh_eqw_name->clear();
+    ui->sh_eqw_namber->clear();
+}
+
+void MainWindow::clear_sh_worker()
+{
+    ui->sh_worker_fam->clear();
+    ui->sh_worker_post->clear();
+    ui->sh_worker_start_price_SB->setValue(0);
+    ui->sh_worker_fin_price_SB->setValue(0);
+    ui->sh_worker_start_price_SB->setMaximum(99999);
+    ui->sh_worker_fin_price_SB->setMaximum(99999);
+}
+void MainWindow::clear_sh_building()
+{
+    ui->sh_house_GB->setVisible(false);
+    ui->sh_building_name->clear();
+    ui->sh_building_price_min->setValue(0);
+    ui->sh_building_price_min->setMaximum(99999999);
+    ui->sh_building_price_max->setValue(0);
+    ui->sh_building_price_max->setMaximum(99999999);
+    ui->sh_building_time_min->setValue(0);
+    ui->sh_building_time_min->setMaximum(9999);
+    ui->sh_building_time_max->setValue(0);
+    ui->sh_building_time_max->setMaximum(9999);
+    ui->sh_building_metter_min->setValue(0);
+    ui->sh_building_metter_min->setMaximum(99999999);
+    ui->sh_building_metter_max->setValue(0);
+    ui->sh_building_metter_max->setMaximum(99999999);
+}
+void MainWindow::dell_problem(QString v)
+{
+    QString dell;
+    dell=v;
+    dell=dell+" ";
+}
+void MainWindow::load_eqw_or_worker_small()
+{
+    if((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->worker_brigada_RB->isChecked())))
+    {
+        clear_bezicxodnost_Table_wid();
+        ui->bezicxodnost_table_wid->setColumnCount(3);
+
+        if ((ui->eqw_brigada_RB->isChecked()))
+        {
+            eqw_small();
+        }
+        else
+        {
+            if ((ui->worker_brigada_RB->isChecked()))
+            {
+                worker_small();
+            }
+        }
+     ui->brig_obor_GRBox->setVisible(true);
+     ui->pushButton->setEnabled(false);
+    }
+}
+
+void MainWindow::eqw_small()
+{
+    qDebug()<<"eqw small"<<endl;
+    ui->post_name_sh_LE->setStatusTip("название оборудования");
+    ui->fio_inventarnN_LE->setStatusTip("инвентарный номер");
+    ui->bezicxodnost_table_wid->setHorizontalHeaderLabels(QStringList()<<"название"<<"дата покупки"<<"инвентарный номер");
+
+        technics sh;
+            sh.name=ui->post_name_sh_LE->text();
+            sh.namber=ui->fio_inventarnN_LE->text();
+    QList <technics> list_eq=QUERY->avto_eq_list_free(sh);
+    int row=list_eq.size();
+    ui->bezicxodnost_table_wid->setRowCount(row);
+    for (int i=0;i<row;i++)
+    {
+        technics temp;
+        temp=list_eq[i];
+        QTableWidgetItem * name=new QTableWidgetItem;
+        name->setText(temp.name);
+        ui->bezicxodnost_table_wid->setItem(i,0,name);
+
+        QTableWidgetItem * date=new QTableWidgetItem;
+        date->setText(temp.Date_pok);
+        ui->bezicxodnost_table_wid->setItem(i,1,date);
+
+        QTableWidgetItem * id=new QTableWidgetItem;
+        id->setText(temp.namber);
+        ui->bezicxodnost_table_wid->setItem(i,2,id);
+    }
+}
+
+void MainWindow::worker_small()
+{
+    qDebug()<<"worker small"<<endl;
+    ui->post_name_sh_LE->setStatusTip("должность сотрудника");
+    ui->fio_inventarnN_LE->setStatusTip("фио сотрудника");
+    ui->bezicxodnost_table_wid->setHorizontalHeaderLabels(QStringList()<<"должность"<<"фио"<<"ID");
+
+    worker sh;
+    sh.post=ui->post_name_sh_LE->text();
+    sh.fio=ui->fio_inventarnN_LE->text();
+
+    QList <worker> list_work=QUERY->avto_worker_list_free(sh);
+    int row=list_work.size();
+    ui->bezicxodnost_table_wid->setRowCount(row);
+    for (int i=0;i<row;i++)
+    {
+        worker temp;
+        temp=list_work[i];
+        QTableWidgetItem * name=new QTableWidgetItem;
+        name->setText(temp.post);
+        ui->bezicxodnost_table_wid->setItem(i,0,name);
+
+        QTableWidgetItem * fio=new QTableWidgetItem;
+        fio->setText(temp.fio);
+        ui->bezicxodnost_table_wid->setItem(i,1,fio);
+
+        QTableWidgetItem * id=new QTableWidgetItem;
+        id->setText(temp.id);
+        ui->bezicxodnost_table_wid->setItem(i,2,id);
+    }
 }

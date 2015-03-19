@@ -11,6 +11,9 @@ worker::worker()
     id="";
     pay="";
 
+    pay_start="";
+    pay_fin="";
+
     //grup="";
 }
 

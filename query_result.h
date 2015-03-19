@@ -44,11 +44,13 @@ public:
 
     //----------------------------------------------------------------рабочие
 
-    QList <worker> worker_all();//SELECT
+    QList <worker> worker_all(worker wor);//SELECT
 
     QList <worker> worker_with_group(QString ID_gr);//SELECT
 
     QList <QString> ID_group_with_name(QString name);//SELECT
+
+    QList <worker> avto_worker_list_free(worker sha);//SELECT
 
     void worker_del(QString ID);//DELETE
 
@@ -61,14 +63,14 @@ public:
 
     QList <QString> avto_worker_dolg_list();//AVTO
 
-    QList <worker> avto_worker_list_free();//AVTO
-
     QList <QString> avto_special_brig_list();//AVTO   бригада
 
     //----------------------------------------------------------------оборудование
-    QList <technics> eqw_all_load();//SELECT
+    QList <technics> eqw_all_load(technics share);//SELECT
 
     QList <technics> eqw_with_group (QString ID_gr);//SELECT
+
+    QList <technics> avto_eq_list_free(technics sha);//SELECT//переделать с учетом  верхнего
 
     void eqw_dell(QString ID);//DELETE
 
@@ -79,11 +81,9 @@ public:
     void eqw_to_brig(technics val, QString ID_brig);//INSERT
     void eqw_to_brig(QString ID_e, QString ID_brig);//INSERT
 
-    QList <technics> avto_eq_list_free();//AVTO
-
     //-----------------------------------------------------------постройки
 
-    QList <building> building_main_class_ret();//SELECT
+    QList <building> building_main_class_ret(building sha);//SELECT
 
     QString ret_building_ID_with_name(QString name);//SELECT
 
@@ -100,7 +100,7 @@ public:
     double sum_pay(QString ID_b);//select
 
     void update_pay_sum(QString ID_b, double pay_sum);//update
-    void update_clienr(client cl);
+    void update_client(client cl);
     QList<client> is_client_with_passport(QString passport);
     //-----------------------------------------------------------занятость бригады
     //
