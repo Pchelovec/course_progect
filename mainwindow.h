@@ -36,6 +36,7 @@ private:                                                            //перем
                                                                     //функции
 
     //----------------------------------------------постройки
+    void split_house();
     void clear_sh_building();
     void load_building();
     void load_sarai();
@@ -80,6 +81,7 @@ private:                                                            //перем
     void delete_current_material();
 
     //----------------------------------------------работники
+    void split_worker();
     void load_worker();
     void clear_obor_worker_table_wid();
     void clear_sh_worker();
@@ -88,19 +90,24 @@ private:                                                            //перем
     void save_worker();
 
     //----------------------------------------------оборудование
+    void split_eqw();
     void load_technics();
     void load_new_eqwt();
 
     void save_new_eqw();
-
+    void dell_eqw();
     void clear_sh_eqw();
     void clear_eqw();
     void poisk_eqw_or_worker_with_2_string();
 
     //----------------------------------------------материалы
+    void split_material();
     void clear_material();
+    void nestandart_material_load(material mat_like_my);
+    void save_nestandart_materrial_dialog();
     void load_newstandart_situat_stack_wid(material mat_like_my);
     void save_material_from_ui_to_DB();
+    void save_material_all_varibl();
     void incorrect_data_material();
     void update_material(material mat_like_my);
 
@@ -125,12 +132,15 @@ private:                                                            //перем
 
     void clear_bezicxodnost_Table_wid();
     //----------------------------------------------клиент
+    void split_client();
     void clear_client_info();
     void clear_pay_info();
     bool correct_data_client();
     void set_need_to_pay();
     void pay_progect();
     //----------------------------------------------общие
+    void load_work_process();
+    void clear_st_wid_0();
     void first_initial_component();
     void Q_Object_connect();
     void set_visible_enabled();
@@ -247,5 +257,6 @@ private slots:
     void on_sh_building_price_min_valueChanged(const QString &arg1);
     void on_sh_building_price_max_valueChanged(const QString &arg1);
     void on_CB_House_poisk_clicked(bool checked);
+    void on_BD_change_triggered();
 };
 #endif // MAINWINDOW_H

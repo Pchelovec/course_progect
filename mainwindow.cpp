@@ -67,126 +67,12 @@ void MainWindow::add_house_to_db()
 
 void MainWindow::on_material_add_PB_clicked()
 {
-    if ((ui->material_name_LE->text()!=0)&& (ui->dSpBo_material_price->value()!=0) && (ui->material_count_sp_box->value()!=0))
-    {
-        //QString lik("select * from all_material where name like ");
-        //lik=lik+"'"+ui->material_name_LE->text()+"';";
-
-        QList <material> like_my=QUERY->mater_like_my(ui->material_name_LE->text());
-        if (like_my.size()==1)
-        {
-            material mat_like_my=like_my[0];
-            if (mat_like_my.price==QString::number(ui->dSpBo_material_price->value()) && mat_like_my.izmer==ui->ed_izmeren->currentText())
-            {
-                //sum and apdate
-                int a=mat_like_my.count_int;
-                int b=ui->material_count_sp_box->value();
-                QString sum(QString::number(a+b));
-                QUERY->material_up_summ_count(sum, mat_like_my.ID);
-                ui->statusBar->showMessage(tr("данные занесены успешно (суммирование)"));
-                clear_material();
-            }
-            else
-            {
-                //исключит  ситуация
-                ui->stackedWidget->setCurrentIndex(0);
-                ui->material_nestandart_GB->setVisible(true);
-                ui->statusBar->showMessage(tr("требуется реакия пользователя на нестандартную линию поведения программы"));
-
-                ui->name_a_LE->setText(mat_like_my.name);
-                ui->name_b_LE->setText(mat_like_my.name);
-                ui->name_c_LE->setText(mat_like_my.name);
-
-                ui->price_a_DSB->setValue(mat_like_my.price.toDouble());
-                ui->price_b_DSB->setValue(ui->dSpBo_material_price->value());
-
-                ui->cocunt_a_LE->setText(mat_like_my.count);
-                ui->count_b_LE->setText(QString::number(ui->material_count_sp_box->value()));
-                ui->count_c_SPB->setValue(mat_like_my.count.toInt()+ui->material_count_sp_box->value());
-
-                ui->funct_a->setText(mat_like_my.naznach);
-                ui->funct_b->setText(ui->funct_naznach->currentText());
-                ui->funct_c_CB->clear();
-                ui->funct_c_CB->addItem(mat_like_my.naznach);
-                ui->funct_c_CB->addItem(ui->funct_naznach->currentText());
-
-                ui->ed_izmer_a->setText(mat_like_my.izmer);
-                ui->ed_izmer_b->setText(ui->ed_izmeren->currentText());
-                ui->ed_izmer_c_CB->clear();
-                ui->ed_izmer_c_CB->addItem(mat_like_my.izmer);
-                ui->ed_izmer_c_CB->addItem(ui->ed_izmeren->currentText());
-
-                ui->price_a_ChBox->setChecked(true);
-                ui->price_c_DSB->setValue(ui->price_a_DSB->value());
-
-                ui->material_ID->display(mat_like_my.ID);
-                ui->stackedWidget->setCurrentIndex(0);
-
-                clear_material();
-            }
-        }
-        else
-        {
-            //записать текущий (insert) выделить в подпрограмму
-            material temp;
-            temp.name=ui->material_name_LE->text();
-            if (ui->funct_naznach->currentText()!="")
-            {
-                 temp.naznach=ui->funct_naznach->currentText();
-            }
-            else temp.naznach="NULL";
-
-
-            temp.price=QString::number(ui->dSpBo_material_price->value());
-            if (ui->ed_izmeren->currentText()!="")
-            {
-                temp.izmer=ui->ed_izmeren->currentText();
-            }
-             else temp.izmer="NULL";
-            temp.count=QString::number(ui->material_count_sp_box->value());
-            QUERY->insert_material(temp);
-
-            ui->statusBar->showMessage(tr("данные занесены успешно"));
-            clear_material();
-        }
-    }
-    else
-    {
-        ui->statusBar->showMessage(tr("данные не занесены, Заполните ключевые поля!"));
-        ui->label_10->setText("<font color=red> название </font>");
-        ui->label_11->setText("<font color=red> цена </font>");
-        ui->label_13->setText("<font color=red> количество </font>");
-    }
+    save_material_all_varibl();
 }
 
 void MainWindow::on_nestandart_material_button_OK_clicked()
 {
-    material temp;
-    temp.price=QString::number(ui->price_c_DSB->value());
-    temp.count=QString::number(ui->count_c_SPB->value());
-    temp.naznach=QString::number(ui->price_c_DSB->value());
-    if (ui->funct_c_CB->currentText()!="")
-    {
-    temp.naznach=ui->funct_c_CB->currentText();
-    }
-    else
-    {
-       temp.naznach="";
-    }
-    if(ui->ed_izmer_c_CB->currentText()!="")
-    {
-       temp.izmer=ui->ed_izmer_c_CB->currentText();
-    }
-    else
-    {
-      temp.izmer="";
-    }
-    temp.ID=QString::number(ui->material_ID->value());
-
-    ui->statusBar->showMessage(tr("редактирование материала произведено!"));
-    ui->stackedWidget->setCurrentIndex(6);
-    QUERY->material_up_2_to_1(temp);
-    ui->price_b_ChBox->setChecked(false);
+    save_nestandart_materrial_dialog();
 }
 
 void MainWindow::on_price_a_ChBox_clicked(bool checked)
@@ -213,7 +99,6 @@ void MainWindow::on_option_worker_OK_PB_clicked()
 {
     //save to file
     //настройки интенсивности занятости бригад
-
     ui->work_day_LE->clear();
     ui->holl_day_LE->clear();
     ui->work_option_GB->setVisible(false);
@@ -222,8 +107,17 @@ void MainWindow::on_option_worker_OK_PB_clicked()
 
 void MainWindow::on_work_process_option_triggered()
 {
+    clear_st_wid_0();
+    load_work_process();
+}
+
+void MainWindow::load_work_process()
+{
     int work_day=0;
     int holl_day=0;
+
+    //считывание из файла
+
     ui->work_day_LE->setText(QString::number(work_day));
     ui->holl_day_LE->setText(QString::number(holl_day));
     ui->work_option_GB->setVisible(true);
@@ -264,38 +158,8 @@ void MainWindow::on_new_eqv_OK_PB_clicked()
 {
     //занести в БД
     //скрыть 2 часть, очистить
-    if ((ui->oborud_INV_namber_LE->text()!="") && (ui->oborud_name_LE->text()!=""))
-    {
-        technics temp;
-        temp.namber=ui->oborud_INV_namber_LE->text();
-        temp.name=ui->oborud_name_LE->text();
-        if (ui->obor_ear_build_SpBx->value()>=1901)
-        {
-            temp.Year_vip=QString::number(ui->obor_ear_build_SpBx->value());
-        }
-        else temp.Year_vip="NULL";
-        if(ui->pokupka_obor_dateE->date().year()>=2015)
-        {
-            QDate dat=ui->pokupka_obor_dateE->date();
-            temp.Date_pok=QString::number(dat.year())+"-"+QString::number(dat.month())+"-"+QString::number(dat.day());
-        }
-        else temp.Date_pok="NULL";
-        QUERY->insert_new_eqw(temp);
-        if (ui->new_eqw_plas_team_ChBox->checkState()==Qt::Checked)
-        {
-            //закрепить за бригадой
-            QUERY->eqw_to_brig(ui->oborud_INV_namber_LE->text(), ui->new_eq_id_Combox->currentText());
-        }
-        ui->new_eq_team_comBOX->setVisible(false);
-        ui->new_eqw_plas_team_ChBox->setChecked(false);
-        ui->statusBar->showMessage(tr("оборудоание успешно куплено"));
-        load_technics();
-        ui->stackedWidget->setCurrentIndex(1);
-    }
-    else
-    {
-        ui->statusBar->showMessage(tr("Заполните ключевые поля(название и инвентарный номер!)"));
-    }
+    split_eqw();
+    save_new_eqw();
 }
 
 void MainWindow::on_new_worker_Exit_PB_clicked()
@@ -308,53 +172,8 @@ void MainWindow::on_new_worker_OK_PB_clicked()
 {
     //занести в БД
     //скрыть 2 часть, очистить
-    worker temp;
-    if (ui->new_worker_FIO_LE->text()!="")
-    {
-        temp.fio=ui->new_worker_FIO_LE->text();
-        if (ui->new_worker_aderss_LE->text()!="")
-        {
-            temp.adress=ui->new_worker_aderss_LE->text();
-        }
-        else
-        {
-            temp.adress="NULL";
-        }
-        if (ui->new_worker_post_Fou_CoBox->currentText()!="")
-        {
-            temp.post=ui->new_worker_post_Fou_CoBox->currentText();
-        }
-        else
-        {
-            temp.post="NULL";
-        }
-        if (ui->new_worker_year_bir_LE->text()!="")
-        {
-            temp.birthday=ui->new_worker_year_bir_LE->text();
-        }
-        else
-        {
-            temp.birthday="NULL";
-        }
-        if (ui->new_worker_OKLAD_doubSpBox->value()!=0)
-        {
-            temp.pay=QString::number(ui->new_worker_OKLAD_doubSpBox->value());
-        }
-        QUERY->insert_new_worker(temp);
-        load_worker();
-
-        if(ui->new_worker_team_CkBox->checkState()==Qt::Checked)
-        {
-            QUERY->worker_to_brig(temp, ui->new_worker_special_CoBox->currentText());
-            //связывание к группе
-        }
-        ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
-        ui->stackedWidget->setCurrentIndex(3);
-    }
-    else
-    {
-        ui->statusBar->showMessage(tr("Заполните ключевые (ФИО сотрудника)"));
-    }
+    split_worker();
+    save_worker();
 }
 
 void MainWindow::on_tableWidget_technics_clicked(const QModelIndex &index)
@@ -364,17 +183,7 @@ void MainWindow::on_tableWidget_technics_clicked(const QModelIndex &index)
 
 void MainWindow::on_dell_eqvmnt_clicked()
 {
-    int row=ui->tableWidget_technics->currentRow();
-            QTableWidgetItem *item= new QTableWidgetItem();
-            item=ui->tableWidget_technics->item(row,1);//id
-            QString s;
-            s=item->text();
-            QUERY->del_eqw_from_brig(s); //удалить привязку к бригаде
-            QUERY->eqw_dell(s);
-
-    ui->statusBar->showMessage(tr("информация о оборудовании удалена"));
-    ui->dell_eqvmnt->setEnabled(false);
-    load_technics();
+    dell_eqw();
 }
 
 void MainWindow::on_new_worker_team_CkBox_clicked(bool checked)
@@ -518,12 +327,13 @@ void MainWindow::on_new_worker_special_Comb_box_currentTextChanged(const QString
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(9);
+    ui->checkBox_is_ynical_progect->setChecked(false);
     load_ynic_progect_building(false);
 }
 
 void MainWindow::on_Standart_progect_new_triggered()
 {
+    ui->checkBox_is_ynical_progect->setChecked(false);
     ui->stackedWidget->setCurrentIndex(9);
     load_ynic_progect_building(false);
 }
@@ -583,6 +393,7 @@ void MainWindow::on_new_standart_level_OK_clicked()
 
 void MainWindow::on_new_standart_OK_PB_clicked()
 {
+    split_house();
     if (correct_data_new_building_progect())
     {
         //запись всего в бд о проекте здания
@@ -684,6 +495,7 @@ void MainWindow::on_new_standart_ned_material_add_to_table_PB_clicked()
 
 void MainWindow::on_order_PB_clicked()
 {
+    split_client();
     if (correct_data_client())
     {
         if (correct_data_new_building_progect())
@@ -704,6 +516,7 @@ void MainWindow::on_order_PB_clicked()
 
 void MainWindow::on_new_ynic_OK_PB_clicked()
 {
+    split_house();
     if (correct_data_new_building_progect())
     {
         ui->stackedWidget->setCurrentIndex(5);
@@ -736,6 +549,7 @@ void MainWindow::on_new_standart_ned_material_TW_clicked()
 
 void MainWindow::on_action_3_triggered()
 {
+    clear_st_wid_0();
     set_dop_price();
 }
 
@@ -861,4 +675,9 @@ void MainWindow::on_CB_House_poisk_clicked(bool checked)
         clear_sh_building();
         load_building();
     }
+}
+
+void MainWindow::on_BD_change_triggered()
+{
+    clear_st_wid_0();
 }

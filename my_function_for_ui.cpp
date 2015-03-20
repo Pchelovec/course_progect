@@ -306,19 +306,21 @@ void MainWindow::load_brig_num_for_new_worker(QString val)
         ui->new_worker_special_CoBox->addItem(list[i]);
     }
 }
+
 void MainWindow::new_worker_initial()
-{
-QList <QString> list_dol=QUERY->avto_worker_dolg_list();
-int row=list_dol.size();
-ui->new_worker_post_Fou_CoBox->clear();
-for (int i=0;i<row;i++)
-{
-    ui->new_worker_post_Fou_CoBox->addItem(list_dol[i]);
-}
-ui->new_worker_FIO_LE->clear();
-ui->new_worker_aderss_LE->clear();
-ui->new_worker_year_bir_LE->clear();
-ui->new_worker_OKLAD_doubSpBox->clear();
+{  
+            QList <QString> list_dol=QUERY->avto_worker_dolg_list();
+            int row=list_dol.size();
+            ui->new_worker_post_Fou_CoBox->clear();
+            ui->new_worker_post_Fou_CoBox->addItem("");
+            for (int i=0;i<row;i++)
+            {
+                ui->new_worker_post_Fou_CoBox->addItem(list_dol[i]);
+            }
+            ui->new_worker_FIO_LE->clear();
+            ui->new_worker_aderss_LE->clear();
+            ui->new_worker_year_bir_LE->clear();
+            ui->new_worker_OKLAD_doubSpBox->clear();
 }
 
 void MainWindow::clear_material()
@@ -1053,5 +1055,381 @@ void MainWindow::worker_small()
         QTableWidgetItem * id=new QTableWidgetItem;
         id->setText(temp.id);
         ui->bezicxodnost_table_wid->setItem(i,2,id);
+    }
+}
+void MainWindow::clear_st_wid_0()
+{
+    ui->material_nestandart_GB->setVisible(false);
+    ui->work_option_GB->setVisible(false);
+    ui->percent->setVisible(false);
+}
+
+void MainWindow::nestandart_material_load(material mat_like_my)
+{
+clear_st_wid_0();
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->material_nestandart_GB->setVisible(true);
+    ui->statusBar->showMessage(tr("требуется реакия пользователя на нестандартную линию поведения программы"));
+
+    ui->name_a_LE->setText(mat_like_my.name);
+    ui->name_b_LE->setText(mat_like_my.name);
+    ui->name_c_LE->setText(mat_like_my.name);
+
+    ui->price_a_DSB->setValue(mat_like_my.price.toDouble());
+    ui->price_b_DSB->setValue(ui->dSpBo_material_price->value());
+
+    ui->cocunt_a_LE->setText(mat_like_my.count);
+    ui->count_b_LE->setText(QString::number(ui->material_count_sp_box->value()));
+    ui->count_c_SPB->setValue(mat_like_my.count.toInt()+ui->material_count_sp_box->value());
+
+    ui->funct_a->setText(mat_like_my.naznach);
+    ui->funct_b->setText(ui->funct_naznach->currentText());
+    ui->funct_c_CB->clear();
+    ui->funct_c_CB->addItem(mat_like_my.naznach);
+    ui->funct_c_CB->addItem(ui->funct_naznach->currentText());
+
+    ui->ed_izmer_a->setText(mat_like_my.izmer);
+    ui->ed_izmer_b->setText(ui->ed_izmeren->currentText());
+    ui->ed_izmer_c_CB->clear();
+    ui->ed_izmer_c_CB->addItem(mat_like_my.izmer);
+    ui->ed_izmer_c_CB->addItem(ui->ed_izmeren->currentText());
+
+    ui->price_a_ChBox->setChecked(true);
+    ui->price_c_DSB->setValue(ui->price_a_DSB->value());
+
+    ui->material_ID->display(mat_like_my.ID);
+    ui->stackedWidget->setCurrentIndex(0);
+
+clear_material();
+}
+
+void MainWindow::save_nestandart_materrial_dialog()
+{
+    material temp;
+    temp.price=QString::number(ui->price_c_DSB->value());
+    temp.count=QString::number(ui->count_c_SPB->value());
+    temp.naznach=QString::number(ui->price_c_DSB->value());
+    if (ui->funct_c_CB->currentText()!="")
+    {
+    temp.naznach=ui->funct_c_CB->currentText();
+    }
+    else
+    {
+       temp.naznach="";
+    }
+    if(ui->ed_izmer_c_CB->currentText()!="")
+    {
+       temp.izmer=ui->ed_izmer_c_CB->currentText();
+    }
+    else
+    {
+      temp.izmer="";
+    }
+    temp.ID=QString::number(ui->material_ID->value());
+
+    ui->statusBar->showMessage(tr("редактирование материала произведено!"));
+    ui->stackedWidget->setCurrentIndex(6);
+    QUERY->material_up_2_to_1(temp);
+    ui->price_b_ChBox->setChecked(false);
+}
+
+void MainWindow::save_material_from_ui_to_DB()//записать текущий (insert)
+{
+    material temp;
+    temp.name=ui->material_name_LE->text();
+    if (ui->funct_naznach->currentText()!="")
+    {
+         temp.naznach=ui->funct_naznach->currentText();
+    }
+    else temp.naznach="NULL";
+
+
+    temp.price=QString::number(ui->dSpBo_material_price->value());
+    if (ui->ed_izmeren->currentText()!="")
+    {
+        temp.izmer=ui->ed_izmeren->currentText();
+    }
+     else temp.izmer="NULL";
+    temp.count=QString::number(ui->material_count_sp_box->value());
+    QUERY->insert_material(temp);
+
+    ui->statusBar->showMessage(tr("данные занесены успешно"));
+    clear_material();
+}
+
+void MainWindow::save_material_all_varibl()
+{
+    split_material();
+    if ((ui->material_name_LE->text()!=0)&& (ui->dSpBo_material_price->value()!=0) && (ui->material_count_sp_box->value()!=0))
+    {
+        QList <material> like_my=QUERY->mater_like_my(ui->material_name_LE->text());
+        if (like_my.size()==1)
+        {
+            material mat_like_my=like_my[0];
+            if (mat_like_my.price==QString::number(ui->dSpBo_material_price->value()) && mat_like_my.izmer==ui->ed_izmeren->currentText())
+            {
+                //sum and update
+                int a=mat_like_my.count_int;
+                int b=ui->material_count_sp_box->value();
+                QString sum(QString::number(a+b));
+                QUERY->material_up_summ_count(sum, mat_like_my.ID);
+                ui->statusBar->showMessage(tr("данные занесены успешно (суммирование)"));
+                clear_material();
+            }
+            else
+            {
+                //исключит  ситуация
+                nestandart_material_load(mat_like_my);
+            }
+        }
+        else
+        {
+            save_material_from_ui_to_DB();
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("данные не занесены, Заполните ключевые поля!"));
+        ui->label_10->setText("<font color=red> название </font>");
+        ui->label_11->setText("<font color=red> цена </font>");
+        ui->label_13->setText("<font color=red> количество </font>");
+    }
+}
+
+void MainWindow::save_worker()
+{
+    QDate dat;
+    worker temp;
+    if (ui->new_worker_FIO_LE->text()!="" && ui->new_worker_post_Fou_CoBox->currentText()!="" )
+    {
+        if (ui->new_worker_year_bir_LE->text()<=QString::number(dat.currentDate().year()-18))
+        {
+        temp.fio=ui->new_worker_FIO_LE->text();
+        if (ui->new_worker_aderss_LE->text()!="")
+        {
+            temp.adress=ui->new_worker_aderss_LE->text();
+        }
+        else
+        {
+            temp.adress="NULL";
+        }
+        if (ui->new_worker_post_Fou_CoBox->currentText()!="")
+        {
+            temp.post=ui->new_worker_post_Fou_CoBox->currentText();
+        }
+        else
+        {
+            temp.post="NULL";
+        }
+        if (ui->new_worker_year_bir_LE->text()!="")
+        {
+            temp.birthday=ui->new_worker_year_bir_LE->text();
+        }
+        else
+        {
+            temp.birthday="NULL";
+        }
+        if (ui->new_worker_OKLAD_doubSpBox->value()!=0)
+        {
+            temp.pay=QString::number(ui->new_worker_OKLAD_doubSpBox->value());
+        }
+        QUERY->insert_new_worker(temp);
+        load_worker();
+
+        if(ui->new_worker_team_CkBox->checkState()==Qt::Checked)
+        {
+            QUERY->worker_to_brig(temp, ui->new_worker_special_CoBox->currentText());
+            //связывание к группе
+        }
+        ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
+        ui->stackedWidget->setCurrentIndex(3);
+        }
+        else
+        {
+            ui->statusBar->showMessage(tr("дата рождения не корректна"));
+        }
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("Заполните ключевые (ФИО сотрудника и должность)"));
+    }
+}
+
+void MainWindow::dell_eqw()
+{
+    int row=ui->tableWidget_technics->currentRow();
+        QTableWidgetItem *item= new QTableWidgetItem();
+        item=ui->tableWidget_technics->item(row,1);//id
+        QString s;
+        s=item->text();
+        QUERY->del_eqw_from_brig(s); //удалить привязку к бригаде
+        QUERY->eqw_dell(s);
+
+    ui->statusBar->showMessage(tr("информация о оборудовании удалена"));
+    ui->dell_eqvmnt->setEnabled(false);
+    load_technics();
+}
+
+void MainWindow::split_worker()
+{
+    QString split_dell_sp;
+    split_dell_sp=ui->new_worker_FIO_LE->text();
+    ui->new_worker_FIO_LE->clear();
+    QStringList list;
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->new_worker_FIO_LE->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+
+    split_dell_sp=ui->new_worker_aderss_LE->text();
+    ui->new_worker_aderss_LE->clear();
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->new_worker_aderss_LE->setText(split_dell_sp);
+}
+
+void MainWindow::split_eqw()
+{
+    QString split_dell_sp;
+    split_dell_sp=ui->material_name_LE->text();
+    ui->material_name_LE->clear();
+    QStringList list;
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->material_name_LE->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+}
+
+void MainWindow::split_client()
+{
+    QString split_dell_sp;
+    split_dell_sp=ui->lineEdit_client_mestoJit_input->text();
+    ui->lineEdit_client_mestoJit_input->clear();
+    QStringList list;
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->lineEdit_client_mestoJit_input->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+
+    split_dell_sp=ui->lineEdit_client_fio_input->text();
+    ui->lineEdit_client_fio_input->clear();
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->lineEdit_client_fio_input->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+}
+
+void MainWindow::split_house()
+{
+    QString split_dell_sp;
+    split_dell_sp=ui->new_standart_name_LE->text();
+    ui->new_standart_name_LE->clear();
+    QStringList list;
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->new_standart_name_LE->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+}
+
+void MainWindow::split_material()
+{
+    QString split_dell_sp;
+    split_dell_sp=ui->material_name_LE->text();
+    ui->material_name_LE->clear();
+    QStringList list;
+    list=split_dell_sp.split(QRegularExpression("\\s+"));
+    split_dell_sp.clear();
+    for (int i=0;i<list.size();i++)
+    {
+        if (i!=0)
+            split_dell_sp=split_dell_sp+" "+list[i];
+        else
+            split_dell_sp=split_dell_sp+list[i];
+    }
+    ui->material_name_LE->setText(split_dell_sp);
+    split_dell_sp.clear();
+    list.clear();
+}
+
+void MainWindow::save_new_eqw()
+{
+    if ((ui->oborud_INV_namber_LE->text()!="") && (ui->oborud_name_LE->text()!=""))
+    {
+        technics temp;
+        temp.namber=ui->oborud_INV_namber_LE->text();
+        temp.name=ui->oborud_name_LE->text();
+        if (ui->obor_ear_build_SpBx->value()>=1901)
+        {
+            temp.Year_vip=QString::number(ui->obor_ear_build_SpBx->value());
+        }
+        else temp.Year_vip="NULL";
+        if(ui->pokupka_obor_dateE->date().year()>=2015)
+        {
+            QDate dat=ui->pokupka_obor_dateE->date();
+            temp.Date_pok=QString::number(dat.year())+"-"+QString::number(dat.month())+"-"+QString::number(dat.day());
+        }
+        else temp.Date_pok="NULL";
+        QUERY->insert_new_eqw(temp);
+        if (ui->new_eqw_plas_team_ChBox->checkState()==Qt::Checked)
+        {
+            //закрепить за бригадой
+            QUERY->eqw_to_brig(ui->oborud_INV_namber_LE->text(), ui->new_eq_id_Combox->currentText());
+        }
+        ui->new_eq_team_comBOX->setVisible(false);
+        ui->new_eqw_plas_team_ChBox->setChecked(false);
+        ui->statusBar->showMessage(tr("оборудоание успешно куплено"));
+        load_technics();
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+    else
+    {
+        ui->statusBar->showMessage(tr("Заполните ключевые поля(название и инвентарный номер!)"));
     }
 }

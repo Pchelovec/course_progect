@@ -15,5 +15,6 @@
         <file>res/saraj.png</file>
         <file>res/dollar.gif</file>
         <file>res/дворец.png</file>
+        <file>res/diagramm_circle.png</file>
     </qresource>
 </RCC>

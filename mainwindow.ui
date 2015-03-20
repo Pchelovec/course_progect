@@ -21,7 +21,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -1800,8 +1800,8 @@
          <rect>
           <x>10</x>
           <y>30</y>
-          <width>281</width>
-          <height>161</height>
+          <width>291</width>
+          <height>191</height>
          </rect>
         </property>
         <property name="title">

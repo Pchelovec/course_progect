@@ -44,7 +44,7 @@ reset();
 
     if (sha.metter_pair.metter_start!="0" && sha.metter_pair.metter_start!="" && sha.metter_pair.metter_fin!="0" && sha.metter_pair.metter_fin!="")
     {
-        q=q+" and meter between "+sha.time_pair.date_start+" and "+sha.time_pair.date_fin;
+        q=q+" and meter between "+sha.metter_pair.metter_start+" and "+sha.metter_pair.metter_fin;
     }
     else
     {
