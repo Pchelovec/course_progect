@@ -1,9 +1,10 @@
 #include "query_result.h"
 void query_result::reset()
 {
+    //DB->query->clear();
     if(!DB->DB.open())
     {
-        DB->connect();
+        DB->remove();
     }
 }
 
@@ -214,6 +215,7 @@ void query_result::worker_del(QString ID)
 
 void query_result::new_brig_with_special(QString special_name)
 {
+    reset();
     QString ID;
     QString s1("SELECT special.id FROM special WHERE special.`name`='");
     s1=s1+special_name+"';";
@@ -249,7 +251,7 @@ void query_result::new_brig_with_special(QString special_name)
     qDebug()<<s<<endl;
     DB->query->exec(s);
 }
-void query_result::insert_new_building(building val)
+QString query_result::insert_new_building(building val)//возвращает id проекта здания
 {
     reset ();
     if (val.is_ynical_bool)
@@ -277,6 +279,7 @@ void query_result::insert_new_building(building val)
     {
         insert_need_material_for_b(ID, val.neded_material[i]);
     }
+    return ID;
 }
 
 void query_result::insert_level(QString lev_str, QString id_building_s,  level val)
@@ -305,27 +308,37 @@ void query_result::insert_need_material_for_b(QString ID_b, material_ned materia
 void query_result::insert_client_info(client val)
 {
     reset();
-    QString q("insert into client (client_passport, client_fio, client_phone, client_bir, client_places_life) values(");
-    q=q+"'"+val.passport+"', '"+val.FIO+"', "+val.phone;
-    if (val.year_birthday!="")
+    QList <client> list=is_client_with_passport(val.passport);
+    if (list.size()==1)
     {
-        q=q+", "+val.year_birthday;
+        //клиент уже есть обновить информацию
+        update_client(val);
     }
     else
     {
-        q=q+", NULL";
+        //клиента нет
+        QString q("insert into client (client_passport, client_fio, client_phone, client_bir, client_places_life) values(");
+        q=q+"'"+val.passport+"', '"+val.FIO+"', "+val.phone;
+        if (val.year_birthday!="")
+        {
+            q=q+", "+val.year_birthday;
+        }
+        else
+        {
+            q=q+", NULL";
+        }
+        if (val.plases_life!="")
+        {
+            q=q+", '"+val.plases_life+"'";
+        }
+        else
+        {
+            q=q+", NULL";
+        }
+        q=q+");";
+        qDebug()<<q<<endl;
+        DB->query->exec(q);
     }
-    if (val.plases_life!="")
-    {
-        q=q+", '"+val.plases_life+"'";
-    }
-    else
-    {
-        q=q+", NULL";
-    }
-    q=q+");";
-    qDebug()<<q<<endl;
-    DB->query->exec(q);
 }
 
 void query_result::update_pay_sum(QString ID_b, double pay_sum)
@@ -362,8 +375,20 @@ void query_result::update_client(client cl)
     {
         q=q+"NULL";
     }
-    q=q+"where client_passport='"+cl.passport+"'";
+    q=q+" where client_passport='"+cl.passport+"'";
     q=q+";";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+}
+
+void query_result::make_step_building(building val, QString ID_brig, QString progect_id)
+{
+    reset();
+    QString q("insert into group_time (id_brig, date_start, date_fin, id_progect) values(");
+
+        q=q+ID_brig+", '"+val.time_pair.date_start+"', '"+val.time_pair.date_fin+"', "+progect_id;
+
+    q=q+");";
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }

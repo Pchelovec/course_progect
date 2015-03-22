@@ -25,9 +25,9 @@ public:
 
     QList <QString> avto_material_list_naz();//AVTO
 
-    QList <material> mater_like_my(QString name);//SELECT
+    QList <material> mater_like_my(QString name);//SELECT переделать функцию под универсальную
 
-    QList <material> material_with_function(QString function);//SELECT
+    QList <material> material_with_function(QString function);//SELECT   заменить использованием функции выше
 
     //QString material_with_name(QString name);//SELECT
 
@@ -46,9 +46,9 @@ public:
 
     QList <worker> worker_all(worker wor);//SELECT
 
-    QList <worker> worker_with_group(QString ID_gr);//SELECT
+    QList <worker> worker_with_group(QString ID_gr);//SELECT//  заменить использованием функции выше
 
-    QList <QString> ID_group_with_name(QString name);//SELECT
+    QList <QString> ID_group_with_name(QString name);//SELECT 2 табл
 
     QList <worker> avto_worker_list_free(worker sha);//SELECT
 
@@ -68,9 +68,9 @@ public:
     //----------------------------------------------------------------оборудование
     QList <technics> eqw_all_load(technics share);//SELECT
 
-    QList <technics> eqw_with_group (QString ID_gr);//SELECT
+    QList <technics> eqw_with_group (QString ID_gr);//SELECT//  заменить использованием функции выше
 
-    QList <technics> avto_eq_list_free(technics sha);//SELECT//переделать с учетом  верхнего
+    QList <technics> avto_eq_list_free(technics sha);//SELECT
 
     void eqw_dell(QString ID);//DELETE
 
@@ -85,13 +85,13 @@ public:
 
     QList <building> building_main_class_ret(building sha);//SELECT
 
-    QString ret_building_ID_with_name(QString name);//SELECT
+    QString ret_building_ID_with_name(QString name);//SELECT   заменить использованием функции выше
 
     void insert_level(QString lev_str, QString id_building_s,  level val);//INSERT
 
     void insert_need_material_for_b( QString ID_b, material_ned material);//INSERT
 
-    void insert_new_building(building val);//INSERT
+    QString insert_new_building(building val);//INSERT возвращает id здания
 
     //-----------------------------------------------------------клиент
     void insert_client_info(client val);//insert
@@ -102,8 +102,20 @@ public:
     void update_pay_sum(QString ID_b, double pay_sum);//update
     void update_client(client cl);
     QList<client> is_client_with_passport(QString passport);
-    //-----------------------------------------------------------занятость бригады
-    //
+    //-----------------------------------------------------------
+
+    //-----------------------------------------------------------проект и занятость бригады
+    QString save_progect(QString client_passport, QString house_id);//insert
+    QString return_progect_id(QString client_passport, QString house_id);
+
+    QString ret_id_house_with_id_progect(QString ID_progect);
+    QList <level> ret_list_time_plan_for_b(QString ID_building);
+
+    QList<building> return_list_worked_plan_now(QString ID_special);
+
+    QList <QString> ret_list_brig_with_special(QString ID_special);
+
+    void make_step_building(building val, QString ID_brig, QString progect_id);
     //-----------------------------------------------------------другие
      QList <person_plas_prog> person_with_ID_building(QString ID_B);//SELECT информация о заказчике с постройкий ID_B
      void new_brig_with_special(QString special_name);//INSERT

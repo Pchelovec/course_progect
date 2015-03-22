@@ -18,6 +18,7 @@ public:
     QString phone;
     QString year_birthday;
     QString plases_life;
+
     client();
     ~client();
 };

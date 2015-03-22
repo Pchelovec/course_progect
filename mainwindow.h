@@ -22,6 +22,7 @@
 #include "material.h"
 #include "query_result.h"
 #include "dir.h"
+#include "plan_building_time.h"
 
 namespace Ui {
 class MainWindow;
@@ -45,6 +46,8 @@ private:                                                            //перем
     void load_ynic_progect_building(bool checked);
     void load_main_infor_new_build_GrBox();//
 
+    void clear_main_infor_new_build_GrBox();
+
     void add_standart_grafic_TW(QString Brig_special, QString Count);//--создание проекта здания
     void add_to_need_material_TW(QString Name_mater, QString Count);
 
@@ -58,7 +61,7 @@ private:                                                            //перем
     bool correct_data_new_building_progect();
     QList <material_ned> return_list_need_material();
     QList <level> return_time_plane();
-    void save_all_info_buildin(bool ynic);
+    QString save_all_info_buildin(bool ynic);
 
     void new_standart_level_table_clear();//
     void new_standart_material_table_clear();
@@ -87,7 +90,9 @@ private:                                                            //перем
     void clear_sh_worker();
 
     void new_worker_initial();
+
     void save_worker();
+        void worker_to_db();
 
     //----------------------------------------------оборудование
     void split_eqw();
@@ -132,14 +137,25 @@ private:                                                            //перем
 
     void clear_bezicxodnost_Table_wid();
     //----------------------------------------------клиент
+    void load_avto_client_with_pasport(QString val);
+
+    void save_progect_info();
+    void save_client();
+
     void split_client();
     void clear_client_info();
     void clear_pay_info();
     bool correct_data_client();
+
     void set_need_to_pay();
     void pay_progect();
+    //----------------------------------------------статистика
+    void load_statistic();
+    void clear_statistic();
     //----------------------------------------------общие
     void load_work_process();
+
+    QString split_str(QString val);
     void clear_st_wid_0();
     void first_initial_component();
     void Q_Object_connect();
@@ -147,9 +163,11 @@ private:                                                            //перем
     void set_validator_all();
     void save_price_to_file();
     void  unshow_percent();
-    void clear_main_infor_new_build_GrBox();
+
 
     void dell_problem(QString v);
+
+
     //--------------------------------------------------------------------
 
     void clear_first();
@@ -258,5 +276,7 @@ private slots:
     void on_sh_building_price_max_valueChanged(const QString &arg1);
     void on_CB_House_poisk_clicked(bool checked);
     void on_BD_change_triggered();
+    void on_statistic_triggered();
+    void on_lineEdit_client_pasport_input_textChanged(const QString &arg1);
 };
 #endif // MAINWINDOW_H

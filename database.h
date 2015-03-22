@@ -15,7 +15,7 @@ public:
     ~database();
 public:
     void connect();
-
+    void remove();
     bool correct_connected;
 };
 

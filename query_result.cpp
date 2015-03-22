@@ -22,7 +22,7 @@ QList <building> query_result::building_main_class_ret(building sha)
 {
 reset();
     QString q("SELECT building.`name`, building.building_ynical, building.`standart_time`, building.meter, building.price, building.ID_b, building.description FROM building where ");
-    q=q+"name like'"+sha.name+"%'";
+    q=q+"name like'%"+sha.name+"%'";
     if (sha.time_pair.date_start!="0" && sha.time_pair.date_start!="" && sha.time_pair.date_fin!="0" && sha.time_pair.date_fin!="")
     {
         q=q+" and standart_time between "+sha.time_pair.date_start+" and "+sha.time_pair.date_fin;
@@ -78,9 +78,13 @@ reset();
             }
         }
     }
+    if (sha.ID!="")
+    {
+        q=q+" and ID_b = '"+sha.ID+"'";
+    }
     q=q+";";
     QList <building> local_res;
-    //DB->query->clear();
+    DB->query->clear();
     DB->query->exec(q);
     qDebug()<<q<<endl;
     while (DB->query->next())
@@ -110,8 +114,8 @@ QList <technics> query_result::eqw_all_load(technics share)
 reset();
     QList <technics> result;
     QString q("select * from equipment where ");
-    q=q+"eq_name like '"+share.name+"%'";
-    q=q+" and eq_namber like '"+share.namber+"%' ;";
+    q=q+"eq_name like '%"+share.name+"%'";
+    q=q+" and eq_namber like '%"+share.namber+"%' ;";
     qDebug()<<q<<endl;
     DB->query->clear();
     DB->query->exec(q);
@@ -132,7 +136,7 @@ QList <worker> query_result::worker_all(worker wor)
 reset();
 QList <worker> result;
 QString q("select * from worker where");
-q=q+" fio like'"+wor.fio+"%' "+"and post like'"+wor.post+"%' ";
+q=q+" fio like'%"+wor.fio+"%' "+"and post like'%"+wor.post+"%' ";
 if (wor.pay_fin!="0" && wor.pay_fin!="" && wor.pay_start!="0" && wor.pay_start!="")
 {
     q=q+"and price between "+wor.pay_start+" and "+wor.pay_fin;
@@ -178,8 +182,8 @@ QList <technics> query_result::avto_eq_list_free(technics sha)
 reset();
 QString s("SELECT e.eq_name, e.eq_buy_date, e.eq_namber FROM equipment e"
           " WHERE e.eq_namber <> ALL ( SELECT group_eq.id_namber from group_eq ) and ");
-            s=s+"e.eq_name like '"+sha.name+"%'";
-            s=s+" and e.eq_namber like'"+sha.namber+"%';";
+            s=s+"e.eq_name like '%"+sha.name+"%'";
+            s=s+" and e.eq_namber like'%"+sha.namber+"%';";
             qDebug()<<s;
         QList <technics> result;
 
@@ -263,8 +267,8 @@ reset();
     DB->query->clear();
     QString s("SELECT w.post, w.fio, w.ID_worker FROM worker w"
               " WHERE w.ID_worker <> ALL (SELECT grup.worker_ID FROM grup) and ");
-            s=s+"w.post like'"+sha.post+"%' ";
-            s=s+"and w.fio like '"+sha.fio+"%';";
+            s=s+"w.post like'%"+sha.post+"%' ";
+            s=s+"and w.fio like '%"+sha.fio+"%';";
 
     qDebug()<<s<<endl;
     DB->query->exec(s);
@@ -379,6 +383,7 @@ QList <technics> query_result::eqw_with_group (QString ID_gr)
 
 QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
 {
+    reset();
     QList<person_plas_prog> result;
     QString s("SELECT client.client_fio, client.client_phone, progect.oplata, progect.ID"
               " FROM building , progect , client"
@@ -519,8 +524,8 @@ QList<client> query_result::is_client_with_passport(QString passport)
     reset();
     QList<client> result;
     QString s;
-    s="select * from client where client_passport=";
-    s=s+passport+";";
+    s="select * from client where client_passport like'";
+    s=s+passport+"';";
         qDebug()<<s<<endl;
         DB->query->exec(s);
         while(DB->query->next())
@@ -533,5 +538,131 @@ QList<client> query_result::is_client_with_passport(QString passport)
             temp.plases_life=DB->query->value(4).toString();
             result.push_back(temp);
         }
+    return result;
+}
+
+QString query_result::save_progect(QString client_passport, QString house_id)
+{
+    reset();
+    QDate dat;
+    QString q;
+    q="insert into progect (passport_client, house_id, data_) values (";
+    q=q+"'"+client_passport+"', "+house_id+", "+"'"+QString::number(dat.currentDate().year())+"-"+QString::number(dat.currentDate().month())+"-"+QString::number(dat.currentDate().day())+"'";
+    q=q+");";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+
+return return_progect_id(client_passport, house_id);
+}
+
+QString query_result::return_progect_id(QString client_passport, QString house_id)
+{
+    reset();
+    QString ID_progect;
+
+    QString s("");
+    s="select ID, data_ from progect where passport_client='"+client_passport+"' and  house_id="+house_id+";";
+    QList <QDate> date;
+    QList <QString> id;
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+        id.push_back(DB->query->value(0).toString());
+        date.push_back(DB->query->value(1).toDate());
+    }
+    ID_progect=id[0];
+    if (id.size()>1)
+    {
+        QDate max=date[0];
+        int i_max=0;
+        for (int i=0;i<date.size();i++)
+        {
+            if (max<date[i])
+            {
+                i_max=i;
+                max=date[i];
+            }
+        }
+        return id[i_max];
+    }
+    else return ID_progect;
+}
+
+QString query_result::ret_id_house_with_id_progect(QString ID_progect)
+{
+    reset();
+    QString ID_house;
+    QString s("");
+    s="select house_id from progect where ID="+ID_progect;
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    if (DB->query->next())
+        ID_house=DB->query->value(0).toString();
+    return ID_house;
+}
+
+QList <level> query_result::ret_list_time_plan_for_b(QString ID_building)
+{
+    reset();
+    QString s("SELECT building_plan.`level`, building_plan.`day`, building_plan.special"
+              " FROM building_plan"
+              " where building_id_plan=");
+            s=s+ID_building+"  ORDER BY `level` ASC;";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    QList <level> result;
+    while (DB->query->next())
+    {
+        level temp;
+        temp.step=DB->query->value(0).toString();
+        temp.day_count=DB->query->value(1).toString();
+        temp.special_brig=DB->query->value(2).toString();
+        result.push_back(temp);
+    }
+    return result;
+}
+
+QList<building> query_result::return_list_worked_plan_now(QString ID_special)
+{
+    reset();
+    QString s("SELECT group_time.date_start, group_time.date_fin, group_time.id_brig"
+              " FROM special_brig , group_time , special"
+              " WHERE special_brig.id_brig = group_time.id_brig AND special.id = special_brig.id_special and special.id=");
+            s=s+ID_special+" ORDER BY date_fin;";
+
+     qDebug()<<s<<endl;
+     DB->query->exec(s);
+     QList <building> result;
+
+     while (DB->query->next())
+     {
+         building temp;
+            temp.time_pair_date.date_start=DB->query->value(0).toDate();
+            temp.time_pair_date.date_fini=DB->query->value(1).toDate();
+            temp.ID=DB->query->value(2).toString();//id бригады
+         result.push_back(temp);
+     }
+     return result;
+}
+
+QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
+{
+    reset();
+    QString s("SELECT special.`name`, special_brig.id_brig"
+                " FROM special_brig , special"
+                " WHERE special.id = special_brig.id_special AND special.id =");
+    s=s+ID_special+";";
+
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    QList <QString> result;
+
+    while (DB->query->next())
+    {
+        QString temp;
+           temp=DB->query->value(1).toString();
+        result.push_back(temp);
+    }
     return result;
 }

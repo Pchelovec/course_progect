@@ -199,7 +199,7 @@ void MainWindow::set_validator_all()
     QRegExp name("[а-я А-Я]{20}");
     ui->lineEdit_client_fio_input->setValidator(new QRegExpValidator(name,this));
 
-    QRegExp mesto("[а-я А-Я]{20}");
+    QRegExp mesto("[а-я А-Я . , 0-9]{20}");
     ui->lineEdit_client_mestoJit_input->setValidator(new QRegExpValidator(mesto,this));
 
     QRegExp passport("[a-zA-Z]{2}[0-9]{6}");
@@ -228,7 +228,7 @@ void MainWindow::set_validator_all()
     ui->oborud_INV_namber_LE->setValidator(new QRegExpValidator(INN,this));
     ui->obor_ear_build_SpBx->setMaximum(2015);//текуший год
 
-    QRegExp name_adr_post_fio("[а-я А-Я . , /]{20}");
+    QRegExp name_adr_post_fio("[а-я А-Я . , / 0-9]{20}");
     ui->new_worker_FIO_LE->setValidator(new QRegExpValidator(name_adr_post_fio,this));
     ui->new_worker_aderss_LE->setValidator(new QRegExpValidator(name_adr_post_fio,this));
     ui->new_worker_year_bir_LE->setValidator(new QRegExpValidator(year,this));
@@ -807,15 +807,18 @@ void MainWindow::load_sarai()
 }
 void MainWindow ::clear_client_info()
 {
+    QDate dat;
+    ui->building_id_for_progect->clear();
     ui->checkBox_is_ynical_progect->setChecked(false);
     ui->lineEdit_client_mestoJit_input->clear();
     ui->lineEdit_client_fio_input->clear();
     ui->lineEdit_client_pasport_input->clear();
     ui->lineEdit_client_yearBir_input->clear();
     ui->lineEdit_client_phone_input->clear();
+    ui->date_start_w->setDate(dat.currentDate());
 }
 
-void MainWindow::save_all_info_buildin(bool ynic)
+QString MainWindow::save_all_info_buildin(bool ynic)
 {
   building temp;
     temp.is_ynical_bool=ynic;
@@ -825,7 +828,8 @@ void MainWindow::save_all_info_buildin(bool ynic)
     temp.metter=QString::number(ui->new_standart_metter_SpBox->value());
     temp.neded_material=return_list_need_material();
     temp.time_plan=return_time_plane();
-  QUERY->insert_new_building(temp);
+  QString ID=QUERY->insert_new_building(temp);
+  return ID;
 }
 void MainWindow::delete_current_level()
 {
@@ -839,12 +843,32 @@ void MainWindow::delete_current_material()
 }
 bool MainWindow::correct_data_client()
 {
-    if (ui->lineEdit_client_fio_input->text()!="" && ui->lineEdit_client_phone_input->text()!="" && ui->lineEdit_client_pasport_input->text()!="" && ui->lineEdit_client_phone_input->text().length()>=7 && ui->lineEdit_client_pasport_input->text().length()>=8)
+    QDate dat;
+    if (ui->lineEdit_client_fio_input->text()!="" && ui->lineEdit_client_phone_input->text()!="" && ui->lineEdit_client_pasport_input->text()!="" &&
+            ui->lineEdit_client_pasport_input->text().length()>=8 && ui->lineEdit_client_phone_input->text().size()>=7)
     {
-        return true;
+        if (ui->date_start_w->date()<dat.currentDate())
+        {
+            ui->statusBar->showMessage("неверная дата начала строительства");
+            return false;
+        }
+        else
+        {
+            if (ui->lineEdit_client_yearBir_input->text()!="")
+            {
+                if (ui->lineEdit_client_yearBir_input->text().toInt()>=1901)
+                    return true;
+                else return false;
+            }
+            else
+            {
+                return true;//без года рождения
+            }
+        }
     }
     else
     {
+        ui->statusBar->showMessage("Заполите данные о клиенте (фамилия, телефон, паспорт)");
         return false;
     }
 }
@@ -1198,61 +1222,73 @@ void MainWindow::save_material_all_varibl()
 
 void MainWindow::save_worker()
 {
-    QDate dat;
-    worker temp;
+        QDate dat;
     if (ui->new_worker_FIO_LE->text()!="" && ui->new_worker_post_Fou_CoBox->currentText()!="" )
     {
-        if (ui->new_worker_year_bir_LE->text()<=QString::number(dat.currentDate().year()-18))
+        if (ui->new_worker_year_bir_LE->text()!="" && ui->new_worker_year_bir_LE->text()!=" ")
         {
-        temp.fio=ui->new_worker_FIO_LE->text();
-        if (ui->new_worker_aderss_LE->text()!="")
-        {
-            temp.adress=ui->new_worker_aderss_LE->text();
+            if (ui->new_worker_year_bir_LE->text()<=QString::number(dat.currentDate().year()-18))
+            {
+                worker_to_db();
+            }
+            else
+            {
+                ui->statusBar->showMessage(tr("принимаются сотрудники, которым исполнилось 18 лет"));
+            }
         }
         else
         {
-            temp.adress="NULL";
-        }
-        if (ui->new_worker_post_Fou_CoBox->currentText()!="")
-        {
-            temp.post=ui->new_worker_post_Fou_CoBox->currentText();
-        }
-        else
-        {
-            temp.post="NULL";
-        }
-        if (ui->new_worker_year_bir_LE->text()!="")
-        {
-            temp.birthday=ui->new_worker_year_bir_LE->text();
-        }
-        else
-        {
-            temp.birthday="NULL";
-        }
-        if (ui->new_worker_OKLAD_doubSpBox->value()!=0)
-        {
-            temp.pay=QString::number(ui->new_worker_OKLAD_doubSpBox->value());
-        }
-        QUERY->insert_new_worker(temp);
-        load_worker();
-
-        if(ui->new_worker_team_CkBox->checkState()==Qt::Checked)
-        {
-            QUERY->worker_to_brig(temp, ui->new_worker_special_CoBox->currentText());
-            //связывание к группе
-        }
-        ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
-        ui->stackedWidget->setCurrentIndex(3);
-        }
-        else
-        {
-            ui->statusBar->showMessage(tr("дата рождения не корректна"));
+            worker_to_db();
         }
     }
     else
     {
         ui->statusBar->showMessage(tr("Заполните ключевые (ФИО сотрудника и должность)"));
     }
+}
+
+void MainWindow::worker_to_db()
+{
+    worker temp;
+    temp.fio=ui->new_worker_FIO_LE->text();
+    if (ui->new_worker_aderss_LE->text()!="")
+    {
+        temp.adress=ui->new_worker_aderss_LE->text();
+    }
+    else
+    {
+        temp.adress="NULL";
+    }
+    if (ui->new_worker_post_Fou_CoBox->currentText()!="")
+    {
+        temp.post=ui->new_worker_post_Fou_CoBox->currentText();
+    }
+    else
+    {
+        temp.post="NULL";
+    }
+    if (ui->new_worker_year_bir_LE->text()!="")
+    {
+        temp.birthday=ui->new_worker_year_bir_LE->text();
+    }
+    else
+    {
+        temp.birthday="NULL";
+    }
+    if (ui->new_worker_OKLAD_doubSpBox->value()!=0)
+    {
+        temp.pay=QString::number(ui->new_worker_OKLAD_doubSpBox->value());
+    }
+    QUERY->insert_new_worker(temp);
+    load_worker();
+
+    if(ui->new_worker_team_CkBox->checkState()==Qt::Checked)
+    {
+        QUERY->worker_to_brig(temp, ui->new_worker_special_CoBox->currentText());
+        //связывание к группе
+    }
+    ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::dell_eqw()
@@ -1270,11 +1306,10 @@ void MainWindow::dell_eqw()
     load_technics();
 }
 
-void MainWindow::split_worker()
+QString MainWindow::split_str(QString val)
 {
     QString split_dell_sp;
-    split_dell_sp=ui->new_worker_FIO_LE->text();
-    ui->new_worker_FIO_LE->clear();
+    split_dell_sp=val;
     QStringList list;
     list=split_dell_sp.split(QRegularExpression("\\s+"));
     split_dell_sp.clear();
@@ -1285,117 +1320,56 @@ void MainWindow::split_worker()
         else
             split_dell_sp=split_dell_sp+list[i];
     }
-    ui->new_worker_FIO_LE->setText(split_dell_sp);
-    split_dell_sp.clear();
     list.clear();
+    return split_dell_sp;
+}
 
-    split_dell_sp=ui->new_worker_aderss_LE->text();
+void MainWindow::split_worker()
+{
+    QString s;
+    s=ui->new_worker_FIO_LE->text();
+    ui->new_worker_FIO_LE->clear();
+    ui->new_worker_FIO_LE->setText(split_str(s));
+    s.clear();
+    s=ui->new_worker_aderss_LE->text();
     ui->new_worker_aderss_LE->clear();
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->new_worker_aderss_LE->setText(split_dell_sp);
+    ui->new_worker_aderss_LE->setText(split_str(s));
 }
 
 void MainWindow::split_eqw()
-{
-    QString split_dell_sp;
-    split_dell_sp=ui->material_name_LE->text();
+{    
+    QString s;
+    s=ui->material_name_LE->text();
     ui->material_name_LE->clear();
-    QStringList list;
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->material_name_LE->setText(split_dell_sp);
-    split_dell_sp.clear();
-    list.clear();
+    ui->material_name_LE->setText(split_str(s));
 }
 
 void MainWindow::split_client()
 {
-    QString split_dell_sp;
-    split_dell_sp=ui->lineEdit_client_mestoJit_input->text();
+    QString s;
+    s=ui->lineEdit_client_mestoJit_input->text();
     ui->lineEdit_client_mestoJit_input->clear();
-    QStringList list;
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->lineEdit_client_mestoJit_input->setText(split_dell_sp);
-    split_dell_sp.clear();
-    list.clear();
+    ui->lineEdit_client_mestoJit_input->setText(split_str(s));
 
-    split_dell_sp=ui->lineEdit_client_fio_input->text();
+    s=ui->lineEdit_client_fio_input->text();
     ui->lineEdit_client_fio_input->clear();
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->lineEdit_client_fio_input->setText(split_dell_sp);
-    split_dell_sp.clear();
-    list.clear();
+    ui->lineEdit_client_fio_input->setText(split_str(s));
 }
 
 void MainWindow::split_house()
-{
-    QString split_dell_sp;
-    split_dell_sp=ui->new_standart_name_LE->text();
+{  
+    QString s;
+    s=ui->new_standart_name_LE->text();
     ui->new_standart_name_LE->clear();
-    QStringList list;
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->new_standart_name_LE->setText(split_dell_sp);
-    split_dell_sp.clear();
-    list.clear();
+    ui->new_standart_name_LE->setText(split_str(s));
 }
 
 void MainWindow::split_material()
-{
-    QString split_dell_sp;
-    split_dell_sp=ui->material_name_LE->text();
+{   
+    QString s;
+    s=ui->material_name_LE->text();
     ui->material_name_LE->clear();
-    QStringList list;
-    list=split_dell_sp.split(QRegularExpression("\\s+"));
-    split_dell_sp.clear();
-    for (int i=0;i<list.size();i++)
-    {
-        if (i!=0)
-            split_dell_sp=split_dell_sp+" "+list[i];
-        else
-            split_dell_sp=split_dell_sp+list[i];
-    }
-    ui->material_name_LE->setText(split_dell_sp);
-    split_dell_sp.clear();
-    list.clear();
+    ui->material_name_LE->setText(split_str(s));
 }
 
 void MainWindow::save_new_eqw()
@@ -1432,4 +1406,106 @@ void MainWindow::save_new_eqw()
     {
         ui->statusBar->showMessage(tr("Заполните ключевые поля(название и инвентарный номер!)"));
     }
+}
+
+void MainWindow::load_statistic()
+{
+
+}
+
+void MainWindow::clear_statistic()
+{
+    ui->stackedWidget->setCurrentIndex(11);
+    QDate date;
+    ui->statistic_time_start->setDate(date.currentDate());
+    ui->statistic_time_fin->setDate(date.currentDate());
+    ui->progect_count_all_type->setText("");
+    ui->progect_count_standart->setText("");
+    ui->progect_count_ynic->setText("");
+    ui->progect_info_money_pay->setText("");
+    ui->progect_info_money_pay_standart->setText("");
+    ui->progect_info_money_pay_ynic->setText("");
+    ui->progect_sum_money_all_type->setText("");
+    ui->progect_ynic_money->setText("");
+    ui->progect_standart_money->setText("");
+}
+
+void MainWindow::load_avto_client_with_pasport(QString var)
+{
+    if (var.length()==8)
+    {
+        QList <client> list=QUERY->is_client_with_passport(var);
+        if (list.size()==1)
+        {
+            ui->lineEdit_client_mestoJit_input->setText(list[0].plases_life);
+            ui->lineEdit_client_fio_input->setText(list[0].FIO);
+            ui->lineEdit_client_yearBir_input->setText(list[0].year_birthday);
+            ui->lineEdit_client_phone_input->setText(list[0].phone);
+        }
+    }
+}
+
+
+void MainWindow::save_progect_info()
+{
+    QString ID;
+    split_client();
+    if (correct_data_client())
+    {
+        save_client();//клиент
+        if (ui->checkBox_is_ynical_progect->isChecked()) //проверка типа проекта
+        {//уникальный
+            if (correct_data_new_building_progect())
+            {
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //занесение информации о постройке
+                //вернуть id постройки
+                ID=save_all_info_buildin(true);
+                QString progect_id;
+                progect_id=QUERY->save_progect(ui->lineEdit_client_pasport_input->text(), ID);
+                qDebug()<<"сохранение уникальной постройки и создание проекта"<<endl;
+                plan_building_time b;
+                b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());
+                //b.sub_material_for_building(ID);
+                //расчет графика работ и вывод данных на печать
+
+            }
+            else
+            {
+                ui->statusBar->showMessage(tr("заполните данные уникального проекта"));
+            }
+        }
+        else
+        {//стандартный
+            if (ui->building_id_for_progect->text()!="")
+            {
+                ID=ui->building_id_for_progect->text();//постройки
+                QString progect_id;
+                progect_id=QUERY->save_progect(ui->lineEdit_client_pasport_input->text(), ID);
+                //building b;
+                plan_building_time b;
+                b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());
+                //b.sub_material_for_building(ID);
+                qDebug()<<"проект стандартной постройки"<<endl;
+                //расчет графика работ и вывод данных на печать
+                //qDebug()<<"расчет графика"<<endl;
+            }
+            else
+            {
+                ui->statusBar->showMessage("стандартный проект не выбран");
+            }
+        }
+
+    }
+}
+
+void MainWindow::save_client()
+{
+    client temp;
+    temp.FIO=ui->lineEdit_client_fio_input->text();
+    temp.plases_life=ui->lineEdit_client_mestoJit_input->text();
+    temp.passport=ui->lineEdit_client_pasport_input->text();
+    temp.phone=ui->lineEdit_client_phone_input->text();
+    temp.year_birthday=ui->lineEdit_client_yearBir_input->text();
+    QUERY->insert_client_info(temp);
 }

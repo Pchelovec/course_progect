@@ -495,32 +495,13 @@ void MainWindow::on_new_standart_ned_material_add_to_table_PB_clicked()
 
 void MainWindow::on_order_PB_clicked()
 {
-    split_client();
-    if (correct_data_client())
-    {
-        if (correct_data_new_building_progect())
-        {
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //занесение
-        }
-        else
-        {
-            ui->statusBar->showMessage(tr("заполните данные проекта"));
-        }
-    }
-    else
-    {
-        ui->statusBar->showMessage("Заполите данные о клиенте");
-    }
+    save_progect_info();
 }
 
 void MainWindow::on_new_ynic_OK_PB_clicked()
 {
     split_house();
-    if (correct_data_new_building_progect())
-    {
-        ui->stackedWidget->setCurrentIndex(5);
-    }
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -680,4 +661,14 @@ void MainWindow::on_CB_House_poisk_clicked(bool checked)
 void MainWindow::on_BD_change_triggered()
 {
     clear_st_wid_0();
+}
+
+void MainWindow::on_statistic_triggered()
+{
+    clear_statistic();
+}
+
+void MainWindow::on_lineEdit_client_pasport_input_textChanged(const QString &arg1)
+{
+    load_avto_client_with_pasport(arg1);
 }

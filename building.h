@@ -7,6 +7,7 @@ struct level
 {
     QString special_brig;
     QString day_count;
+    QString step;
 };
 
 struct material_ned
@@ -21,6 +22,13 @@ struct period
     QString date_start;
     QString date_fin;
 };
+
+struct period_date
+{
+    QDate date_start;
+    QDate date_fini;
+};
+
 struct metter_double
 {
     QString metter_start;
@@ -49,9 +57,14 @@ public:
     period time_pair;
     metter_double metter_pair;
     price_double price_pair;
-    void make_and_save_time_plan_for_building(QString ID_progect);
+    period_date time_pair_date;
+
     building();
     ~building();
+
 };
+
+
+
 
 #endif // BUILDING_H

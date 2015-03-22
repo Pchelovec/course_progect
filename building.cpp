@@ -9,7 +9,6 @@ building::building()
     metter="";
     price="";
     ID="";
-    //neded_material.clear();
 
     time_plan.clear();
     time_pair.date_start="";
@@ -18,13 +17,10 @@ building::building()
     metter_pair.metter_start="";
     price_pair.price_fin="";
     price_pair.price_start="";
+
 }
 
 building::~building()
-{
-
-}
-void make_and_save_time_plan_for_building()
 {
 
 }

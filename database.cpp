@@ -26,6 +26,14 @@ void database::connect()
     }
 }
 
+void database::remove()
+{
+    QSqlDatabase::removeDatabase("QMYSQL");
+    delete query;
+    query=new QSqlQuery;
+    qDebug()<<"remove DB";
+}
+
 database::~database()
 {
 

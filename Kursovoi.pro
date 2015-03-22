@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     query_result.cpp \
     my_function_for_ui.cpp \
     query_void.cpp \
-    dir.cpp
+    dir.cpp \
+    plan_building_time.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
@@ -36,7 +37,8 @@ HEADERS  += mainwindow.h \
     client.h \
     pictures_stroitel.h \
     query_result.h \
-    dir.h
+    dir.h \
+    plan_building_time.h
 
 FORMS    += mainwindow.ui
 
