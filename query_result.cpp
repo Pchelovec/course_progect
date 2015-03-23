@@ -546,9 +546,11 @@ QString query_result::save_progect(QString client_passport, QString house_id)
     reset();
     QDate dat;
     QString q;
+    QTime time_now=time_now.currentTime();
     q="insert into progect (passport_client, house_id, data_) values (";
-    q=q+"'"+client_passport+"', "+house_id+", "+"'"+QString::number(dat.currentDate().year())+"-"+QString::number(dat.currentDate().month())+"-"+QString::number(dat.currentDate().day())+"'";
-    q=q+");";
+    q=q+"'"+client_passport+"', "+house_id+", "+"'"+QString::number(dat.currentDate().year())+"-"+QString::number(dat.currentDate().month())+"-"+QString::number(dat.currentDate().day())+" ";
+    q=q+QString::number(time_now.hour())+":"+QString::number(time_now.minute())+":"+QString::number(time_now.second());
+    q=q+"');";
     qDebug()<<q<<endl;
     DB->query->exec(q);
 
@@ -558,35 +560,38 @@ return return_progect_id(client_passport, house_id);
 QString query_result::return_progect_id(QString client_passport, QString house_id)
 {
     reset();
-    QString ID_progect;
+    //QString ID_progect;
 
     QString s("");
     s="select ID, data_ from progect where passport_client='"+client_passport+"' and  house_id="+house_id+";";
     QList <QDate> date;
     QList <QString> id;
     qDebug()<<s<<endl;
+    s=s+" order by data_ ASC";
     DB->query->exec(s);
-    while (DB->query->next())
+    if (DB->query->next())
     {
-        id.push_back(DB->query->value(0).toString());
-        date.push_back(DB->query->value(1).toDate());
+        return DB->query->value(0).toString();
+        //id.push_back(DB->query->value(0).toString());
+        //date.push_back(DB->query->value(1).toDate());
     }
-    ID_progect=id[0];
-    if (id.size()>1)
-    {
-        QDate max=date[0];
-        int i_max=0;
-        for (int i=0;i<date.size();i++)
-        {
-            if (max<date[i])
-            {
-                i_max=i;
-                max=date[i];
-            }
-        }
-        return id[i_max];
-    }
-    else return ID_progect;
+//    ID_progect=id[0];
+//    if (id.size()>1)
+//    {
+//        QDate max=date[0];
+//        int i_max=0;
+//        for (int i=0;i<date.size();i++)
+//        {
+//            if (max<date[i])
+//            {
+//                i_max=i;
+//                max=date[i];
+//            }
+//        }
+//        return id[i_max];
+//    }
+    //else
+        return "";
 }
 
 QString query_result::ret_id_house_with_id_progect(QString ID_progect)
@@ -595,6 +600,8 @@ QString query_result::ret_id_house_with_id_progect(QString ID_progect)
     QString ID_house;
     QString s("");
     s="select house_id from progect where ID="+ID_progect;
+
+
     qDebug()<<s<<endl;
     DB->query->exec(s);
     if (DB->query->next())
@@ -649,9 +656,10 @@ QList<building> query_result::return_list_worked_plan_now(QString ID_special)
 QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
 {
     reset();
-    QString s("SELECT special.`name`, special_brig.id_brig"
-                " FROM special_brig , special"
-                " WHERE special.id = special_brig.id_special AND special.id =");
+    QString s(" SELECT s_b.id_brig FROM special_brig s_b"
+              " WHERE s_b.id_brig=any(SELECT group_eq.id_brig FROM group_eq GROUP BY group_eq.id_brig) or s_b.id_brig=any (SELECT grup.group_id FROM grup GROUP BY grup.group_id)"
+              " GROUP BY s_b.id_special"
+              " HAVING s_b.id_special= ");
     s=s+ID_special+";";
 
     qDebug()<<s<<endl;
@@ -662,6 +670,53 @@ QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
     {
         QString temp;
            temp=DB->query->value(1).toString();
+        result.push_back(temp);
+    }
+    return result;
+}
+
+QList <material> query_result::material_for_building(QString ID_b)
+{
+    reset();
+    QList <material> result;
+    QString s("");
+
+    s=s+" SELECT neded_materials.namber_material, neded_materials.count"
+            " FROM neded_materials"
+            " WHERE neded_materials.number_of_building="+ID_b+";";
+
+
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+        material temp;
+            temp.ID=DB->query->value(0).toString();
+            temp.count=DB->query->value(1).toString();
+        result.push_back(temp);
+    }
+    return result;
+}
+
+QList <material> query_result::material_with_param(material val)
+{
+    reset();
+    QList <material> result;
+
+    QString s("select * from all_material where ");
+    s=s+"name like'%"+val.name+"%' ";
+    if (val.ID!="")
+    {
+        s=s+" and ID_material="+val.ID;
+    }
+
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    while (DB->query->next())
+    {
+        material temp;
+        temp.name=DB->query->value(0).toString();
+        temp.count=DB->query->value(4).toString();
         result.push_back(temp);
     }
     return result;

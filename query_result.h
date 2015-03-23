@@ -42,6 +42,12 @@ public:
 
     void material_up_2_to_1 (material val);//update
 
+    QList <material> material_for_building(QString ID_b);
+
+    QList <material> material_with_param(material val);
+
+    //void sub_material (material sub_val);//update
+
     //----------------------------------------------------------------рабочие
 
     QList <worker> worker_all(worker wor);//SELECT

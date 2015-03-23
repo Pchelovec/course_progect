@@ -152,6 +152,11 @@ private:                                                            //перем
     //----------------------------------------------статистика
     void load_statistic();
     void clear_statistic();
+
+    void load_progect_info(QList <material_ned> table, QString ID_progect);//загрузка информации о заключеном проекте
+        void set_table_total_material(QList <material_ned> table);//таблица материалов которые нужно докупить
+        void set_table_grafic(QString ID_progect);
+        void set_individual_info(QString ID_progect);
     //----------------------------------------------общие
     void load_work_process();
 
@@ -166,6 +171,7 @@ private:                                                            //перем
 
 
     void dell_problem(QString v);
+    void dell_problem(int i);
 
 
     //--------------------------------------------------------------------

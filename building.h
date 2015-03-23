@@ -15,6 +15,10 @@ struct material_ned
     QString number_material;
     QString  count_material;
     QString name_material;
+
+    QString rebuy;
+    QString now;
+    QString need;
 };
 
 struct period

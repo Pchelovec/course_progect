@@ -1,8 +1,8 @@
 #include "plan_building_time.h"
-
+#include <QPushButton>
 plan_building_time::plan_building_time()
 {
-QUEry =new query_result;
+    QUEry =new query_result;
 }
 
 plan_building_time::~plan_building_time()
@@ -56,12 +56,12 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
 
     QSet <QString> set_id_brig;
 
-    for (int i=0;i<time_list.size();i++)
-    {
-        set_id_brig.insert(time_list[i].ID);
-    }
+//    for (int i=0;i<time_list.size();i++)
+//    {
+//        set_id_brig.insert(time_list[i].ID);
+//    }
     QList<QString> dop_list=QUEry->ret_list_brig_with_special(val.special_brig);
-    for (int i=0;i<dop_list.size();i++)//бобавить бригады которые выходят на работу 1 раз
+    for (int i=0;i<dop_list.size();i++)//бобавить бригады которые могут выйти на работу
     {
         set_id_brig.insert(dop_list[i]);
     }
@@ -149,17 +149,60 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
     }
 }//оптимальное время постройки выбрано для этапа
 
-//period plan_building_time::period_date_to_period_str(period_date val)
-//{
-//    period result;
-
-//        result.date_start=QString::number(val.date_start.year())+"-"+QString::number(val.date_start.month())+"-"+QString::number(val.date_start.day());
-//        result.date_fin=QString::number(val.date_fini.year())+"-"+QString::number(val.date_fini.month())+"-"+QString::number(val.date_fini.day());
-
-//    return result;
-//}
-
-void plan_building_time::sub_material_for_building(QString ID_building)
+QList <material_ned> plan_building_time::sub_material_for_building(QString ID_building)
 {
+    QList <material_ned> result;
     qDebug()<<"расчет материалов"<<endl;
+
+    QList <material> need_material_for_building=QUEry->material_for_building(ID_building);
+
+    int size_need_mat=need_material_for_building.size();
+    if (size_need_mat>0)
+    {
+        for (int i=0;i<size_need_mat;i++)
+        {
+            material temp;
+            temp=need_material_for_building[i];
+            QList<material> list_mat=QUEry->material_with_param(temp);
+
+            if (list_mat.size()==1)
+            {
+                if (((list_mat[0].count.toInt()-temp.count.toInt())<0))//не хватает
+                {
+                    qDebug()<<"не достаточно материала";
+                    material nedost;
+                    nedost.ID=list_mat[0].ID;
+                    nedost.count=QString::number(temp.count.toInt()-list_mat[0].count.toInt());//недостаток шт
+
+                    material_ned val_temp;
+                    val_temp.name_material=list_mat[0].name;
+                    val_temp.count_material=temp.count;
+                    val_temp.now=list_mat[0].count;
+                    val_temp.rebuy=nedost.count;
+
+                    QUEry->material_up_summ_count("0", temp.ID);
+                    result.push_back(val_temp);
+                }
+                else //обычное списание
+                {
+                    qDebug()<<"достаточно материала";
+                    QUEry->material_up_summ_count("0", temp.ID);
+                }
+            }
+            else
+            {
+                QMessageBox msgBox;
+                msgBox.setText("ошибка автоматического списания материала, материала нет и никога не было на складе");
+                msgBox.exec();
+            }
+        }
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("ошибка автоматического списания материалов со склада, список необходимых материалов пуст");
+        msgBox.exec();
+    }
+return result;//список материалов которых мало на складе
 }
+

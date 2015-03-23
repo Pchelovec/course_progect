@@ -2192,194 +2192,205 @@
        </widget>
       </widget>
       <widget class="QWidget" name="page_13">
-       <widget class="QGroupBox" name="groupBox_10">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>20</y>
-          <width>282</width>
-          <height>391</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>информация о заключенном контракте</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_51">
-         <item row="0" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <item>
-            <widget class="QLabel" name="label_68">
-             <property name="text">
-              <string>дата начала строительных работ</string>
-             </property>
-            </widget>
+       <layout class="QGridLayout" name="gridLayout_52">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_10">
+          <property name="title">
+           <string>информация о заключенном контракте</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_51">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QLabel" name="label_68">
+               <property name="text">
+                <string>дата начала строительных работ</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="dateEdit_2">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item>
-            <widget class="QDateEdit" name="dateEdit_2"/>
+           <item row="1" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <widget class="QLabel" name="label_69">
+               <property name="text">
+                <string>дата окончания строительства</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="dateEdit_3"/>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
+             <item>
+              <widget class="QLabel" name="label_71">
+               <property name="text">
+                <string>заказчик</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_5">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <item>
+              <widget class="QLabel" name="label_72">
+               <property name="text">
+                <string>код поекта</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_6">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <spacer name="horizontalSpacer_23">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_70">
+               <property name="text">
+                <string>график работ</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_24">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="5" column="0">
+            <widget class="QTableView" name="tableView"/>
+           </item>
+           <item row="7" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_14">
+             <item>
+              <widget class="QLabel" name="label_67">
+               <property name="text">
+                <string>сумма</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_4">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="8" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <spacer name="horizontalSpacer_21">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="resurs.qrc">
+                 <normaloff>:/pictures/res/Printer.png</normaloff>:/pictures/res/Printer.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_22">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="6" column="0">
+            <widget class="QTableWidget" name="material_need_but_out_"/>
            </item>
           </layout>
-         </item>
-         <item row="1" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
-           <item>
-            <widget class="QLabel" name="label_69">
-             <property name="text">
-              <string>дата окончания строительства</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDateEdit" name="dateEdit_3"/>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_16">
-           <item>
-            <widget class="QLabel" name="label_71">
-             <property name="text">
-              <string>заказчик</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_5"/>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_15">
-           <item>
-            <widget class="QLabel" name="label_72">
-             <property name="text">
-              <string>код поекта</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_6"/>
-           </item>
-          </layout>
-         </item>
-         <item row="4" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
-           <item>
-            <spacer name="horizontalSpacer_23">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_70">
-             <property name="text">
-              <string>график работ</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_24">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="5" column="0">
-          <widget class="QTableView" name="tableView"/>
-         </item>
-         <item row="6" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_14">
-           <item>
-            <widget class="QLabel" name="label_67">
-             <property name="text">
-              <string>сумма</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_4">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="7" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
-           <item>
-            <spacer name="horizontalSpacer_21">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_5">
-             <property name="minimumSize">
-              <size>
-               <width>50</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>50</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="resurs.qrc">
-               <normaloff>:/pictures/res/Printer.png</normaloff>:/pictures/res/Printer.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>50</width>
-               <height>50</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_22">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

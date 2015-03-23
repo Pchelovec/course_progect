@@ -1459,16 +1459,16 @@ void MainWindow::save_progect_info()
             {
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //занесение информации о постройке
-                //вернуть id постройки
-                ID=save_all_info_buildin(true);
+
+                ID=save_all_info_buildin(true);//вернуть id постройки
                 QString progect_id;
                 progect_id=QUERY->save_progect(ui->lineEdit_client_pasport_input->text(), ID);
                 qDebug()<<"сохранение уникальной постройки и создание проекта"<<endl;
                 plan_building_time b;
-                b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());
-                //b.sub_material_for_building(ID);
-                //расчет графика работ и вывод данных на печать
+                b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());//расчет графика работ
+                QList <material_ned> material=b.sub_material_for_building(ID);
 
+                load_progect_info(material, ui->building_id_for_progect->text());//вывод данных на печать
             }
             else
             {
@@ -1485,10 +1485,11 @@ void MainWindow::save_progect_info()
                 //building b;
                 plan_building_time b;
                 b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());
-                //b.sub_material_for_building(ID);
+                QList <material_ned> material=b.sub_material_for_building(ID);
                 qDebug()<<"проект стандартной постройки"<<endl;
                 //расчет графика работ и вывод данных на печать
                 //qDebug()<<"расчет графика"<<endl;
+                load_progect_info(material, ui->building_id_for_progect->text());
             }
             else
             {
@@ -1508,4 +1509,64 @@ void MainWindow::save_client()
     temp.phone=ui->lineEdit_client_phone_input->text();
     temp.year_birthday=ui->lineEdit_client_yearBir_input->text();
     QUERY->insert_client_info(temp);
+}
+
+void MainWindow::load_progect_info(QList <material_ned> table,QString ID_progect)
+{
+    set_table_total_material(table);
+    set_table_grafic(ID_progect);
+    set_individual_info(ID_progect);
+
+}
+void MainWindow::set_table_total_material(QList <material_ned> table)
+{
+ui->stackedWidget->setCurrentIndex(12);
+int table_row=table.size();
+if (table_row>0)
+{
+    ui->material_need_but_out_->clear();
+    ui->material_need_but_out_->setVisible(true);
+    ui->material_need_but_out_->setColumnCount(4);
+    ui->material_need_but_out_->setHorizontalHeaderLabels(QStringList()<<"название материала"<<"необходимо"<<"есть на складе"<<"докупить");
+    ui->material_need_but_out_->setRowCount(table_row);
+    ui->material_need_but_out_->setToolTip(tr("материалы для допокупки"));
+    for (int i=0;i<table_row;i++)
+    {
+    QTableWidgetItem *name=new QTableWidgetItem;
+
+         name->setText(table[i].name_material);
+         name->setBackgroundColor(Qt::green);
+
+    QTableWidgetItem *need=new QTableWidgetItem;
+        need->setText(table[i].count_material);
+        need->setBackgroundColor(Qt::green);
+
+    QTableWidgetItem *now=new QTableWidgetItem;
+        now->setText(table[i].now);
+        now->setBackgroundColor(Qt::yellow);
+
+    QTableWidgetItem *rebuy=new QTableWidgetItem;
+        rebuy->setText(table[i].rebuy);
+        rebuy->setBackgroundColor(Qt::red);
+
+    ui->material_need_but_out_->setItem(i,0,name);
+    ui->material_need_but_out_->setItem(i,1,need);
+    ui->material_need_but_out_->setItem(i,2,now);
+    ui->material_need_but_out_->setItem(i,3,rebuy);
+    }
+}
+else
+{
+    ui->material_need_but_out_->setVisible(false);
+}
+}
+
+void MainWindow::set_table_grafic(QString ID_progect)
+{
+
+}
+
+void MainWindow::set_individual_info(QString ID_progect)
+{
+
 }

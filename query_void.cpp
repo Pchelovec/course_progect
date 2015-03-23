@@ -392,3 +392,14 @@ void query_result::make_step_building(building val, QString ID_brig, QString pro
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
+
+//void query_result::sub_material (material sub_val)
+//{
+//    reset();
+
+//    QString q("");
+
+//    material_up_summ_count(now-need, sub_val.ID)
+//    qDebug()<<q<<endl;
+//    DB->query->exec(q);
+//}
