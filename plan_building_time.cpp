@@ -65,6 +65,12 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
     {
         set_id_brig.insert(dop_list[i]);
     }
+//    qDebug()<<"set=";
+//    for (int i=0;i<set_id_brig.size();i++)
+//    {
+//        qDebug<<*(set_id_brig.begin()+i);
+//    }
+//    qDebug()<<"==========";
     if (set_id_brig.size()!=0)
     {
     //проверка на 0 бригад
@@ -125,7 +131,7 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
         }
     }
 
-    QDate buf_date=min_date.addDays(1);
+    QDate buf_date=min_date;
     QDate fin_date=buf_date.addDays(val.day_count.toInt());
     building t;
     QString id_bri("");

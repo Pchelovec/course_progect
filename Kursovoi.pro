@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     my_function_for_ui.cpp \
     query_void.cpp \
     dir.cpp \
-    plan_building_time.cpp
+    plan_building_time.cpp \
+    info_ui_function.cpp
 
 HEADERS  += mainwindow.h \
     database.h \

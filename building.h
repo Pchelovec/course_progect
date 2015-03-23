@@ -43,6 +43,7 @@ struct price_double
     QString price_start;
     QString price_fin;
 };
+
 using namespace std;
 class building
 {

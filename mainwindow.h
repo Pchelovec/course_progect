@@ -284,5 +284,7 @@ private slots:
     void on_BD_change_triggered();
     void on_statistic_triggered();
     void on_lineEdit_client_pasport_input_textChanged(const QString &arg1);
+    void on_statistic_time_fin_dateChanged(const QDate &date);
+    void on_statistic_time_start_dateChanged(const QDate &date);
 };
 #endif // MAINWINDOW_H

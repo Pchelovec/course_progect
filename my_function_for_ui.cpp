@@ -1410,7 +1410,24 @@ void MainWindow::save_new_eqw()
 
 void MainWindow::load_statistic()
 {
+    period_date dat;
+    dat.date_start=ui->statistic_time_start->date();
+    dat.date_fini=ui->statistic_time_fin->date();
 
+    building statistic_ynic=QUERY->info_for_progect(dat,true);
+    building statistic_standart=QUERY->info_for_progect(dat,false);
+
+    ui->progect_count_all_type->setText(QString::number(statistic_standart.ID.toInt()+statistic_ynic.ID.toInt()));
+        ui->progect_count_standart->setText(statistic_standart.ID);
+        ui->progect_count_ynic->setText(statistic_ynic.ID);
+
+    ui->progect_sum_money_all_type->setText(QString::number(statistic_standart.price_pair.price_fin.toDouble()+statistic_ynic.price_pair.price_fin.toDouble()));
+        ui->progect_standart_money->setText(statistic_standart.price_pair.price_fin);
+        ui->progect_ynic_money->setText(statistic_ynic.price_pair.price_fin);
+
+    ui->progect_info_money_pay->setText(QString::number(statistic_standart.price_pair.price_start.toDouble()+statistic_ynic.price_pair.price_start.toDouble()));
+        ui->progect_info_money_pay_standart->setText(statistic_standart.price_pair.price_start);
+        ui->progect_info_money_pay_ynic->setText(statistic_ynic.price_pair.price_start);
 }
 
 void MainWindow::clear_statistic()
@@ -1468,7 +1485,7 @@ void MainWindow::save_progect_info()
                 b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());//расчет графика работ
                 QList <material_ned> material=b.sub_material_for_building(ID);
 
-                load_progect_info(material, ui->building_id_for_progect->text());//вывод данных на печать
+                load_progect_info(material, progect_id);//вывод данных на печать
             }
             else
             {
@@ -1482,21 +1499,19 @@ void MainWindow::save_progect_info()
                 ID=ui->building_id_for_progect->text();//постройки
                 QString progect_id;
                 progect_id=QUERY->save_progect(ui->lineEdit_client_pasport_input->text(), ID);
-                //building b;
+
                 plan_building_time b;
                 b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());
                 QList <material_ned> material=b.sub_material_for_building(ID);
                 qDebug()<<"проект стандартной постройки"<<endl;
                 //расчет графика работ и вывод данных на печать
-                //qDebug()<<"расчет графика"<<endl;
-                load_progect_info(material, ui->building_id_for_progect->text());
+                load_progect_info(material, progect_id);
             }
             else
             {
                 ui->statusBar->showMessage("стандартный проект не выбран");
             }
         }
-
     }
 }
 
@@ -1568,5 +1583,13 @@ void MainWindow::set_table_grafic(QString ID_progect)
 
 void MainWindow::set_individual_info(QString ID_progect)
 {
+    ui->progect_id_info->setText(ID_progect);
+    building info=QUERY->info_about_progect(ID_progect);
+    ui->client_name_info->setText(info.ID);
+    ui->sum_info->setText(info.price);
 
+    period_date d=QUERY->min_max_date_progect(ID_progect);
+    ui->date_start_work_info->setDate(d.date_start);
+    ui->date_fin_work_info->setDate(d.date_fini);
 }
+

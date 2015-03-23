@@ -480,8 +480,9 @@ QString query_result::ret_building_ID_with_name(QString name)
     s=s+name+"';";
     qDebug()<<s<<endl;
     DB->query->exec(s);
-    DB->query->next();
-    return DB->query->value(0).toString();
+    if (DB->query->next())
+        return DB->query->value(0).toString();
+    else return "";
 }
 
 QString  query_result::ret_id_special_with_name(QString name_spec)
@@ -547,7 +548,7 @@ QString query_result::save_progect(QString client_passport, QString house_id)
     QDate dat;
     QString q;
     QTime time_now=time_now.currentTime();
-    q="insert into progect (passport_client, house_id, data_) values (";
+    q="insert into progect (oplata, passport_client, house_id, data_) values (0, ";
     q=q+"'"+client_passport+"', "+house_id+", "+"'"+QString::number(dat.currentDate().year())+"-"+QString::number(dat.currentDate().month())+"-"+QString::number(dat.currentDate().day())+" ";
     q=q+QString::number(time_now.hour())+":"+QString::number(time_now.minute())+":"+QString::number(time_now.second());
     q=q+"');";
@@ -563,35 +564,20 @@ QString query_result::return_progect_id(QString client_passport, QString house_i
     //QString ID_progect;
 
     QString s("");
-    s="select ID, data_ from progect where passport_client='"+client_passport+"' and  house_id="+house_id+";";
+    s="select ID, data_ from progect where passport_client='"+client_passport+"' and  house_id="+house_id;
     QList <QDate> date;
     QList <QString> id;
+    s=s+" order by data_ desc;";
     qDebug()<<s<<endl;
-    s=s+" order by data_ ASC";
     DB->query->exec(s);
     if (DB->query->next())
     {
         return DB->query->value(0).toString();
-        //id.push_back(DB->query->value(0).toString());
-        //date.push_back(DB->query->value(1).toDate());
     }
-//    ID_progect=id[0];
-//    if (id.size()>1)
-//    {
-//        QDate max=date[0];
-//        int i_max=0;
-//        for (int i=0;i<date.size();i++)
-//        {
-//            if (max<date[i])
-//            {
-//                i_max=i;
-//                max=date[i];
-//            }
-//        }
-//        return id[i_max];
-//    }
-    //else
+    else
+    {
         return "";
+    }
 }
 
 QString query_result::ret_id_house_with_id_progect(QString ID_progect)
@@ -669,7 +655,7 @@ QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
     while (DB->query->next())
     {
         QString temp;
-           temp=DB->query->value(1).toString();
+           temp=DB->query->value(0).toString();
         result.push_back(temp);
     }
     return result;
@@ -721,3 +707,87 @@ QList <material> query_result::material_with_param(material val)
     }
     return result;
 }
+
+building query_result::info_for_progect(period_date dat, bool ynic)
+{
+    reset();
+    building result;
+
+        QString s("SELECT SUM(progect.oplata), SUM(building.price), SUM(1)"
+                  " FROM progect ,building"
+                  " WHERE progect.house_id = building.ID_b and building.building_ynical");
+
+       if (ynic)
+       {
+           s=s+" <>0 ";
+       }
+       else
+       {
+           s=s+"=0";
+       }
+       s=s+" and data_ BETWEEN '"+dat.date_start.toString("yyyy-MM-dd")+"' and '"+dat.date_fini.toString("yyyy-MM-dd")+"'";
+       s=s+" GROUP BY building_ynical;";
+       qDebug()<<s<<endl;
+       DB->query->exec(s);
+       if (DB->query->next())
+       {
+           result.price_pair.price_start=DB->query->value(0).toString();
+           result.price_pair.price_fin=DB->query->value(1).toString();
+           result.ID=DB->query->value(2).toString();
+       }
+    return result;
+}
+
+building query_result::info_about_progect(QString ID_P)
+{
+    reset();
+    building result;
+
+    QString s(" SELECT client.client_fio, building.price"
+              " FROM progect , building , client"
+              " WHERE progect.house_id = building.ID_b AND client.client_passport = progect.passport_client AND progect.ID=");
+    s=s+ID_P+";";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    if (DB->query->next())
+    {
+        result.ID=DB->query->value(0).toString();
+        result.price=DB->query->value(1).toString();
+    }
+    return result;
+}
+
+period_date query_result::min_max_date_progect(QString ID_P)
+{
+    reset();
+    period_date result;
+
+        QString s("SELECT max(group_time.date_fin)"
+                  " FROM group_time"
+                  " where group_time.id_progect=");
+
+
+                s=s+ID_P+";";
+                qDebug()<<s<<endl;
+                DB->query->exec(s);
+                if (DB->query->next())
+                {
+                    result.date_fini=DB->query->value(0).toDate();
+                }
+    reset();
+
+    QString s2("SELECT min(group_time.date_start)"
+              " FROM group_time"
+              " where group_time.id_progect=");
+
+
+            s2=s2+ID_P+";";
+            qDebug()<<s2<<endl;
+            DB->query->exec(s2);
+            if (DB->query->next())
+            {
+                result.date_start=DB->query->value(0).toDate();
+            }
+        return result;
+}
+

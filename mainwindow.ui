@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>941</width>
-    <height>522</height>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2151,45 +2151,6 @@
          </item>
         </layout>
        </widget>
-       <widget class="QGroupBox" name="groupBox_9">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>20</y>
-          <width>291</width>
-          <height>281</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>статистика текущих проектов</string>
-        </property>
-        <widget class="QLabel" name="label_65">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>90</y>
-           <width>111</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>активных проектов</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_66">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>50</y>
-           <width>131</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>завершенных проектов</string>
-         </property>
-        </widget>
-       </widget>
       </widget>
       <widget class="QWidget" name="page_13">
        <layout class="QGridLayout" name="gridLayout_52">
@@ -2209,7 +2170,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="dateEdit_2">
+              <widget class="QDateEdit" name="date_start_work_info">
                <property name="enabled">
                 <bool>true</bool>
                </property>
@@ -2227,7 +2188,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="dateEdit_3"/>
+              <widget class="QDateEdit" name="date_fin_work_info"/>
              </item>
             </layout>
            </item>
@@ -2241,7 +2202,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_5">
+              <widget class="QLineEdit" name="client_name_info">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -2259,7 +2220,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_6">
+              <widget class="QLineEdit" name="progect_id_info">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -2305,7 +2266,7 @@
             </layout>
            </item>
            <item row="5" column="0">
-            <widget class="QTableView" name="tableView"/>
+            <widget class="QTableView" name="steps_infp"/>
            </item>
            <item row="7" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2317,7 +2278,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_4">
+              <widget class="QLineEdit" name="sum_info">
                <property name="enabled">
                 <bool>false</bool>
                </property>
@@ -2341,7 +2302,7 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="print_PB">
                <property name="minimumSize">
                 <size>
                  <width>50</width>

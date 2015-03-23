@@ -666,9 +666,20 @@ void MainWindow::on_BD_change_triggered()
 void MainWindow::on_statistic_triggered()
 {
     clear_statistic();
+    load_statistic();
 }
 
 void MainWindow::on_lineEdit_client_pasport_input_textChanged(const QString &arg1)
 {
     load_avto_client_with_pasport(arg1);
+}
+
+void MainWindow::on_statistic_time_fin_dateChanged(const QDate &date)
+{
+    load_statistic();
+}
+
+void MainWindow::on_statistic_time_start_dateChanged(const QDate &date)
+{
+    load_statistic();
 }

@@ -128,6 +128,12 @@ public:
 
      QString  ret_id_special_with_name(QString name_spec);
 
+     building info_for_progect(period_date dat, bool ynic);
+
+     building info_about_progect(QString ID_P);//select
+
+     period_date min_max_date_progect(QString ID_P);//select
+
      QList <QString> avto_special_all();//AVTO
 
 //===============================================================================================================
