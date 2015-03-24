@@ -1923,234 +1923,230 @@
        </widget>
       </widget>
       <widget class="QWidget" name="page_12">
-       <widget class="QGroupBox" name="groupBox_8">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>20</y>
-          <width>358</width>
-          <height>295</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>статистика доходов фирмы</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_50">
-         <item row="2" column="0" colspan="3">
-          <layout class="QGridLayout" name="gridLayout_47">
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_59">
+       <layout class="QGridLayout" name="gridLayout_53">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_8">
+          <property name="title">
+           <string>статистика доходов фирмы</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_50">
+           <item row="2" column="0" colspan="3">
+            <layout class="QGridLayout" name="gridLayout_47">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_59">
+               <property name="text">
+                <string>стандартных</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="progect_count_standart">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_60">
+               <property name="text">
+                <string>уникальных</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLineEdit" name="progect_count_ynic">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" rowspan="2">
+              <spacer name="horizontalSpacer_18">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="0" colspan="3">
+            <layout class="QGridLayout" name="gridLayout_48">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_61">
+               <property name="text">
+                <string>за стандартные</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="progect_standart_money">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_62">
+               <property name="text">
+                <string>за уникальные</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLineEdit" name="progect_ynic_money">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" rowspan="2">
+              <spacer name="horizontalSpacer_19">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="6" column="0" colspan="3">
+            <layout class="QGridLayout" name="gridLayout_49">
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_63">
+               <property name="text">
+                <string>за стандартные</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="progect_info_money_pay_standart">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_64">
+               <property name="text">
+                <string>за уникальные</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLineEdit" name="progect_info_money_pay_ynic">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0" rowspan="2">
+              <spacer name="horizontalSpacer_20">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_56">
              <property name="text">
-              <string>стандартных</string>
+              <string>всего проектов</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="progect_count_standart">
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_57">
+             <property name="text">
+              <string>предпологаемый доход</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="progect_sum_money_all_type">
              <property name="enabled">
               <bool>false</bool>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_60">
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_58">
              <property name="text">
-              <string>уникальных</string>
+              <string>полученные средства</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="progect_count_ynic">
+           <item row="5" column="2">
+            <widget class="QLineEdit" name="progect_info_money_pay">
              <property name="enabled">
               <bool>false</bool>
              </property>
             </widget>
            </item>
-           <item row="0" column="0" rowspan="2">
-            <spacer name="horizontalSpacer_18">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+           <item row="0" column="0" colspan="3">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QLabel" name="label_54">
+               <property name="maximumSize">
+                <size>
+                 <width>10</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>с</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="statistic_time_start"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_55">
+               <property name="maximumSize">
+                <size>
+                 <width>15</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>по</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDateEdit" name="statistic_time_fin"/>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="1" colspan="2">
+            <widget class="QLineEdit" name="progect_count_all_type">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+            </widget>
            </item>
           </layout>
-         </item>
-         <item row="4" column="0" colspan="3">
-          <layout class="QGridLayout" name="gridLayout_48">
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_61">
-             <property name="text">
-              <string>за стандартные</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="progect_standart_money">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_62">
-             <property name="text">
-              <string>за уникальные</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="progect_ynic_money">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" rowspan="2">
-            <spacer name="horizontalSpacer_19">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="6" column="0" colspan="3">
-          <layout class="QGridLayout" name="gridLayout_49">
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_63">
-             <property name="text">
-              <string>за стандартные</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="progect_info_money_pay_standart">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_64">
-             <property name="text">
-              <string>за уникальные</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="progect_info_money_pay_ynic">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" rowspan="2">
-            <spacer name="horizontalSpacer_20">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_56">
-           <property name="text">
-            <string>всего проектов</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_57">
-           <property name="text">
-            <string>предпологаемый доход</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLineEdit" name="progect_sum_money_all_type">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_58">
-           <property name="text">
-            <string>полученные средства</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QLineEdit" name="progect_info_money_pay">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0" colspan="3">
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <item>
-            <widget class="QLabel" name="label_54">
-             <property name="maximumSize">
-              <size>
-               <width>10</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>с</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDateEdit" name="statistic_time_start"/>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_55">
-             <property name="maximumSize">
-              <size>
-               <width>15</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>по</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDateEdit" name="statistic_time_fin"/>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="1" colspan="2">
-          <widget class="QLineEdit" name="progect_count_all_type">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_13">
        <layout class="QGridLayout" name="gridLayout_52">
@@ -2172,7 +2168,7 @@
              <item>
               <widget class="QDateEdit" name="date_start_work_info">
                <property name="enabled">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -2188,7 +2184,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QDateEdit" name="date_fin_work_info"/>
+              <widget class="QDateEdit" name="date_fin_work_info">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -2264,9 +2264,6 @@
               </spacer>
              </item>
             </layout>
-           </item>
-           <item row="5" column="0">
-            <widget class="QTableView" name="steps_infp"/>
            </item>
            <item row="7" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2347,6 +2344,9 @@
            </item>
            <item row="6" column="0">
             <widget class="QTableWidget" name="material_need_but_out_"/>
+           </item>
+           <item row="5" column="0">
+            <widget class="QTableWidget" name="steps_info"/>
            </item>
           </layout>
          </widget>

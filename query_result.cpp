@@ -780,7 +780,6 @@ period_date query_result::min_max_date_progect(QString ID_P)
               " FROM group_time"
               " where group_time.id_progect=");
 
-
             s2=s2+ID_P+";";
             qDebug()<<s2<<endl;
             DB->query->exec(s2);
@@ -791,3 +790,26 @@ period_date query_result::min_max_date_progect(QString ID_P)
         return result;
 }
 
+QList <building> query_result::info_plan_building(QString ID_b)
+{
+    reset();
+    QList <building> result;
+
+        QString s("SELECT group_time.date_start, group_time.date_fin, special.`name`, group_time.id_brig"
+                  " FROM group_time , special , special_brig"
+                  " WHERE special.id = special_brig.id_special AND group_time.id_brig = special_brig.id_brig AND group_time.id_progect=");
+
+        s=s+ID_b+" ORDER BY date_start asc;";
+        qDebug()<<s<<endl;
+        DB->query->exec(s);
+        while (DB->query->next())
+        {
+            building temp;
+                temp.time_pair.date_start=DB->query->value(0).toString();
+                temp.time_pair.date_fin=DB->query->value(1).toString();
+                temp.name=DB->query->value(2).toString();
+                temp.ID=DB->query->value(3).toString();//id бригады
+            result.push_back(temp);
+        }
+    return result;
+}

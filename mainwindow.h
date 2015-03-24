@@ -149,7 +149,7 @@ private:                                                            //перем
 
     void set_need_to_pay();
     void pay_progect();
-    //----------------------------------------------статистика
+    //----------------------------------------------статистика+
     void load_statistic();
     void clear_statistic();
 
@@ -157,32 +157,28 @@ private:                                                            //перем
         void set_table_total_material(QList <material_ned> table);//таблица материалов которые нужно докупить
         void set_table_grafic(QString ID_progect);
         void set_individual_info(QString ID_progect);
+
+    void load_oplata_progecta();
     //----------------------------------------------общие
     void load_work_process();
-
     QString split_str(QString val);
     void clear_st_wid_0();
+    void save_price_to_file();
+    void  unshow_percent();
+
     void first_initial_component();
     void Q_Object_connect();
     void set_visible_enabled();
     void set_validator_all();
-    void save_price_to_file();
-    void  unshow_percent();
-
-
     void dell_problem(QString v);
     void dell_problem(int i);
-
-
     //--------------------------------------------------------------------
 
     void clear_first();
 
-    void load_oplata_progecta();
-
 //    void reload_double_table();
 
-    void initial_detel_ifo_technics();
+    //void initial_detel_ifo_technics();
 
 public:
     Ui::MainWindow *ui;

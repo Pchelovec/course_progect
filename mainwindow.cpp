@@ -111,19 +111,6 @@ void MainWindow::on_work_process_option_triggered()
     load_work_process();
 }
 
-void MainWindow::load_work_process()
-{
-    int work_day=0;
-    int holl_day=0;
-
-    //считывание из файла
-
-    ui->work_day_LE->setText(QString::number(work_day));
-    ui->holl_day_LE->setText(QString::number(holl_day));
-    ui->work_option_GB->setVisible(true);
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
 void MainWindow::on_tableWidget_worker_clicked(const QModelIndex &index)
 {
     ui->pusB_Sotrudnic_del->setEnabled(true);
@@ -547,16 +534,6 @@ void MainWindow::set_dop_price()
     ui->pore_pay_procent_SpB->clear();
     dir t;
     ui->pore_pay_procent_SpB->setValue(t.read_procent_File());
-}
-void MainWindow::save_price_to_file()
-{
-    dir d;//сохранение в файл
-    if (d.write_procent_File(ui->pore_pay_procent_SpB->value()))
-        ui->statusBar->showMessage(tr("наценка сохранена"));
-    else
-    {
-        ui->statusBar->showMessage(tr("наценка не охранена"));
-    }
 }
 
 void MainWindow::on_need_to_pay_PB_clicked()

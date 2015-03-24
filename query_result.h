@@ -122,6 +122,8 @@ public:
     QList <QString> ret_list_brig_with_special(QString ID_special);
 
     void make_step_building(building val, QString ID_brig, QString progect_id);
+
+    QList <building> info_plan_building(QString ID_b);
     //-----------------------------------------------------------другие
      QList <person_plas_prog> person_with_ID_building(QString ID_B);//SELECT информация о заказчике с постройкий ID_B
      void new_brig_with_special(QString special_name);//INSERT
