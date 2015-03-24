@@ -21,7 +21,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>12</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -2397,6 +2397,7 @@
     <addaction name="separator"/>
     <addaction name="work_process_option"/>
     <addaction name="action_3"/>
+    <addaction name="actionPrint"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_3"/>
@@ -2567,6 +2568,11 @@
    </property>
    <property name="text">
     <string>статистика</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="text">
+    <string>print</string>
    </property>
   </action>
  </widget>

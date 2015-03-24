@@ -7,7 +7,15 @@ void query_result::reset()
         DB->remove();
     }
 }
+void query_result::connect()
+{
+    DB=new database;
+}
 
+void query_result::close_connect()
+{
+    delete DB;
+}
 void query_result::material_up_summ_count(QString SUM, QString ID)
 {
     reset();
@@ -393,13 +401,44 @@ void query_result::make_step_building(building val, QString ID_brig, QString pro
     DB->query->exec(q);
 }
 
-//void query_result::sub_material (material sub_val)
-//{
-//    reset();
-
-//    QString q("");
-
-//    material_up_summ_count(now-need, sub_val.ID)
-//    qDebug()<<q<<endl;
-//    DB->query->exec(q);
-//}
+double query_result::need_to_pay(QString ID_progect)
+{
+    reset();
+    QString s("SELECT (building.price-progect.oplata) FROM building , progect WHERE progect.house_id = building.ID_b and progect.ID=");
+    s=s+ID_progect+";";
+    qDebug()<<s<<endl;
+    DB->query->exec(s);
+    if(DB->query->next())
+    {
+        return DB->query->value(0).toDouble();
+    }
+    else return -1;
+}
+double query_result::sum_pay(QString ID_b)
+{
+    reset();
+    QString q;
+    q="select oplata from progect where ID="+ID_b+";";
+    qDebug()<<q<<endl;
+    DB->query->exec(q);
+    if (DB->query->next())
+        return DB->query->value(0).toDouble();
+    else
+        return -1;
+}
+double query_result::sum_material(QList<material_ned> val)
+{
+    reset();
+    int row=val.size();
+    double result=0;
+    for (int i=0;i<row;i++)
+    {
+        QString s("select price from all_material where name='");
+        s=s+val[i].name_material+"';";
+        qDebug()<<s<<endl;
+        DB->query->exec(s);
+        DB->query->next();
+        result=result+DB->query->value(0).toDouble()*val[i].count_material.toInt();
+    }
+    return result;
+}

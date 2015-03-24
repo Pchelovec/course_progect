@@ -1,12 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 void MainWindow::load_progect_info(QList <material_ned> table,QString ID_progect)
 {
     set_table_total_material(table);
     set_table_grafic(ID_progect);
     set_individual_info(ID_progect);
-
+    print->set_info(table, ID_progect, QUERY->info_about_progect(ID_progect),QUERY->info_plan_building(ID_progect));
 }
 void MainWindow::set_table_total_material(QList <material_ned> table)
 {

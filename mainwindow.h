@@ -23,7 +23,7 @@
 #include "query_result.h"
 #include "dir.h"
 #include "plan_building_time.h"
-
+#include "printer.h"
 namespace Ui {
 class MainWindow;
 }
@@ -32,11 +32,9 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:                                                            //переменные
+    printer * print;                                                                //функции
+    //----------------------------------------------постройки+
 
-    building *build;
-                                                                    //функции
-
-    //----------------------------------------------постройки
     void split_house();
     void clear_sh_building();
     void load_building();
@@ -83,7 +81,18 @@ private:                                                            //перем
     void delete_current_level();
     void delete_current_material();
 
-    //----------------------------------------------работники
+    //----------------------------------------------материалы+
+    void split_material();
+    void clear_material();
+    void nestandart_material_load(material mat_like_my);
+    void save_nestandart_materrial_dialog();
+    //void load_newstandart_situat_stack_wid(material mat_like_my);
+    void save_material_from_ui_to_DB();
+    void save_material_all_varibl();
+    //void incorrect_data_material();
+    //void update_material(material mat_like_my);
+
+    //----------------------------------------------работники+
     void split_worker();
     void load_worker();
     void clear_obor_worker_table_wid();
@@ -94,7 +103,7 @@ private:                                                            //перем
     void save_worker();
         void worker_to_db();
 
-    //----------------------------------------------оборудование
+    //----------------------------------------------оборудование+
     void split_eqw();
     void load_technics();
     void load_new_eqwt();
@@ -102,21 +111,9 @@ private:                                                            //перем
     void save_new_eqw();
     void dell_eqw();
     void clear_sh_eqw();
-    void clear_eqw();
-    void poisk_eqw_or_worker_with_2_string();
+    //void poisk_eqw_or_worker_with_2_string();
 
-    //----------------------------------------------материалы
-    void split_material();
-    void clear_material();
-    void nestandart_material_load(material mat_like_my);
-    void save_nestandart_materrial_dialog();
-    void load_newstandart_situat_stack_wid(material mat_like_my);
-    void save_material_from_ui_to_DB();
-    void save_material_all_varibl();
-    void incorrect_data_material();
-    void update_material(material mat_like_my);
-
-    //----------------------------------------------бригада (оборудование + работнтки)
+    //----------------------------------------------бригада (оборудование + работнтки)+
     void reload_double_table();
 
     void load_brig_num_for_new_eqw(QString val);
@@ -175,10 +172,6 @@ private:                                                            //перем
     //--------------------------------------------------------------------
 
     void clear_first();
-
-//    void reload_double_table();
-
-    //void initial_detel_ifo_technics();
 
 public:
     Ui::MainWindow *ui;
@@ -282,5 +275,7 @@ private slots:
     void on_lineEdit_client_pasport_input_textChanged(const QString &arg1);
     void on_statistic_time_fin_dateChanged(const QDate &date);
     void on_statistic_time_start_dateChanged(const QDate &date);
+    void on_print_PB_clicked();
+    void on_actionPrint_triggered();
 };
 #endif // MAINWINDOW_H

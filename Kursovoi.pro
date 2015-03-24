@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,7 +27,13 @@ SOURCES += main.cpp\
     query_void.cpp \
     dir.cpp \
     plan_building_time.cpp \
-    info_ui_function.cpp
+    info_ui_function.cpp \
+    building_ui_function.cpp \
+    group_eqw_special.cpp \
+    worker_ui.cpp \
+    technics_ui.cpp \
+    material_client_ui.cpp \
+    printer.cpp
 
 HEADERS  += mainwindow.h \
     database.h \
@@ -39,7 +45,8 @@ HEADERS  += mainwindow.h \
     pictures_stroitel.h \
     query_result.h \
     dir.h \
-    plan_building_time.h
+    plan_building_time.h \
+    printer.h
 
 FORMS    += mainwindow.ui
 

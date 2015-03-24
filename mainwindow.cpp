@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QUERY=new query_result;
-    build=new building;
+    print=new printer;
     setCentralWidget(ui->stackedWidget);
     first_initial_component();
     ui->statusBar->showMessage(tr("приложение запущено"));
@@ -20,12 +20,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_4_triggered()
 {
-        ui->stackedWidget->setCurrentIndex(1);
         load_technics();
 }
 void MainWindow::on_person_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(3);
     clear_sh_worker();
     load_worker();
 }
@@ -434,10 +432,6 @@ void MainWindow::on_new_standart_level_add_to_table_PB_clicked()
         ui->statusBar->showMessage(tr("заполните данные"));
     }
 }
-void MainWindow::clear_needed_material_standart()
-{
-    ui->new_standart_level_dayLong_SPbx->setValue(0);
-}
 
 void MainWindow::on_new_standart_grafic_TW_clicked(const QModelIndex &index)
 {
@@ -494,7 +488,7 @@ void MainWindow::on_new_ynic_OK_PB_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     bool checked=ui->checkBox_is_ynical_progect->isChecked();
-    if (ui->checkBox_is_ynical_progect->isChecked())
+    if (checked)
     {
         load_ynic_progect_building(true);
     }
@@ -525,15 +519,6 @@ void MainWindow::on_pushButton_4_clicked()
 {
     save_price_to_file();
     unshow_percent();   
-}
-void MainWindow::set_dop_price()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->percent->setVisible(true);
-    //загрузка из файла
-    ui->pore_pay_procent_SpB->clear();
-    dir t;
-    ui->pore_pay_procent_SpB->setValue(t.read_procent_File());
 }
 
 void MainWindow::on_need_to_pay_PB_clicked()
@@ -659,4 +644,15 @@ void MainWindow::on_statistic_time_fin_dateChanged(const QDate &date)
 void MainWindow::on_statistic_time_start_dateChanged(const QDate &date)
 {
     load_statistic();
+}
+
+void MainWindow::on_print_PB_clicked()
+{
+    print->make_ntml();
+    print->print();
+}
+
+void MainWindow::on_actionPrint_triggered()
+{
+    print->print();
 }
