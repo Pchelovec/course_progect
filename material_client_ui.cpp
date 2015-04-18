@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFont>
 void MainWindow::split_client()
 {
     QString s;
@@ -12,7 +11,6 @@ void MainWindow::split_client()
     ui->lineEdit_client_fio_input->clear();
     ui->lineEdit_client_fio_input->setText(split_str(s));
 }
-
 void MainWindow::split_material()
 {
     QString s;
@@ -20,7 +18,6 @@ void MainWindow::split_material()
     ui->material_name_LE->clear();
     ui->material_name_LE->setText(split_str(s));
 }
-
 void MainWindow::clear_material()
 {
     ui->stackedWidget->setCurrentIndex(6);
@@ -29,7 +26,8 @@ void MainWindow::clear_material()
     ui->dSpBo_material_price->setValue(0);
     ui->material_count_sp_box->setValue(0);
     ui->ed_izmeren->clear();
-
+    ui->ed_izmeren->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->ed_izmeren->view()->setCornerWidget(new QSizeGrip(ui->ed_izmeren));
     QList <QString> izmer_list=QUERY->avto_material_list_izmer();
     int row_a=izmer_list.size();
     for (int i=0;i<row_a;i++)
@@ -38,6 +36,8 @@ void MainWindow::clear_material()
         ui->ed_izmeren->addItem(temp);
     }
     ui->funct_naznach->clear();
+    ui->funct_naznach->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->funct_naznach->view()->setCornerWidget(new QSizeGrip(ui->funct_naznach));
     QList <QString> funct_list=QUERY->avto_material_list_naz();
     int row_b=funct_list.size();
     for (int i=0;i<row_b;i++)
@@ -46,7 +46,6 @@ void MainWindow::clear_material()
         ui->funct_naznach->addItem(temp);
     }
 }
-
 void MainWindow::nestandart_material_load(material mat_like_my)
 {
 clear_st_wid_0();
@@ -82,10 +81,8 @@ clear_st_wid_0();
 
     ui->material_ID->display(mat_like_my.ID);
     ui->stackedWidget->setCurrentIndex(0);
-
 clear_material();
 }
-
 void MainWindow::save_nestandart_materrial_dialog()
 {
     material temp;
@@ -115,7 +112,6 @@ void MainWindow::save_nestandart_materrial_dialog()
     QUERY->material_up_2_to_1(temp);
     ui->price_b_ChBox->setChecked(false);
 }
-
 void MainWindow::save_material_from_ui_to_DB()//записать текущий (insert)
 {
     material temp;
@@ -125,8 +121,6 @@ void MainWindow::save_material_from_ui_to_DB()//записать текущий 
          temp.naznach=ui->funct_naznach->currentText();
     }
     else temp.naznach="NULL";
-
-
     temp.price=QString::number(ui->dSpBo_material_price->value());
     if (ui->ed_izmeren->currentText()!="")
     {
@@ -139,7 +133,6 @@ void MainWindow::save_material_from_ui_to_DB()//записать текущий 
     ui->statusBar->showMessage(tr("данные занесены успешно"));
     clear_material();
 }
-
 void MainWindow::save_material_all_varibl()
 {
     split_material();
@@ -192,9 +185,7 @@ void MainWindow::set_default_labels_material()
     ui->label_13->setText(" количество ");
     ui->label_4->setText(" функциональное назначение ");
 }
-
 //==============================================================
-
 void MainWindow::load_avto_client_with_pasport(QString var)
 {
     if (var.length()==8)
@@ -209,7 +200,6 @@ void MainWindow::load_avto_client_with_pasport(QString var)
         }
     }
 }
-
 void MainWindow::save_progect_info()
 {
     QString ID;
@@ -221,9 +211,7 @@ void MainWindow::save_progect_info()
         {//уникальный
             if (correct_data_new_building_progect())
             {
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 //занесение информации о постройке
-
                 ID=save_all_info_buildin(true);//вернуть id постройки
                 QString progect_id;
                 progect_id=QUERY->save_progect(ui->lineEdit_client_pasport_input->text(), ID);
@@ -231,7 +219,6 @@ void MainWindow::save_progect_info()
                 plan_building_time b;
                 b.make_and_save_time_plan_for_building(progect_id, ui->date_start_w->date());//расчет графика работ
                 QList <material_ned> material=b.sub_material_for_building(ID);
-
                 load_progect_info(material, progect_id);//вывод данных на печать
             }
             else
@@ -261,7 +248,6 @@ void MainWindow::save_progect_info()
         }
     }
 }
-
 void MainWindow::save_client()
 {
     client temp;
@@ -272,7 +258,6 @@ void MainWindow::save_client()
     temp.year_birthday=ui->lineEdit_client_yearBir_input->text();
     QUERY->insert_client_info(temp);
 }
-
 void MainWindow ::clear_client_info()
 {
     QDate dat;
@@ -285,14 +270,12 @@ void MainWindow ::clear_client_info()
     ui->lineEdit_client_phone_input->clear();
     ui->date_start_w->setDate(dat.currentDate());
 }
-
 void MainWindow::clear_pay_info()
 {
     ui->progect_id->clear();
     ui->summ_pay_LE->clear();
     ui->summ_pay_LE->setValue(0);
 }
-
 bool MainWindow::correct_data_client()
 {
     QDate dat;
@@ -324,7 +307,6 @@ bool MainWindow::correct_data_client()
         return false;
     }
 }
-
 void MainWindow::set_need_to_pay()
 {
     if (ui->progect_id->text()!="")
@@ -351,7 +333,6 @@ void MainWindow::set_need_to_pay()
     }
     else ui->statusBar->showMessage(tr("заполните № вашего проекта"));
 }
-
 void MainWindow::pay_progect()
 {
     if (ui->progect_id->text()!="")

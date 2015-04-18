@@ -21,11 +21,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     pictures_stroitel.cpp \
     database.cpp \
-    worker.cpp \
-    building.cpp \
-    technics.cpp \
-    material.cpp \
-    client.cpp \
     query_result.cpp \
     my_function_for_ui.cpp \
     query_void.cpp \
@@ -41,16 +36,12 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     database.h \
-    worker.h \
-    building.h \
-    technics.h \
-    material.h \
-    client.h \
     pictures_stroitel.h \
     query_result.h \
     dir.h \
     plan_building_time.h \
-    printer.h
+    printer.h \
+    struct_data.h
 
 FORMS    += mainwindow.ui
 

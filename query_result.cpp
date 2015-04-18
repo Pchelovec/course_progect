@@ -1,5 +1,4 @@
 #include "query_result.h"
-
 query_result::query_result()
 {
     connect();
@@ -8,7 +7,6 @@ query_result::~query_result()
 {
     close_connect();
 }
-
 QList <building> query_result::building_main_class_ret(building sha)
 {
 reset();
@@ -32,7 +30,6 @@ reset();
             }
         }
     }
-
     if (sha.metter_pair.metter_start!="0" && sha.metter_pair.metter_start!="" && sha.metter_pair.metter_fin!="0" && sha.metter_pair.metter_fin!="")
     {
         q=q+" and meter between "+sha.metter_pair.metter_start+" and "+sha.metter_pair.metter_fin;
@@ -99,7 +96,6 @@ reset();
     }
     return local_res;
 }
-
 QList <technics> query_result::eqw_all_load(technics share)
 {
 reset();
@@ -121,7 +117,6 @@ reset();
     }
     return result;
 }
-
 QList <worker> query_result::worker_all(worker wor)
 {
 reset();
@@ -146,7 +141,6 @@ else
         }
     }
 }
-
 q=q+";";
 qDebug()<<q<<endl;
 DB->query->exec(q);
@@ -167,7 +161,6 @@ while(DB->query->next())
 }
 return result;
 }
-
 QList <technics> query_result::avto_eq_list_free(technics sha)
 {
 reset();
@@ -177,9 +170,7 @@ QString s("SELECT e.eq_name, e.eq_buy_date, e.eq_namber FROM equipment e"
             s=s+" and e.eq_namber like'%"+sha.namber+"%';";
             qDebug()<<s;
         QList <technics> result;
-
     DB->query->exec(s);
-
     while (DB->query->next())
     {
         technics temp;
@@ -190,7 +181,6 @@ QString s("SELECT e.eq_name, e.eq_buy_date, e.eq_namber FROM equipment e"
     }
     return result;
 }
-
 QList <QString> query_result::avto_material_list_izmer()
 {
 reset();
@@ -205,7 +195,6 @@ reset();
     }
     return result;
 }
-
 QList <QString> query_result::avto_material_list_naz()
 {
 reset();
@@ -220,7 +209,6 @@ reset();
     }
     return result;
 }
-
 QList <QString> query_result::avto_special_brig_list()
 {
 reset();
@@ -235,7 +223,6 @@ reset();
     }
     return result;
 }
-
 QList <QString> query_result::avto_worker_dolg_list()
 {
 reset();
@@ -250,7 +237,6 @@ reset();
     }
     return result;
 }
-
 QList <worker> query_result::avto_worker_list_free(worker sha)
 {
 reset();
@@ -273,7 +259,6 @@ reset();
     }
     return result;
 }
-
 QList <material> query_result::mater_like_my(material val)
 {
 reset();
@@ -309,7 +294,6 @@ reset();
     }
     return result;
 }
-
 QList <QString> query_result::ID_group_with_name(QString name)
 {
 reset();
@@ -324,7 +308,6 @@ reset();
     }
   return result;
 }
-
 QList <QString> query_result::avto_special_all()
 {
     reset();
@@ -337,7 +320,6 @@ QList <QString> query_result::avto_special_all()
     }
     return result;
 }
-
 QList <worker> query_result::worker_with_group(QString ID_gr)
 {
     reset();
@@ -359,7 +341,6 @@ QList <worker> query_result::worker_with_group(QString ID_gr)
     }
     return result;
 }
-
 QList <technics> query_result::eqw_with_group (QString ID_gr)
 {
     reset();
@@ -379,7 +360,6 @@ QList <technics> query_result::eqw_with_group (QString ID_gr)
     }
     return result;
 }
-
 QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
 {
     reset();
@@ -401,31 +381,6 @@ QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
     }
     return result;
 }
-//QList <material> query_result::material_with_function(QString function)
-//{
-//    reset();
-//    QString s("select * from all_material ");
-//    if (function=="") s=s+" group by naznachenie;";
-//    else
-//    {
-//        s=s+"where naznachenie=like'"+function+"' group by naznachenie;";
-//    }
-//    QList<material> result;
-//    qDebug()<<s<<endl;
-//    DB->query->exec(s);
-//    while (DB->query->next())
-//    {
-//       material temp;
-//        temp.name=DB->query->value(0).toString();
-//        temp.price=DB->query->value(1).toString();
-//        temp.naznach=DB->query->value(2).toString();
-//        temp.izmer=DB->query->value(3).toString();
-//        temp.count=DB->query->value(4).toString();
-//       result.push_back(temp);
-//    }
-//    return result;
-//}
-
 QString query_result::material_ret_naznach_with_name(QString name)
 {
     reset();
@@ -436,7 +391,6 @@ QString query_result::material_ret_naznach_with_name(QString name)
     DB->query->next();
     return DB->query->value(0).toString();
 }
-
 QList<QString> query_result::material_ret_name_with_naznach(QString naznach)
 {
     reset();
@@ -467,7 +421,6 @@ QString query_result::ret_building_ID_with_name(QString name)
         return DB->query->value(0).toString();
     else return "";
 }
-
 QString  query_result::ret_id_special_with_name(QString name_spec)
 {
     reset();
@@ -478,7 +431,6 @@ QString  query_result::ret_id_special_with_name(QString name_spec)
     DB->query->next();
     return DB->query->value(0).toString();
 }
-
 QList<client> query_result::is_client_with_passport(QString passport)
 {
     reset();
@@ -500,7 +452,6 @@ QList<client> query_result::is_client_with_passport(QString passport)
         }
     return result;
 }
-
 QString query_result::save_progect(QString client_passport, QString house_id)
 {
     reset();
@@ -513,15 +464,11 @@ QString query_result::save_progect(QString client_passport, QString house_id)
     q=q+"');";
     qDebug()<<q<<endl;
     DB->query->exec(q);
-
 return return_progect_id(client_passport, house_id);
 }
-
 QString query_result::return_progect_id(QString client_passport, QString house_id)
 {
     reset();
-    //QString ID_progect;
-
     QString s("");
     s="select ID, data_ from progect where passport_client='"+client_passport+"'";
     if (house_id!="") s=s+" and  house_id="+house_id;
@@ -537,22 +484,18 @@ QString query_result::return_progect_id(QString client_passport, QString house_i
         return "";
     }
 }
-
 QString query_result::ret_id_house_with_id_progect(QString ID_progect)
 {
     reset();
     QString ID_house;
     QString s("");
     s="select house_id from progect where ID="+ID_progect;
-
-
     qDebug()<<s<<endl;
     DB->query->exec(s);
     if (DB->query->next())
         ID_house=DB->query->value(0).toString();
     return ID_house;
 }
-
 QList <level> query_result::ret_list_time_plan_for_b(QString ID_building)
 {
     reset();
@@ -573,7 +516,6 @@ QList <level> query_result::ret_list_time_plan_for_b(QString ID_building)
     }
     return result;
 }
-
 QList<building> query_result::return_list_worked_plan_now(QString ID_special)
 {
     reset();
@@ -581,11 +523,9 @@ QList<building> query_result::return_list_worked_plan_now(QString ID_special)
               " FROM special_brig , group_time , special"
               " WHERE special_brig.id_brig = group_time.id_brig AND special.id = special_brig.id_special and special.id=");
             s=s+ID_special+" ORDER BY date_fin;";
-
      qDebug()<<s<<endl;
      DB->query->exec(s);
      QList <building> result;
-
      while (DB->query->next())
      {
          building temp;
@@ -596,7 +536,6 @@ QList<building> query_result::return_list_worked_plan_now(QString ID_special)
      }
      return result;
 }
-
 QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
 {
     reset();
@@ -605,11 +544,9 @@ QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
               " GROUP BY s_b.id_special"
               " HAVING s_b.id_special= ");
     s=s+ID_special+";";
-
     qDebug()<<s<<endl;
     DB->query->exec(s);
     QList <QString> result;
-
     while (DB->query->next())
     {
         QString temp;
@@ -618,18 +555,14 @@ QList <QString> query_result::ret_list_brig_with_special(QString ID_special)
     }
     return result;
 }
-
 QList <material> query_result::material_for_building(QString ID_b)
 {
     reset();
     QList <material> result;
     QString s("");
-
     s=s+" SELECT neded_materials.namber_material, neded_materials.count"
             " FROM neded_materials"
             " WHERE neded_materials.number_of_building="+ID_b+";";
-
-
     qDebug()<<s<<endl;
     DB->query->exec(s);
     while (DB->query->next())
@@ -641,19 +574,16 @@ QList <material> query_result::material_for_building(QString ID_b)
     }
     return result;
 }
-
 QList <material> query_result::material_with_param(material val)
 {
     reset();
     QList <material> result;
-
     QString s("select * from all_material where ");
     s=s+"name like'%"+val.name+"%' ";
     if (val.ID!="")
     {
         s=s+" and ID_material="+val.ID;
     }
-
     qDebug()<<s<<endl;
     DB->query->exec(s);
     while (DB->query->next())
@@ -665,16 +595,13 @@ QList <material> query_result::material_with_param(material val)
     }
     return result;
 }
-
 building query_result::info_for_progect(period_date dat, bool ynic)
 {
     reset();
     building result;
-
         QString s("SELECT SUM(progect.oplata), SUM(building.price), SUM(1)"
                   " FROM progect ,building"
                   " WHERE progect.house_id = building.ID_b and building.building_ynical");
-
        if (ynic)
        {
            s=s+" <>0 ";
@@ -695,12 +622,10 @@ building query_result::info_for_progect(period_date dat, bool ynic)
        }
     return result;
 }
-
 building query_result::info_about_progect(QString ID_P)
 {
     reset();
     building result;
-
     QString s(" SELECT client.client_fio, building.price"
               " FROM progect , building , client"
               " WHERE progect.house_id = building.ID_b AND client.client_passport = progect.passport_client AND progect.ID=");
@@ -714,17 +639,13 @@ building query_result::info_about_progect(QString ID_P)
     }
     return result;
 }
-
 period_date query_result::min_max_date_progect(QString ID_P)
 {
     reset();
     period_date result;
-
         QString s("SELECT max(group_time.date_fin)"
                   " FROM group_time"
                   " where group_time.id_progect=");
-
-
                 s=s+ID_P+";";
                 qDebug()<<s<<endl;
                 DB->query->exec(s);
@@ -733,11 +654,9 @@ period_date query_result::min_max_date_progect(QString ID_P)
                     result.date_fini=DB->query->value(0).toDate();
                 }
     reset();
-
     QString s2("SELECT min(group_time.date_start)"
               " FROM group_time"
               " where group_time.id_progect=");
-
             s2=s2+ID_P+";";
             qDebug()<<s2<<endl;
             DB->query->exec(s2);
@@ -747,16 +666,13 @@ period_date query_result::min_max_date_progect(QString ID_P)
             }
         return result;
 }
-
 QList <building> query_result::info_plan_building(QString ID_b)
 {
     reset();
     QList <building> result;
-
         QString s("SELECT group_time.date_start, group_time.date_fin, special.`name`, group_time.id_brig"
                   " FROM group_time , special , special_brig"
                   " WHERE special.id = special_brig.id_special AND group_time.id_brig = special_brig.id_brig AND group_time.id_progect=");
-
         s=s+ID_b+" ORDER BY date_start asc;";
         qDebug()<<s<<endl;
         DB->query->exec(s);

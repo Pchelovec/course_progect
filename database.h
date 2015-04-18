@@ -18,5 +18,4 @@ public:
     void remove();
     bool correct_connected;
 };
-
 #endif // DATABASE_H

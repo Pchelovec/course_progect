@@ -37,7 +37,6 @@ if (table_row>0)
     QTableWidgetItem *rebuy=new QTableWidgetItem;
         rebuy->setText(table[i].rebuy);
         rebuy->setBackgroundColor(Qt::red);
-
     ui->material_need_but_out_->setItem(i,0,name);
     ui->material_need_but_out_->setItem(i,1,need);
     ui->material_need_but_out_->setItem(i,2,now);
@@ -49,7 +48,6 @@ else
     ui->material_need_but_out_->setVisible(false);
 }
 }
-
 void MainWindow::set_table_grafic(QString ID_progect)
 {
     QList<building> list=QUERY->info_plan_building(ID_progect);
@@ -67,7 +65,6 @@ void MainWindow::set_table_grafic(QString ID_progect)
             ui->steps_info->setItem(i,3,new QTableWidgetItem(list[i].time_pair.date_fin));
         }
 }
-
 void MainWindow::set_individual_info(QString ID_progect)
 {
     ui->progect_id_info->setText(ID_progect);
@@ -79,29 +76,24 @@ void MainWindow::set_individual_info(QString ID_progect)
     ui->date_start_work_info->setDate(d.date_start);
     ui->date_fin_work_info->setDate(d.date_fini);
 }
-
 void MainWindow::load_statistic()
 {
     period_date dat;
     dat.date_start=ui->statistic_time_start->date();
     dat.date_fini=ui->statistic_time_fin->date();
-
     building statistic_ynic=QUERY->info_for_progect(dat,true);
     building statistic_standart=QUERY->info_for_progect(dat,false);
 
     ui->progect_count_all_type->setText(QString::number(statistic_standart.ID.toInt()+statistic_ynic.ID.toInt()));
         ui->progect_count_standart->setText(statistic_standart.ID);
         ui->progect_count_ynic->setText(statistic_ynic.ID);
-
     ui->progect_sum_money_all_type->setText(QString::number(statistic_standart.price_pair.price_fin.toDouble()+statistic_ynic.price_pair.price_fin.toDouble()));
         ui->progect_standart_money->setText(statistic_standart.price_pair.price_fin);
         ui->progect_ynic_money->setText(statistic_ynic.price_pair.price_fin);
-
     ui->progect_info_money_pay->setText(QString::number(statistic_standart.price_pair.price_start.toDouble()+statistic_ynic.price_pair.price_start.toDouble()));
         ui->progect_info_money_pay_standart->setText(statistic_standart.price_pair.price_start);
         ui->progect_info_money_pay_ynic->setText(statistic_ynic.price_pair.price_start);
 }
-
 void MainWindow::clear_statistic()
 {
     ui->stackedWidget->setCurrentIndex(11);
@@ -118,7 +110,6 @@ void MainWindow::clear_statistic()
     ui->progect_ynic_money->setText("");
     ui->progect_standart_money->setText("");
 }
-
 void MainWindow::load_work_process()
 {
     int work_day=0;
@@ -129,7 +120,6 @@ void MainWindow::load_work_process()
     ui->work_option_GB->setVisible(true);
     ui->stackedWidget->setCurrentIndex(0);
 }
-
 QString MainWindow::split_str(QString val)
 {
     QString split_dell_sp;
@@ -147,14 +137,12 @@ QString MainWindow::split_str(QString val)
     list.clear();
     return split_dell_sp;
 }
-
 void MainWindow::clear_st_wid_0()
 {
     ui->material_nestandart_GB->setVisible(false);
     ui->work_option_GB->setVisible(false);
     ui->percent->setVisible(false);
 }
-
 void MainWindow::save_price_to_file()
 {
     dir d;//сохранение в файл
@@ -165,12 +153,10 @@ void MainWindow::save_price_to_file()
         ui->statusBar->showMessage(tr("наценка не охранена"));
     }
 }
-
 void  MainWindow::unshow_percent()
 {
     ui->percent->setVisible(false);
 }
-
 void MainWindow::load_oplata_progecta()
 {
     ui->client_passport->setText("");

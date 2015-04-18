@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>964</width>
-    <height>552</height>
+    <width>866</width>
+    <height>554</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Строительная Компания &quot;FastoBild&quot;</string>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -21,7 +24,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -1057,99 +1060,66 @@
           <property name="title">
            <string>приход материала</string>
           </property>
-          <layout class="QGridLayout" name="gridLayout_7">
+          <layout class="QGridLayout" name="gridLayout_6">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_6">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>название</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="material_name_LE"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>цена</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDoubleSpinBox" name="dSpBo_material_price"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>количество</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QSpinBox" name="material_count_sp_box"/>
-             </item>
-             <item row="3" column="1">
-              <widget class="QFontComboBox" name="ed_izmeren">
-               <property name="maximumSize">
-                <size>
-                 <width>500</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="inputMethodHints">
-                <set>Qt::ImhHiddenText|Qt::ImhPreferLowercase|Qt::ImhPreferUppercase|Qt::ImhSensitiveData</set>
-               </property>
-               <property name="currentText">
-                <string notr="true">Courier</string>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="duplicatesEnabled">
-                <bool>true</bool>
-               </property>
-               <property name="frame">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>функциональное назначение</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QFontComboBox" name="funct_naznach">
-               <property name="maximumSize">
-                <size>
-                 <width>500</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="currentText">
-                <string/>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="frame">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>название</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="material_name_LE"/>
            </item>
            <item row="1" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>цена</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="dSpBo_material_price"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>количество</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="material_count_sp_box">
+             <property name="maximum">
+              <number>999999</number>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="ed_izmeren">
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>функциональное назначение</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="funct_naznach">
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+             <property name="maxVisibleItems">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
             <widget class="QPushButton" name="material_add_PB">
              <property name="text">
               <string>занести</string>
@@ -1169,7 +1139,7 @@
            <string>новый сотрудник</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_21">
-           <item row="6" column="0" colspan="2">
+           <item row="6" column="0" colspan="4">
             <widget class="QCheckBox" name="new_worker_team_CkBox">
              <property name="text">
               <string>назначить в бригаду</string>
@@ -1183,15 +1153,8 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="1" column="3">
             <widget class="QLineEdit" name="new_worker_aderss_LE"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QFontComboBox" name="new_worker_post_Fou_CoBox">
-             <property name="currentText">
-              <string/>
-             </property>
-            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_36">
@@ -1207,10 +1170,10 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="3" column="3">
             <widget class="QLineEdit" name="new_worker_year_bir_LE"/>
            </item>
-           <item row="4" column="1">
+           <item row="4" column="3">
             <widget class="QDoubleSpinBox" name="new_worker_OKLAD_doubSpBox"/>
            </item>
            <item row="3" column="0">
@@ -1220,7 +1183,7 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="0" column="3">
             <widget class="QLineEdit" name="new_worker_FIO_LE"/>
            </item>
            <item row="0" column="0">
@@ -1237,10 +1200,17 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="5" column="3">
             <widget class="QPushButton" name="new_worker_OK_PB">
              <property name="text">
               <string>нанять</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QComboBox" name="new_worker_post_Fou_CoBox">
+             <property name="editable">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -1251,13 +1221,13 @@
           <zorder>new_worker_FIO_LE</zorder>
           <zorder>new_worker_team_CkBox</zorder>
           <zorder>new_worker_aderss_LE</zorder>
-          <zorder>new_worker_post_Fou_CoBox</zorder>
           <zorder>label_39</zorder>
           <zorder>label_38</zorder>
           <zorder>new_worker_OKLAD_doubSpBox</zorder>
           <zorder>label_26</zorder>
           <zorder>new_worker_OK_PB</zorder>
           <zorder>new_worker_Exit_PB</zorder>
+          <zorder>new_worker_post_Fou_CoBox</zorder>
          </widget>
         </item>
         <item row="0" column="1">
@@ -1716,9 +1686,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QFontComboBox" name="new_standart_need_special_worker_FCB"/>
-               </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_40">
                  <property name="minimumSize">
@@ -1739,6 +1706,13 @@
                 <widget class="QPushButton" name="new_standart_level_add_to_table_PB">
                  <property name="text">
                   <string>добавить</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="new_standart_need_special_worker_FCB">
+                 <property name="editable">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1821,9 +1795,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2" colspan="2">
-                <widget class="QFontComboBox" name="new_standart_ned_materisl_naznach"/>
-               </item>
                <item row="2" column="1" colspan="2">
                 <widget class="QSpinBox" name="new_standart_count_SpB">
                  <property name="minimumSize">
@@ -1849,7 +1820,39 @@
                 </widget>
                </item>
                <item row="1" column="2" colspan="2">
-                <widget class="QComboBox" name="new_standart_material_name"/>
+                <widget class="QComboBox" name="new_standart_material_name">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                 <property name="editable">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maxVisibleItems">
+                  <number>5</number>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+                 </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" colspan="2">
+                <widget class="QComboBox" name="new_standart_ned_materisl_naznach">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -2383,7 +2386,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>964</width>
+     <width>866</width>
      <height>21</height>
     </rect>
    </property>

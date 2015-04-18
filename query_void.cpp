@@ -1,7 +1,6 @@
 #include "query_result.h"
 void query_result::reset()
 {
-    //DB->query->clear();
     if(!DB->DB.open())
     {
         DB->remove();
@@ -11,7 +10,6 @@ void query_result::connect()
 {
     DB=new database;
 }
-
 void query_result::close_connect()
 {
     delete DB;
@@ -24,7 +22,6 @@ void query_result::material_up_summ_count(QString SUM, QString ID)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::insert_material(material val)
 {
   reset();
@@ -38,7 +35,6 @@ void query_result::insert_material(material val)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::material_up_2_to_1 (material val)
 {
 reset();
@@ -66,7 +62,6 @@ void query_result::insert_new_eqw(technics val)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::insert_new_worker(worker val)
 {
     reset();
@@ -112,11 +107,9 @@ void query_result::insert_new_worker(worker val)
     {
         q=q+", NULL);";
     }
-
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::worker_to_brig(worker val, QString ID_brig)
 {
     reset();
@@ -148,7 +141,6 @@ void query_result::worker_to_brig(worker val, QString ID_brig)
         worker_to_brig(list_worker[0], ID_brig);
     }
 }
-
 void query_result::worker_to_brig(QString ID_w, QString ID_brig) //1
 {
     reset();
@@ -157,7 +149,6 @@ void query_result::worker_to_brig(QString ID_w, QString ID_brig) //1
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::eqw_to_brig(technics val, QString ID_brig)//name
 {
 reset();
@@ -174,10 +165,8 @@ reset();
     if (list_id.size()==1)
     {
        eqw_to_brig(list_id[0], ID_brig);
-    }
-    //иначе невозможно
+    }//иначе невозможно
 }
-
 void query_result::eqw_to_brig(QString ID_e, QString ID_brig)//1
 {
 reset();
@@ -194,7 +183,6 @@ void query_result::eqw_dell(QString ID)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::del_worker_from_brig(QString ID)
 {
     reset();
@@ -203,7 +191,6 @@ void query_result::del_worker_from_brig(QString ID)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::del_eqw_from_brig(QString ID)
 {
     reset();
@@ -220,7 +207,6 @@ void query_result::worker_del(QString ID)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::new_brig_with_special(QString special_name)
 {
     reset();
@@ -289,7 +275,6 @@ QString query_result::insert_new_building(building val)//возвращает id
     }
     return ID;
 }
-
 void query_result::insert_level(QString lev_str, QString id_building_s,  level val)
 {
     reset ();
@@ -299,7 +284,6 @@ void query_result::insert_level(QString lev_str, QString id_building_s,  level v
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::insert_need_material_for_b(QString ID_b, material_ned material_)
 {
     reset ();
@@ -313,7 +297,6 @@ void query_result::insert_need_material_for_b(QString ID_b, material_ned materia
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::insert_client_info(client val)
 {
     reset();
@@ -349,7 +332,6 @@ void query_result::insert_client_info(client val)
         DB->query->exec(q);
     }
 }
-
 void query_result::update_pay_sum(QString ID_b, double pay_sum)
 {
     reset();
@@ -360,7 +342,6 @@ void query_result::update_pay_sum(QString ID_b, double pay_sum)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::update_client(client cl)
 {
     reset();
@@ -389,19 +370,15 @@ void query_result::update_client(client cl)
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 void query_result::make_step_building(building val, QString ID_brig, QString progect_id)
 {
     reset();
     QString q("insert into group_time (id_brig, date_start, date_fin, id_progect) values(");
-
         q=q+ID_brig+", '"+val.time_pair.date_start+"', '"+val.time_pair.date_fin+"', "+progect_id;
-
     q=q+");";
     qDebug()<<q<<endl;
     DB->query->exec(q);
 }
-
 double query_result::need_to_pay(QString ID_progect)
 {
     reset();
@@ -443,7 +420,6 @@ double query_result::sum_material(QList<material_ned> val)
     }
     return result;
 }
-
 void query_result::worker_change_status(QString id_worker)
 {
    reset();

@@ -2,38 +2,28 @@
 #define MAINWINDOW_H
 #include <QObject>                          //
 #include <QMainWindow>                      //
-#include <QSqlTableModel>
 #include <QMessageBox>                      //
 #include <QtDebug>                          //
-#include <QSqlTableModel>
-#include <QAbstractItemModel>
-#include <QTableView>
 #include <QVector>                          //
 #include <QT>                               //
 #include <QString>                          //
-#include <QHeaderView>
-#include <QTableWidget>
-#include <QStringList>
-#include "material.h"
-#include "technics.h"
+#include <QSizeGrip>                        //
+#include <QPrinter>                         //
+#include <QPainter>                         //
+
 #include "database.h"
-#include "building.h"
-#include "worker.h"
-#include "material.h"
 #include "query_result.h"
 #include "dir.h"
 #include "plan_building_time.h"
 #include "printer.h"
-
+#include "struct_data.h"
 namespace Ui {
 class MainWindow;
 }
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-private:                                                            //переменные
-    printer * print;                                                                //функции
+private:                                                                                                                          //функции
     //----------------------------------------------постройки+
 
     void split_house();
@@ -81,7 +71,6 @@ private:                                                            //перем
 
     void delete_current_level();
     void delete_current_material();
-
     //----------------------------------------------материалы+
     void split_material();
     void clear_material();
@@ -102,7 +91,6 @@ private:                                                            //перем
     void save_worker();
         void worker_to_db();
         void worker_change_status();
-
     //----------------------------------------------оборудование+
     void split_eqw();
     void load_technics();
@@ -111,8 +99,6 @@ private:                                                            //перем
     void save_new_eqw();
     void dell_eqw();
     void clear_sh_eqw();
-    //void poisk_eqw_or_worker_with_2_string();
-
     //----------------------------------------------бригада (оборудование + работнтки)+
     void reload_double_table();
     void add_new_brig();
@@ -181,16 +167,11 @@ private:                                                            //перем
 
 public:
     Ui::MainWindow *ui;
-    //database *DB;
     query_result *QUERY;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private:
-    //void set_row_to_table(int row);
-                                                                    //сигналы и слоты
-//signals:
 
-//private:
 private slots:
     void add_house_to_db();
     void on_action_4_triggered();
@@ -199,7 +180,6 @@ private slots:
     void on_home_progect_triggered();
     void on_material_triggered();
     void on_Butt_Buy_car_clicked();
-    //void on_checkBox_is_ynical_progect_clicked(bool checked);
     void on_material_add_PB_clicked();
     void on_nestandart_material_button_OK_clicked();
     void on_price_a_ChBox_clicked(bool checked);

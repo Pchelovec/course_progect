@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-using namespace std;
-
 void MainWindow::load_technics()
 {
     ui->stackedWidget->setCurrentIndex(1);
@@ -9,7 +7,6 @@ void MainWindow::load_technics()
     ui->tableWidget_technics->setColumnCount(4);
     ui->tableWidget_technics->setHorizontalHeaderLabels(QStringList()<<"название"<<"инвентарный номер"<<"год выпуска"<<"дата покупки");
     QList <technics> list_tech;
-
     technics sh;
     sh.name=ui->sh_eqw_name->text();
     sh.namber=ui->sh_eqw_namber->text();
@@ -17,14 +14,12 @@ void MainWindow::load_technics()
     list_tech=QUERY->eqw_all_load(sh);
     int row=list_tech.size();
     ui->tableWidget_technics->setRowCount(row);
-
     for (int i=0;i<row;i++)
     {
             technics temp=list_tech[i];
             QTableWidgetItem *name = new QTableWidgetItem();
             name->setText(temp.name);
             ui->tableWidget_technics->setItem(i,0,name);
-
             QTableWidgetItem *id = new QTableWidgetItem();
             id->setText(temp.namber);
             ui->tableWidget_technics->setItem(i,1,id);
@@ -35,13 +30,11 @@ void MainWindow::load_technics()
             else
                 year->setText("");
             ui->tableWidget_technics->setItem(i,2,year);
-
             QTableWidgetItem *date = new QTableWidgetItem();
             date->setText(temp.Date_pok);
             ui->tableWidget_technics->setItem(i,3,date);
     }
 }
-
 void MainWindow::Q_Object_connect()
 {
     connect(ui->new_worker_team_CkBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
@@ -49,7 +42,6 @@ void MainWindow::Q_Object_connect()
     connect(ui->CB_House_poisk,SIGNAL(clicked(bool)),ui->sh_house_GB,SLOT(setVisible(bool)));
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)),ui->statusBar,SLOT(clearMessage()));
 }
-
 void MainWindow::set_visible_enabled()
 {
     ui->main_infor_new_build_GrBox->setVisible(false);
@@ -120,10 +112,8 @@ void MainWindow::set_validator_all()
     ui->new_standart_metter_SpBox->setMaximum(999999);
     ui->new_standart_DSpBox->setMaximum(99999999);
     ui->new_standart_time_SpB->setMaximum(9999);
-
     ui->pore_pay_procent_SpB->setMaximum(999);
 }
-
 void MainWindow::clear_first()
 {
     ui->ed_izmeren->clear();

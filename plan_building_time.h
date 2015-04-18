@@ -1,15 +1,14 @@
 #ifndef PLAN_BUILDING_TIME_H
 #define PLAN_BUILDING_TIME_H
-
 #include "query_result.h"
-#include "building.h"
+#include "struct_data.h"
 #include <QMessageBox>
 #include <QDate>
 #include <QSet>
 #include <QObject>
-
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
+#include <QPushButton>
 class plan_building_time
 {
 public:
@@ -21,5 +20,4 @@ private:
     void save_best_time_for_level(level val, QDate &min_start_time, QString ID_progect);
     query_result *QUEry;
 };
-
 #endif // PLAN_BUILDING_TIME_H

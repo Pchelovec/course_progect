@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 void MainWindow::reload_double_table()
 {
     if (ui->eqw_brigada_RB->isChecked())
@@ -12,7 +11,6 @@ void MainWindow::reload_double_table()
         load_worker_to_double_Tab_Wid();
     }
 }
-
 void MainWindow::load_brig_num_for_new_eqw(QString val)
 {
     QList <QString> list=QUERY->ID_group_with_name(val);
@@ -23,7 +21,6 @@ void MainWindow::load_brig_num_for_new_eqw(QString val)
         ui->new_eq_id_Combox->addItem(list[i]);
     }
 }
-
 void MainWindow::load_brig_num_for_new_worker(QString val)
 {
     ui->new_worker_special_CoBox->clear();
@@ -34,7 +31,6 @@ void MainWindow::load_brig_num_for_new_worker(QString val)
         ui->new_worker_special_CoBox->addItem(list[i]);
     }
 }
-
 void MainWindow::load_obor_to_double_TabWid()
 {
     if ((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->worker_brigada_RB->isChecked())))
@@ -70,7 +66,6 @@ void MainWindow::load_obor_to_double_TabWid()
         }
     }
 }
-
 void MainWindow::load_worker_to_double_Tab_Wid()
 {
     if ((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->worker_brigada_RB->isChecked())))
@@ -116,7 +111,6 @@ void MainWindow::load_worker_to_double_Tab_Wid()
             item_pay->setText(temp.pay);
             item_pay->setTextAlignment(Qt::AlignHCenter);
 
-            //ui->tableWidget_worker->setItemDelegateForColumn();               //!!!!!!!!!!!!!!!!!!
             ui->obor_worker_table_wid->setItem(i,0,item_adress);
             ui->obor_worker_table_wid->setItem(i,1,item_dol);
 
@@ -128,8 +122,6 @@ void MainWindow::load_worker_to_double_Tab_Wid()
         }
     }
 }
-
-
 void MainWindow::load_brig_name_to_new_worker_special_Comb_box()
 {
     QList <QString> list=QUERY->avto_special_brig_list();
@@ -140,10 +132,11 @@ void MainWindow::load_brig_name_to_new_worker_special_Comb_box()
         ui->new_worker_special_Comb_box->addItem(list[i]);
     }
 }
-
 void MainWindow::load_special_obor_brig_ComBox()
 {
         ui->special_obor_brig_ComBox->clear();
+        ui->special_obor_brig_ComBox->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui->special_obor_brig_ComBox->view()->setCornerWidget(new QSizeGrip(ui->special_obor_brig_ComBox));
         QList<QString> list_val=QUERY->avto_special_all();
         int row =list_val.size();
         for (int i=0;i<row;i++)
@@ -152,18 +145,18 @@ void MainWindow::load_special_obor_brig_ComBox()
         }
         load_namber_obor_brig_ComBox(ui->special_obor_brig_ComBox->currentText());
 }
-
 void MainWindow::load_namber_obor_brig_ComBox(QString s)
 {
     QList <QString> list=QUERY->ID_group_with_name(s);
     int row=list.size();
     ui->namber_obor_brig_ComBox->clear();
+    ui->namber_obor_brig_ComBox->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui->namber_obor_brig_ComBox->view()->setCornerWidget(new QSizeGrip(ui->namber_obor_brig_ComBox));
     for (int i=0;i<row;i++)
     {
         ui->namber_obor_brig_ComBox->addItem(list[i]);
     }
 }
-
 void MainWindow::load_eqw_or_worker_small()
 {
     if((ui->special_obor_brig_ComBox->currentText()!="") && (ui->namber_obor_brig_ComBox->currentText()!="") && ( (ui->eqw_brigada_RB->isChecked()) || (ui->worker_brigada_RB->isChecked())))
@@ -186,7 +179,6 @@ void MainWindow::load_eqw_or_worker_small()
      ui->pushButton->setEnabled(false);
     }
 }
-
 void MainWindow::eqw_small()
 {
     qDebug()<<"eqw small"<<endl;
@@ -217,7 +209,6 @@ void MainWindow::eqw_small()
         ui->bezicxodnost_table_wid->setItem(i,2,id);
     }
 }
-
 void MainWindow::worker_small()
 {
     qDebug()<<"worker small"<<endl;
@@ -249,7 +240,6 @@ void MainWindow::worker_small()
         ui->bezicxodnost_table_wid->setItem(i,2,id);
     }
 }
-
 void MainWindow::load_all_special_to_new_special_brig_FCB()
 {
     ui->new_special_brig_FCB->clear();
@@ -260,22 +250,19 @@ void MainWindow::load_all_special_to_new_special_brig_FCB()
         ui->new_special_brig_FCB->addItem(list[i]);
     }
 }
-
 void MainWindow::clear_bezicxodnost_Table_wid()
 {
     ui->bezicxodnost_table_wid->setColumnCount(0);
     ui->bezicxodnost_table_wid->setRowCount(0);
 }
-
 void MainWindow::add_new_brig()
 {
     QUERY->new_brig_with_special(ui->new_special_brig_FCB->currentText());
     ui->statusBar->showMessage("добавлена новая бригада");
     ui->new_brigada_ChBox->setChecked(false);
     ui->new_brigada_GrBox->setVisible(false);
-    //перезагрузка group box
+    //тут будет перезагрузка group box
 }
-
 void MainWindow::worker_to_group()
 {
     qDebug()<<"оборуд к бригаде";
@@ -287,7 +274,6 @@ void MainWindow::worker_to_group()
 }
 void MainWindow::eqw_to_group()
 {
-    //работник
     qDebug()<<"работник к бригаде";
     int row=ui->bezicxodnost_table_wid->currentRow();
     QTableWidgetItem * item=new QTableWidgetItem;
@@ -295,7 +281,6 @@ void MainWindow::eqw_to_group()
     QUERY->worker_to_brig(item->text(),ui->namber_obor_brig_ComBox->currentText());
     load_worker_to_double_Tab_Wid();
 }
-
 void MainWindow::dell_eqw_from_brig()
 {
     QTableWidgetItem *item=new QTableWidgetItem;
@@ -306,10 +291,8 @@ void MainWindow::dell_eqw_from_brig()
     load_obor_to_double_TabWid();
     ui->statusBar->showMessage("оборудование откреплено от бригады");
 }
-
-void MainWindow::dell_worker_from_brig()
-{
-    //удалить осотрудника от бригады
+void MainWindow::dell_worker_from_brig()//удалить осотрудника от бригады
+{    
     QTableWidgetItem *item=new QTableWidgetItem;
     int row=ui->obor_worker_table_wid->currentRow();
     item= ui->obor_worker_table_wid->item(row,4);

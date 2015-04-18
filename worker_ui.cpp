@@ -1,22 +1,15 @@
-    #include "mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
 void MainWindow::split_worker()
 {
-    QString s;
-    s=ui->new_worker_FIO_LE->text();
-    ui->new_worker_FIO_LE->clear();
-    ui->new_worker_FIO_LE->setText(split_str(s));
-    s.clear();
-    s=ui->new_worker_aderss_LE->text();
-    ui->new_worker_aderss_LE->clear();
-    ui->new_worker_aderss_LE->setText(split_str(s));
+    ui->new_worker_FIO_LE->setText(split_str(ui->new_worker_FIO_LE->text()));
+    ui->new_worker_aderss_LE->setText(split_str(ui->new_worker_aderss_LE->text()));
 }
 void MainWindow::load_worker()
 {
     ui->stackedWidget->setCurrentIndex(3);
     ui->tableWidget_worker->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     QList <worker> work_vect;
-
     worker temp;
     temp.fio=ui->sh_worker_fam->text();
     if (ui->sh_worker_start_price_SB->value()!=0 || ui->sh_worker_fin_price_SB->value()!=0)
@@ -25,7 +18,6 @@ void MainWindow::load_worker()
         temp.pay_fin=QString::number(ui->sh_worker_fin_price_SB->value());
     }
     temp.post=ui->sh_worker_post->text();
-
     work_vect=QUERY->worker_all(temp);
     int row=work_vect.size();
     ui->tableWidget_worker->setRowCount(row);
@@ -68,23 +60,19 @@ void MainWindow::load_worker()
 
         ui->tableWidget_worker->setItem(i,0,item_fio);
         ui->tableWidget_worker->setItem(i,1,item_dol);
-
         ui->tableWidget_worker->setItem(i,2,item_adress);
-
         ui->tableWidget_worker->setItem(i,3,item_year_bir);
         ui->tableWidget_worker->setItem(i,4,item_ID);
         ui->tableWidget_worker->setItem(i,5,item_pay);
     }
 ui->tableWidget_worker->setFocusPolicy(Qt::ClickFocus);
 }
-
 void MainWindow::clear_obor_worker_table_wid()
 {
     ui->obor_worker_table_wid->clear();
     ui->obor_worker_table_wid->setRowCount(0);
     ui->obor_worker_table_wid->setColumnCount(0);
 }
-
 void MainWindow::clear_sh_worker()
 {
     ui->sh_worker_fam->clear();
@@ -94,7 +82,6 @@ void MainWindow::clear_sh_worker()
     ui->sh_worker_start_price_SB->setMaximum(99999);
     ui->sh_worker_fin_price_SB->setMaximum(99999);
 }
-
 void MainWindow::new_worker_initial()
 {
     ui->stackedWidget->setCurrentIndex(7);
@@ -102,7 +89,8 @@ void MainWindow::new_worker_initial()
             QList <QString> list_dol=QUERY->avto_worker_dolg_list();
             int row=list_dol.size();
             ui->new_worker_post_Fou_CoBox->clear();
-            ui->new_worker_post_Fou_CoBox->addItem("");
+            ui->new_worker_post_Fou_CoBox->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            ui->new_worker_post_Fou_CoBox->view()->setCornerWidget(new QSizeGrip(ui->new_worker_post_Fou_CoBox));
             for (int i=0;i<row;i++)
             {
                 ui->new_worker_post_Fou_CoBox->addItem(list_dol[i]);
@@ -114,7 +102,7 @@ void MainWindow::new_worker_initial()
 }
 void MainWindow::save_worker()
 {
-        QDate dat;
+    QDate dat;
     if (ui->new_worker_FIO_LE->text()!="" && ui->new_worker_post_Fou_CoBox->currentText()!="" )
     {
         if (ui->new_worker_year_bir_LE->text()!="" && ui->new_worker_year_bir_LE->text()!=" ")
@@ -138,7 +126,6 @@ void MainWindow::save_worker()
         ui->statusBar->showMessage(tr("Заполните ключевые (ФИО сотрудника и должность)"));
     }
 }
-
 void MainWindow::worker_to_db()
 {
     worker temp;
@@ -180,28 +167,22 @@ void MainWindow::worker_to_db()
     ui->statusBar->showMessage(tr("сотрудник успешно нанят"));
     ui->stackedWidget->setCurrentIndex(3);
 }
-
 void MainWindow::dell_sotrudnic()
 {
     int row=ui->tableWidget_worker->currentRow();
     QTableWidgetItem *item= new QTableWidgetItem();
     item=ui->tableWidget_worker->item(row,4);
-    QUERY->worker_del(item->text());                //удаление из табл работники
-    QUERY->del_worker_from_brig(item->text());      //удаление из бригады
-
+        QUERY->worker_del(item->text());                //удаление из табл работники
+        QUERY->del_worker_from_brig(item->text());      //удаление из бригады
     ui->statusBar->showMessage(tr("информация о сотруднике удалена"));
     ui->pusB_Sotrudnic_del->setEnabled(false);
 }
-
 void MainWindow::worker_change_status()
 {
     int row=ui->tableWidget_worker->currentRow();
     QTableWidgetItem *item= new QTableWidgetItem();
     item=ui->tableWidget_worker->item(row,4);
-
-
-    QUERY->del_worker_from_brig(item->text());      //удаление из бригады
-
+        QUERY->del_worker_from_brig(item->text());      //удаление из бригады
     ui->statusBar->showMessage(tr("информация о сотруднике удалена"));
     ui->pusB_Sotrudnic_del->setEnabled(false);
 }

@@ -1,23 +1,12 @@
 #include "plan_building_time.h"
-#include <QPushButton>
 plan_building_time::plan_building_time()
 {
     QUEry =new query_result;
 }
-
-plan_building_time::~plan_building_time()
-{
-
-}
-
+plan_building_time::~plan_building_time(){}
 void plan_building_time::make_and_save_time_plan_for_building(QString ID_progect, QDate user_start_date)
 {
-    //id здания с № проекта
-
-//    building temp_s;
-//    temp_s.ID=ID_progect;
-
-    QString house_id=QUEry->ret_id_house_with_id_progect(ID_progect);
+    QString house_id=QUEry->ret_id_house_with_id_progect(ID_progect);//id здания с № проекта
     if (house_id!="")
     {
     QList <level> list_need_special=QUEry->ret_list_time_plan_for_b(house_id);
@@ -46,25 +35,19 @@ void plan_building_time::make_and_save_time_plan_for_building(QString ID_progect
         return;
     }
 }
-
 void plan_building_time::save_best_time_for_level(level val, QDate &min_start_time, QString ID_progect)
 {
     QList <QDate> time_for_all_brig;
     qDebug()<<"подбор времени для этапа"<<val.step+"=============="<<endl;
-
     QList<building> time_list= QUEry->return_list_worked_plan_now(val.special_brig); //список бригад (и их временная занятость)
-
     QSet <QString> set_id_brig;
-
-
     QList<QString> dop_list=QUEry->ret_list_brig_with_special(val.special_brig);
     for (int i=0;i<dop_list.size();i++)//бобавить бригады которые могут выйти на работу
     {
         set_id_brig.insert(dop_list[i]);
     }
-    if (set_id_brig.size()!=0)
+    if (set_id_brig.size()!=0)//проверка на 0 бригад
     {
-    //проверка на 0 бригад
     bool zero=false;
     int set_size=set_id_brig.size();
     for (int i=0;i<set_size;i++)
@@ -108,9 +91,7 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
                     time_for_all_brig.push_back(date_start);
                 }
             }
-
     }//сохранить время для этапа,  make_step_building
-
     QDate min_date=time_for_all_brig[0];
     int i_min_ID_brig=0;
     for (int i=0;i<time_for_all_brig.size();i++)//сравнение и выбор минимального времени из всех возможных бригад
@@ -121,14 +102,12 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
             i_min_ID_brig=i;
         }
     }
-
     QDate buf_date=min_date;
     QDate fin_date=buf_date.addDays(val.day_count.toInt());
     building t;
     QString id_bri("");
 
     id_bri=*(set_id_brig.begin()+i_min_ID_brig);
-
     t.time_pair.date_start=QString::number(buf_date.year())+"-"+QString::number(buf_date.month())+"-"+QString::number(buf_date.day());
     t.time_pair.date_fin=QString::number(fin_date.year())+"-"+QString::number(fin_date.month())+"-"+QString::number(fin_date.day());
     QUEry->make_step_building(t, id_bri, ID_progect);
@@ -145,14 +124,11 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
         return;
     }
 }//оптимальное время постройки выбрано для этапа
-
 QList <material_ned> plan_building_time::sub_material_for_building(QString ID_building)
 {
     QList <material_ned> result;
     qDebug()<<"расчет материалов"<<endl;
-
     QList <material> need_material_for_building=QUEry->material_for_building(ID_building);
-
     int size_need_mat=need_material_for_building.size();
     if (size_need_mat>0)
     {
@@ -161,7 +137,6 @@ QList <material_ned> plan_building_time::sub_material_for_building(QString ID_bu
             material temp;
             temp=need_material_for_building[i];
             QList<material> list_mat=QUEry->material_with_param(temp);
-
             if (list_mat.size()==1)
             {
                 if (((list_mat[0].count.toInt()-temp.count.toInt())<0))//не хватает
@@ -202,4 +177,3 @@ QList <material_ned> plan_building_time::sub_material_for_building(QString ID_bu
     }
 return result;//список материалов которых мало на складе
 }
-

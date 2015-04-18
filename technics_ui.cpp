@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 void MainWindow::split_eqw()
 {
     QString s;
@@ -8,7 +7,6 @@ void MainWindow::split_eqw()
     ui->material_name_LE->clear();
     ui->material_name_LE->setText(split_str(s));
 }
-
 void MainWindow::load_new_eqwt()
 {
     ui->new_eqw_plas_team_ChBox->setChecked(false);
@@ -27,7 +25,6 @@ void MainWindow::load_new_eqwt()
     QDate *date=new QDate;
     ui->pokupka_obor_dateE->setDate(date->currentDate());
 }
-
 void MainWindow::save_new_eqw()
 {
     if (ui->obor_ear_build_SpBx->text()<"1901" && ui->obor_ear_build_SpBx->text()!="")
@@ -69,7 +66,6 @@ void MainWindow::save_new_eqw()
     }
     }
 }
-
 void MainWindow::dell_eqw()
 {
     int row=ui->tableWidget_technics->currentRow();
@@ -84,7 +80,6 @@ void MainWindow::dell_eqw()
     ui->dell_eqvmnt->setEnabled(false);
     load_technics();
 }
-
 void MainWindow::clear_sh_eqw()
 {
     ui->sh_eqw_name->clear();

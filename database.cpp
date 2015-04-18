@@ -1,12 +1,10 @@
 #include "database.h"
-
 database::database()
 {
     correct_connected=true;
     connect();
     query=new QSqlQuery;
 }
-
 void database::connect()
 {
     DB=QSqlDatabase::addDatabase("QMYSQL");
@@ -25,7 +23,6 @@ void database::connect()
         correct_connected=false;
     }
 }
-
 void database::remove()
 {
     QSqlDatabase::removeDatabase("QMYSQL");
@@ -33,9 +30,4 @@ void database::remove()
     query=new QSqlQuery;
     qDebug()<<"remove DB";
 }
-
-database::~database()
-{
-
-}
-
+database::~database(){}

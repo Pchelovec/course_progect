@@ -1,13 +1,10 @@
 #include "pictures_stroitel.h"
 #include "mainwindow.h"
-
 pictures_stroitel::pictures_stroitel(QWidget *parent) :
     QMainWindow(parent)
 {
-
-    emit IncCount();
+    MW=new MainWindow;
      QMovie *mov = new QMovie(":/pictures/res/ILLITA_STPOITEL3.gif");
-
         QLabel *label=new QLabel;
         mov->start();
         label->setMovie(mov);
@@ -15,12 +12,10 @@ pictures_stroitel::pictures_stroitel(QWidget *parent) :
         QHBl->addWidget(label);
         splash=new QSplashScreen;
         splash->setLayout(QHBl);
-
         splash->setToolTip("ПРИВЕТСТВИЕ");
-
         splash->move(300,50);
         splash->show();
-
+emit IncCount();
 }
 void pictures_stroitel::IncCount()
 {
@@ -34,21 +29,14 @@ void pictures_stroitel::IncCount()
     }
     connect(time,SIGNAL(timeout()),this,SLOT(IncCount()));
     if (n==40)
-    {
-        //close
+    {//close
         delete splash;
         delete time;
-
         this->stat_now();
     }
 }
-
 void pictures_stroitel::stat_now()
 {
-   MW.show();
+   MW->show();
 }
-
-pictures_stroitel::~pictures_stroitel()
-{
-
-}
+pictures_stroitel::~pictures_stroitel(){}

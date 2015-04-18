@@ -11,15 +11,10 @@ class printer: QWidget
 {
     Q_OBJECT
 public:
-
     void print_contract(QString id_contract, QString id_house);
     void print_all_material();
     void print_worker_time(QString id_brig);
     printer();
     ~printer();
-
-private:
-
 };
-
 #endif // PRINTER_H

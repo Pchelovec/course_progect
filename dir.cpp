@@ -1,14 +1,6 @@
 #include "dir.h"
-
-dir::dir()
-{
-
-}
-dir::~dir()
-{
-
-}
-
+dir::dir(){}
+dir::~dir(){}
 int dir::read_procent_File()
 {
     QFile file("file/proc.txt");
@@ -17,7 +9,6 @@ int dir::read_procent_File()
             while(!file.atEnd())
             {
                 QString str = file.readLine();//читаем строку
-
                 QStringList lst = str.split(" ");//Делим строку на слова разделенные пробелом
 
                 qDebug() << lst.at(0);
@@ -31,7 +22,6 @@ int dir::read_procent_File()
             qDebug()<< "don't open file";
         }
 }
-
 bool dir::write_procent_File(int nac)
 {
     qDebug()<<QString::number(nac);
@@ -50,7 +40,6 @@ bool dir::write_procent_File(int nac)
             return false;
         }
 }
-
 QList<int> dir::read_work_process_File()
 {
     QFile file("file/work_process.txt");
@@ -60,7 +49,6 @@ QList<int> dir::read_work_process_File()
             while(!file.atEnd())
             {
                 QString str = file.readLine();//читаем строку
-
                 QStringList lst = str.split(" ");//Делим строку на слова разделенные пробелом
                 temp.push_back(lst.at(0).toInt());
                 temp.push_back(lst.at(1).toInt());
@@ -75,7 +63,6 @@ QList<int> dir::read_work_process_File()
             qDebug()<< "don't open file";
         }
 }
-
 bool dir::write_work_process_File(QList<int> nac)
 {
     QFile file("file/work_process.txt");

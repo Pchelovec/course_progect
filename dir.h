@@ -15,5 +15,4 @@ public:
     dir();
     ~dir();
 };
-
 #endif // DIR_H
