@@ -11,6 +11,7 @@ void MainWindow::split_eqw()
 
 void MainWindow::load_new_eqwt()
 {
+    ui->new_eqw_plas_team_ChBox->setChecked(false);
     ui->stackedWidget->setCurrentIndex(2);
     ui->new_eq_Com_box->clear();
     QList<QString> list_special=QUERY->avto_special_brig_list();
@@ -29,6 +30,12 @@ void MainWindow::load_new_eqwt()
 
 void MainWindow::save_new_eqw()
 {
+    if (ui->obor_ear_build_SpBx->text()<"1901" && ui->obor_ear_build_SpBx->text()!="")
+    {
+        ui->statusBar->showMessage(tr("некоректная дата выпуска"));
+    }
+    else
+    {
     if ((ui->oborud_INV_namber_LE->text()!="") && (ui->oborud_name_LE->text()!=""))
     {
         technics temp;
@@ -60,6 +67,7 @@ void MainWindow::save_new_eqw()
     {
         ui->statusBar->showMessage(tr("Заполните ключевые поля(название и инвентарный номер!)"));
     }
+    }
 }
 
 void MainWindow::dell_eqw()
@@ -80,5 +88,7 @@ void MainWindow::dell_eqw()
 void MainWindow::clear_sh_eqw()
 {
     ui->sh_eqw_name->clear();
+    ui->sh_eqw_name->setText("");
     ui->sh_eqw_namber->clear();
+    ui->sh_eqw_namber->setText("");
 }

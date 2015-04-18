@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QPrinter>
+#include <QPainter>
+#include <QPrintPreviewDialog>
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QUERY=new query_result;
-    print=new printer;
+    //print=new printer;
     setCentralWidget(ui->stackedWidget);
     first_initial_component();
     ui->statusBar->showMessage(tr("приложение запущено"));
@@ -20,7 +22,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_4_triggered()
 {
-        load_technics();
+    clear_sh_eqw();
+    load_technics();
 }
 void MainWindow::on_person_triggered()
 {
@@ -39,7 +42,6 @@ void MainWindow::on_home_progect_triggered()
 }
 void MainWindow::on_material_triggered()
 {
-    ui->stackedWidget->setCurrentIndex(6);
     clear_material();
 }
 
@@ -116,21 +118,14 @@ void MainWindow::on_tableWidget_worker_clicked(const QModelIndex &index)
 
 void MainWindow::on_pusB_Sotrudnic_del_clicked()
 {
-    int row=ui->tableWidget_worker->currentRow();
-    QTableWidgetItem *item= new QTableWidgetItem();
-    item=ui->tableWidget_worker->item(row,4);
-    QUERY->worker_del(item->text());                //удаление из табл работники
-    QUERY->del_worker_from_brig(item->text());      //удаление из бригады
-
-    ui->statusBar->showMessage(tr("информация о сотруднике удалена"));
-    ui->pusB_Sotrudnic_del->setEnabled(false);
+    dell_sotrudnic();
+//    worker_change_status();
     load_worker();                                      //перезагрузка таблицы
 }
 
 void MainWindow::on_pushButton_add_ne_worker_clicked()
 {
     new_worker_initial();
-    ui->stackedWidget->setCurrentIndex(7);
 }
 
 void MainWindow::on_new_eqv_exit_PB_clicked()
@@ -196,11 +191,7 @@ void MainWindow::on_brigada_sostav_triggered()
 void MainWindow::on_add_new_brigada_PB_clicked()
 {
     //занесение в бд
-    QUERY->new_brig_with_special(ui->new_special_brig_FCB->currentText());
-    ui->statusBar->showMessage("добавлена новая бригада");
-    ui->new_brigada_ChBox->setChecked(false);
-    ui->new_brigada_GrBox->setVisible(false);
-    //перезагрузка group box
+    add_new_brig();
 }
 
 void MainWindow::on_new_brigada_ChBox_clicked(bool checked)
@@ -211,32 +202,20 @@ void MainWindow::on_new_brigada_ChBox_clicked(bool checked)
 
 void MainWindow::on_add_to_brig_clicked()
 {
-load_eqw_or_worker_small();
+    load_eqw_or_worker_small();
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     if (ui->eqw_brigada_RB->isChecked())
     {
-        //оборуд
-        qDebug()<<"оборуд к бригаде";
-        int row=ui->bezicxodnost_table_wid->currentRow();
-        QTableWidgetItem * item=new QTableWidgetItem;
-        item=ui->bezicxodnost_table_wid->item(row,2);
-        QUERY->eqw_to_brig(item->text(),ui->namber_obor_brig_ComBox->currentText());
-        load_obor_to_double_TabWid();
+        worker_to_group();//оборуд
     }
     else
     {
         if (ui->worker_brigada_RB->isChecked())
         {
-            //работник
-            qDebug()<<"работник к бригаде";
-            int row=ui->bezicxodnost_table_wid->currentRow();
-            QTableWidgetItem * item=new QTableWidgetItem;
-            item=ui->bezicxodnost_table_wid->item(row,2);
-            QUERY->worker_to_brig(item->text(),ui->namber_obor_brig_ComBox->currentText());
-            load_worker_to_double_Tab_Wid();
+            eqw_to_group();
         }
     }
     reload_double_table();
@@ -275,26 +254,13 @@ void MainWindow::on_del_from_brig_clicked()
     if (ui->eqw_brigada_RB->isChecked())
     {
         //удалить оборудование от бригады
-
-        QTableWidgetItem *item=new QTableWidgetItem;
-        int row=ui->obor_worker_table_wid->currentRow();
-        item= ui->obor_worker_table_wid->item(row,1);
-
-        QUERY->del_eqw_from_brig(item->text());
-        load_obor_to_double_TabWid();
-        ui->statusBar->showMessage("оборудование откреплено от бригады");
+        dell_eqw_from_brig();
     }
     else
     {
         if (ui->worker_brigada_RB->isChecked())
         {
-            //удалить осотрудника от бригады
-            QTableWidgetItem *item=new QTableWidgetItem;
-            int row=ui->obor_worker_table_wid->currentRow();
-            item= ui->obor_worker_table_wid->item(row,4);
-            QUERY->del_worker_from_brig(item->text());
-            load_worker_to_double_Tab_Wid();
-            ui->statusBar->showMessage("сотрудник откреплен от бригады");
+            dell_worker_from_brig();
         }
     }
     ui->del_from_brig->setEnabled(false);
@@ -312,14 +278,11 @@ void MainWindow::on_new_worker_special_Comb_box_currentTextChanged(const QString
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    ui->checkBox_is_ynical_progect->setChecked(false);
     load_ynic_progect_building(false);
 }
 
 void MainWindow::on_Standart_progect_new_triggered()
-{
-    ui->checkBox_is_ynical_progect->setChecked(false);
-    ui->stackedWidget->setCurrentIndex(9);
+{   
     load_ynic_progect_building(false);
 }
 
@@ -328,7 +291,6 @@ void MainWindow::on_special_obor_brig_ComBox_currentTextChanged(const QString &a
     load_namber_obor_brig_ComBox(arg1);
     clear_obor_worker_table_wid();
 }
-
 
 void MainWindow::on_namber_obor_brig_ComBox_currentTextChanged(const QString &arg1)
 {
@@ -339,18 +301,14 @@ void MainWindow::on_namber_obor_brig_ComBox_currentTextChanged(const QString &ar
 void MainWindow::on_post_name_sh_LE_textChanged(const QString &arg1)
 {
     clear_bezicxodnost_Table_wid();
-
         load_eqw_or_worker_small();
-
     dell_problem(arg1);
 }
 
 void MainWindow::on_fio_inventarnN_LE_textChanged(const QString &arg1)
 {
     clear_bezicxodnost_Table_wid();
-
         load_eqw_or_worker_small();
-
     dell_problem(arg1);
 }
 
@@ -365,14 +323,12 @@ void MainWindow::on_new_standart_material_add_PB_clicked()
 }
 
 void MainWindow::on_new_standart_material_OK_PB_clicked()
-{
-    ui->info_material_for_building_GrBox->setVisible(false);
+{   
     set_price();
 }
 
 void MainWindow::on_new_standart_level_OK_clicked()
 {
-    ui->info_level_building_GrBox->setVisible(false);
     set_day_count();
 }
 
@@ -382,9 +338,7 @@ void MainWindow::on_new_standart_OK_PB_clicked()
     if (correct_data_new_building_progect())
     {
         //запись всего в бд о проекте здания
-
         save_all_info_buildin(false);
-
         new_standart_main_clear();
         new_standart_level_table_clear();
         new_standart_material_table_clear();
@@ -408,8 +362,6 @@ void MainWindow::on_tableWidget_house_clicked(const QModelIndex &index)
 
 void MainWindow::on_show_PB_clicked()
 {
-    ui->active_progect_TW->setVisible(true);
-    ui->close_active_progect_PB->setVisible(true);
     load_active_progect_TW();
 }
 
@@ -648,11 +600,40 @@ void MainWindow::on_statistic_time_start_dateChanged(const QDate &date)
 
 void MainWindow::on_print_PB_clicked()
 {
-    print->make_ntml();
-    print->print();
+    printer pr;
+    pr.print_contract(ui->progect_id_info->text(),QUERY->ret_id_house_with_id_progect(ui->progect_id_info->text()));
 }
 
 void MainWindow::on_actionPrint_triggered()
+{ 
+    QPrinter *printer=new QPrinter;
+    QPainter painter(printer);
+    painter.setWindow(this->rect());
+    this->render(&painter);
+}
+
+
+void MainWindow::on_exit_programm_triggered()
 {
-    print->print();
+    close();
+}
+
+void MainWindow::on_material_all_print_triggered()
+{
+    printer pr;
+    pr.print_all_material();
+}
+
+void MainWindow::on_client_passport_textChanged(const QString &arg1)
+{
+    if (arg1.length()==8)
+    {
+        ui->progect_id->setText(QUERY->return_progect_id(ui->client_passport->text(), ""));
+    }
+}
+
+void MainWindow::on_print_time_brig_clicked()
+{
+    printer pr;
+    pr.print_worker_time(ui->namber_obor_brig_ComBox->currentText());
 }

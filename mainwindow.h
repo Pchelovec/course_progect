@@ -24,6 +24,7 @@
 #include "dir.h"
 #include "plan_building_time.h"
 #include "printer.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -86,22 +87,21 @@ private:                                                            //перем
     void clear_material();
     void nestandart_material_load(material mat_like_my);
     void save_nestandart_materrial_dialog();
-    //void load_newstandart_situat_stack_wid(material mat_like_my);
+
     void save_material_from_ui_to_DB();
     void save_material_all_varibl();
-    //void incorrect_data_material();
-    //void update_material(material mat_like_my);
-
+    void set_default_labels_material();
     //----------------------------------------------работники+
     void split_worker();
     void load_worker();
     void clear_obor_worker_table_wid();
     void clear_sh_worker();
-
+    void dell_sotrudnic();
     void new_worker_initial();
 
     void save_worker();
         void worker_to_db();
+        void worker_change_status();
 
     //----------------------------------------------оборудование+
     void split_eqw();
@@ -115,9 +115,15 @@ private:                                                            //перем
 
     //----------------------------------------------бригада (оборудование + работнтки)+
     void reload_double_table();
-
+    void add_new_brig();
     void load_brig_num_for_new_eqw(QString val);
     void load_brig_num_for_new_worker(QString val);
+
+    void worker_to_group();
+    void eqw_to_group();
+
+    void dell_eqw_from_brig();
+    void dell_worker_from_brig();
 
     void load_obor_to_double_TabWid();
     void load_worker_to_double_Tab_Wid();
@@ -277,5 +283,9 @@ private slots:
     void on_statistic_time_start_dateChanged(const QDate &date);
     void on_print_PB_clicked();
     void on_actionPrint_triggered();
+    void on_exit_programm_triggered();
+    void on_material_all_print_triggered();
+    void on_client_passport_textChanged(const QString &arg1);
+    void on_print_time_brig_clicked();
 };
 #endif // MAINWINDOW_H

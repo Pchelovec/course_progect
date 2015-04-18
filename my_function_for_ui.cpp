@@ -47,6 +47,7 @@ void MainWindow::Q_Object_connect()
     connect(ui->new_worker_team_CkBox,SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
     connect(ui->new_worker_team_CkBox, SIGNAL(clicked(bool)),ui->new_worker_team_GrBox,SLOT(setVisible(bool)));
     connect(ui->CB_House_poisk,SIGNAL(clicked(bool)),ui->sh_house_GB,SLOT(setVisible(bool)));
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)),ui->statusBar,SLOT(clearMessage()));
 }
 
 void MainWindow::set_visible_enabled()
@@ -69,7 +70,7 @@ void MainWindow::set_visible_enabled()
 }
 void MainWindow::set_validator_all()
 {
-    QRegExp name("[а-я А-Я]{20}");
+    QRegExp name("[а-я А-Я a-z A-Z]{20}");
     ui->lineEdit_client_fio_input->setValidator(new QRegExpValidator(name,this));
 
     QRegExp mesto("[а-я А-Я . , 0-9]{20}");
@@ -77,6 +78,7 @@ void MainWindow::set_validator_all()
 
     QRegExp passport("[a-zA-Z]{2}[0-9]{6}");
     ui->lineEdit_client_pasport_input->setValidator(new QRegExpValidator(passport,this));
+    ui->client_passport->setValidator(new QRegExpValidator(passport,this));
 
     QRegExp phone("[0-9]{12}");
     ui->lineEdit_client_phone_input->setValidator(new QRegExpValidator(phone,this));
@@ -113,7 +115,8 @@ void MainWindow::set_validator_all()
     ui->price_a_DSB->setMaximum(999999);
     ui->price_b_DSB->setMaximum(999999);
     ui->price_c_DSB->setMaximum(999999);
-
+    ui->new_standart_level_dayLong_SPbx->setMaximum(9999);
+    ui->new_standart_count_SpB->setMaximum(9999);
     ui->new_standart_metter_SpBox->setMaximum(999999);
     ui->new_standart_DSpBox->setMaximum(99999999);
     ui->new_standart_time_SpB->setMaximum(9999);

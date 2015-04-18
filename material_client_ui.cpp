@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFont>
 void MainWindow::split_client()
 {
     QString s;
@@ -22,11 +23,12 @@ void MainWindow::split_material()
 
 void MainWindow::clear_material()
 {
+    ui->stackedWidget->setCurrentIndex(6);
+    set_default_labels_material();
     ui->material_name_LE->setText("");
     ui->dSpBo_material_price->setValue(0);
     ui->material_count_sp_box->setValue(0);
     ui->ed_izmeren->clear();
-    ui->ed_izmeren->addItem("");
 
     QList <QString> izmer_list=QUERY->avto_material_list_izmer();
     int row_a=izmer_list.size();
@@ -36,7 +38,6 @@ void MainWindow::clear_material()
         ui->ed_izmeren->addItem(temp);
     }
     ui->funct_naznach->clear();
-    ui->funct_naznach->addItem("");
     QList <QString> funct_list=QUERY->avto_material_list_naz();
     int row_b=funct_list.size();
     for (int i=0;i<row_b;i++)
@@ -97,7 +98,7 @@ void MainWindow::save_nestandart_materrial_dialog()
     }
     else
     {
-       temp.naznach="";
+       temp.naznach="NULL";
     }
     if(ui->ed_izmer_c_CB->currentText()!="")
     {
@@ -105,7 +106,7 @@ void MainWindow::save_nestandart_materrial_dialog()
     }
     else
     {
-      temp.izmer="";
+      temp.izmer="NULL";
     }
     temp.ID=QString::number(ui->material_ID->value());
 
@@ -144,11 +145,13 @@ void MainWindow::save_material_all_varibl()
     split_material();
     if ((ui->material_name_LE->text()!=0)&& (ui->dSpBo_material_price->value()!=0) && (ui->material_count_sp_box->value()!=0))
     {
-        QList <material> like_my=QUERY->mater_like_my(ui->material_name_LE->text());
+        material temp;
+        temp.name=ui->material_name_LE->text();
+        QList <material> like_my=QUERY->mater_like_my(temp);
         if (like_my.size()==1)
         {
             material mat_like_my=like_my[0];
-            if (mat_like_my.price==QString::number(ui->dSpBo_material_price->value()) && mat_like_my.izmer==ui->ed_izmeren->currentText())
+            if (mat_like_my.price.toDouble()==ui->dSpBo_material_price->value() && mat_like_my.izmer==ui->ed_izmeren->currentText() && mat_like_my.naznach==ui->funct_naznach->currentText())
             {
                 //sum and update
                 int a=mat_like_my.count_int;
@@ -172,12 +175,23 @@ void MainWindow::save_material_all_varibl()
     else
     {
         ui->statusBar->showMessage(tr("данные не занесены, Заполните ключевые поля!"));
-        ui->label_10->setText("<font color=red> название </font>");
-        ui->label_11->setText("<font color=red> цена </font>");
-        ui->label_13->setText("<font color=red> количество </font>");
+        if (ui->material_name_LE->text()=="")
+            ui->label_10->setText("<font color=red> название </font>");
+        if (ui->dSpBo_material_price->value()<=0)
+            ui->label_11->setText("<font color=red> цена </font>");
+        if (ui->material_count_sp_box->value()<=0)
+            ui->label_13->setText("<font color=red> количество </font>");
+        if (ui->funct_naznach->currentText()=="")
+            ui->label_4->setText("<font color=red> функциональное назначение </font>");
     }
 }
-
+void MainWindow::set_default_labels_material()
+{
+    ui->label_10->setText(" название ");
+    ui->label_11->setText(" цена ");
+    ui->label_13->setText(" количество ");
+    ui->label_4->setText(" функциональное назначение ");
+}
 
 //==============================================================
 

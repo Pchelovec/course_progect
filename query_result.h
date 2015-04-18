@@ -25,9 +25,9 @@ public:
 
     QList <QString> avto_material_list_naz();//AVTO
 
-    QList <material> mater_like_my(QString name);//SELECT переделать функцию под универсальную
+    QList <material> mater_like_my(material val);//SELECT переделать функцию под универсальную
 
-    QList <material> material_with_function(QString function);//SELECT   заменить использованием функции выше
+    //QList <material> material_with_function(QString function);//SELECT   заменить использованием функции выше
 
     //QString material_with_name(QString name);//SELECT
 
@@ -59,6 +59,8 @@ public:
     QList <worker> avto_worker_list_free(worker sha);//SELECT
 
     void worker_del(QString ID);//DELETE
+
+    void worker_change_status(QString id_worker);//UPDATE
 
     void del_worker_from_brig(QString ID);//DELETE
 

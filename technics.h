@@ -15,3 +15,4 @@ public:
 };
 
 #endif // TECHNICS_H
+

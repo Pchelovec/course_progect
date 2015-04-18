@@ -266,4 +266,54 @@ void MainWindow::clear_bezicxodnost_Table_wid()
     ui->bezicxodnost_table_wid->setColumnCount(0);
     ui->bezicxodnost_table_wid->setRowCount(0);
 }
-//----------------------------------------------работники
+
+void MainWindow::add_new_brig()
+{
+    QUERY->new_brig_with_special(ui->new_special_brig_FCB->currentText());
+    ui->statusBar->showMessage("добавлена новая бригада");
+    ui->new_brigada_ChBox->setChecked(false);
+    ui->new_brigada_GrBox->setVisible(false);
+    //перезагрузка group box
+}
+
+void MainWindow::worker_to_group()
+{
+    qDebug()<<"оборуд к бригаде";
+    int row=ui->bezicxodnost_table_wid->currentRow();
+    QTableWidgetItem * item=new QTableWidgetItem;
+    item=ui->bezicxodnost_table_wid->item(row,2);
+    QUERY->eqw_to_brig(item->text(),ui->namber_obor_brig_ComBox->currentText());
+    load_obor_to_double_TabWid();
+}
+void MainWindow::eqw_to_group()
+{
+    //работник
+    qDebug()<<"работник к бригаде";
+    int row=ui->bezicxodnost_table_wid->currentRow();
+    QTableWidgetItem * item=new QTableWidgetItem;
+    item=ui->bezicxodnost_table_wid->item(row,2);
+    QUERY->worker_to_brig(item->text(),ui->namber_obor_brig_ComBox->currentText());
+    load_worker_to_double_Tab_Wid();
+}
+
+void MainWindow::dell_eqw_from_brig()
+{
+    QTableWidgetItem *item=new QTableWidgetItem;
+    int row=ui->obor_worker_table_wid->currentRow();
+    item= ui->obor_worker_table_wid->item(row,1);
+
+    QUERY->del_eqw_from_brig(item->text());
+    load_obor_to_double_TabWid();
+    ui->statusBar->showMessage("оборудование откреплено от бригады");
+}
+
+void MainWindow::dell_worker_from_brig()
+{
+    //удалить осотрудника от бригады
+    QTableWidgetItem *item=new QTableWidgetItem;
+    int row=ui->obor_worker_table_wid->currentRow();
+    item= ui->obor_worker_table_wid->item(row,4);
+    QUERY->del_worker_from_brig(item->text());
+    load_worker_to_double_Tab_Wid();
+    ui->statusBar->showMessage("сотрудник откреплен от бригады");
+}

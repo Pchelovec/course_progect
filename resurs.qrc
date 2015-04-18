@@ -1,21 +1,18 @@
 <RCC>
     <qresource prefix="/pictures">
         <file>res/ILLITA_STPOITEL3.gif</file>
-        <file>res/сохранить.jpg</file>
         <file>res/home.ico</file>
         <file>res/exit.jpg</file>
         <file>res/cargo1.ico</file>
-        <file>res/адрессная книга.gif</file>
         <file>res/контракт.gif</file>
         <file>res/поиск.gif</file>
         <file>res/чел.gif</file>
-        <file>res/Stroitelnyie-materialyi.gif</file>
         <file>res/материалы.gif</file>
-        <file>../../../изображения/строительная тема/бригада материалы.png</file>
         <file>res/saraj.png</file>
         <file>res/dollar.gif</file>
         <file>res/дворец.png</file>
         <file>res/diagramm_circle.png</file>
         <file>res/Printer.png</file>
+        <file>res/бригада материалы.png</file>
     </qresource>
 </RCC>

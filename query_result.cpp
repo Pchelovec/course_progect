@@ -274,17 +274,25 @@ reset();
     return result;
 }
 
-QList <material> query_result::mater_like_my(QString name)
+QList <material> query_result::mater_like_my(material val)
 {
 reset();
     QList <material> result;
     QString q;
     q="select * from all_material ";
-    if (name=="") q=q+";";
+    if (val.name!="" || val.naznach!="")
+    {q=q+"where ";
+    if (val.name!="")
+    {
+        q=q+"name like '"+val.name+"' ";
+        if (val.naznach!="") q=q+"and naznachenie like '%"+val.naznach+"%'";
+    }
     else
     {
-        q=q+"where name like '"+name+"';";
+        if (val.naznach!="") q=q+" naznachenie like'%"+val.naznach+"%'";
     }
+    }
+    else q=q+";";
     qDebug()<<q<<endl;
     DB->query->exec(q);
     while (DB->query->next())
@@ -393,30 +401,30 @@ QList <person_plas_prog> query_result::person_with_ID_building(QString ID_B)
     }
     return result;
 }
-QList <material> query_result::material_with_function(QString function)
-{
-    reset();
-    QString s("select * from all_material ");
-    if (function=="") s=s+" group by naznachenie;";
-    else
-    {
-        s=s+"where naznachenie=like'"+function+"' group by naznachenie;";
-    }
-    QList<material> result;
-    qDebug()<<s<<endl;
-    DB->query->exec(s);
-    while (DB->query->next())
-    {
-       material temp;
-        temp.name=DB->query->value(0).toString();
-        temp.price=DB->query->value(1).toString();
-        temp.naznach=DB->query->value(2).toString();
-        temp.izmer=DB->query->value(3).toString();
-        temp.count=DB->query->value(4).toString();
-       result.push_back(temp);
-    }
-    return result;
-}
+//QList <material> query_result::material_with_function(QString function)
+//{
+//    reset();
+//    QString s("select * from all_material ");
+//    if (function=="") s=s+" group by naznachenie;";
+//    else
+//    {
+//        s=s+"where naznachenie=like'"+function+"' group by naznachenie;";
+//    }
+//    QList<material> result;
+//    qDebug()<<s<<endl;
+//    DB->query->exec(s);
+//    while (DB->query->next())
+//    {
+//       material temp;
+//        temp.name=DB->query->value(0).toString();
+//        temp.price=DB->query->value(1).toString();
+//        temp.naznach=DB->query->value(2).toString();
+//        temp.izmer=DB->query->value(3).toString();
+//        temp.count=DB->query->value(4).toString();
+//       result.push_back(temp);
+//    }
+//    return result;
+//}
 
 QString query_result::material_ret_naznach_with_name(QString name)
 {
@@ -515,9 +523,8 @@ QString query_result::return_progect_id(QString client_passport, QString house_i
     //QString ID_progect;
 
     QString s("");
-    s="select ID, data_ from progect where passport_client='"+client_passport+"' and  house_id="+house_id;
-    QList <QDate> date;
-    QList <QString> id;
+    s="select ID, data_ from progect where passport_client='"+client_passport+"'";
+    if (house_id!="") s=s+" and  house_id="+house_id;
     s=s+" order by data_ desc;";
     qDebug()<<s<<endl;
     DB->query->exec(s);

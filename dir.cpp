@@ -11,7 +11,7 @@ dir::~dir()
 
 int dir::read_procent_File()
 {
-    QFile file("Z:/K_Progect/solut/Kursovoi/proc.txt");
+    QFile file("file/proc.txt");
         if(file.open(QIODevice::ReadOnly |QIODevice::Text))
         {
             while(!file.atEnd())
@@ -35,7 +35,7 @@ int dir::read_procent_File()
 bool dir::write_procent_File(int nac)
 {
     qDebug()<<QString::number(nac);
-    QFile file("Z:/K_Progect/solut/Kursovoi/proc.txt");
+    QFile file("file/proc.txt");
         if(file.open(QIODevice::WriteOnly |QIODevice::Text))
         {
             QTextStream out(&file);
@@ -53,7 +53,7 @@ bool dir::write_procent_File(int nac)
 
 QList<int> dir::read_work_process_File()
 {
-    QFile file("Z:/K_Progect/solut/Kursovoi/work_process.txt");
+    QFile file("file/work_process.txt");
         if(file.open(QIODevice::ReadOnly |QIODevice::Text))
         {
             QList<int> temp ;
@@ -78,7 +78,7 @@ QList<int> dir::read_work_process_File()
 
 bool dir::write_work_process_File(QList<int> nac)
 {
-    QFile file("Z:/K_Progect/solut/Kursovoi/work_process.txt");
+    QFile file("file/work_process.txt");
         if(file.open(QIODevice::WriteOnly |QIODevice::Text))
         {
             QTextStream out(&file);

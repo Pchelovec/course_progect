@@ -37,7 +37,7 @@ void MainWindow::load_building()
     ui->tableWidget_house->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->show_PB->setEnabled(false);
     ui->tableWidget_house->setColumnCount(6);
-    ui->tableWidget_house->setHorizontalHeaderLabels(QStringList()<<"имя"<<"уникальность"<<"ср t постройки"<<"м/кв"<<"цена"<<"ID");
+    ui->tableWidget_house->setHorizontalHeaderLabels(QStringList()<<"имя"<<"уникальность"<<"время постройки"<<"площадь"<<"цена"<<"№ постройки");
     building sh;
                 sh.name=ui->sh_building_name->text();
                 sh.time_pair.date_start=QString::number(ui->sh_building_time_min->value());
@@ -101,11 +101,15 @@ void MainWindow::load_sarai()
 
 void MainWindow::load_ynic_progect_building(bool ynic)
 {
+    ui->label_dop_money->clear();
+    ui->label_dop_money->setText("");
     ui->stackedWidget->setCurrentIndex(9);
     ui->active_progect_TW->setVisible(false);
     ui->close_active_progect_PB->setVisible(false);
     if (ynic)
     {
+        dir d;
+        ui->label_dop_money->setText("<font color=red>  *наценка="+QString::number(d.read_procent_File())+"% </font>");
         load_main_infor_new_build_GrBox();
         new_standart_level_table_clear();
         new_standart_material_table_clear();
@@ -116,6 +120,7 @@ void MainWindow::load_ynic_progect_building(bool ynic)
     }
     else
     {
+        ui->checkBox_is_ynical_progect->setChecked(false);
         load_main_infor_new_build_GrBox();
         new_standart_level_table_clear();
         new_standart_material_table_clear();
@@ -201,9 +206,13 @@ void MainWindow::add_to_need_material_TW(QString Name_mater, QString Count)
 
 void MainWindow::set_naznachen(QString val)
 {
+    material temp;
+    temp.name=val;
     ui->new_standart_ned_materisl_naznach->clear();
-    ui->new_standart_ned_materisl_naznach->setCurrentText(QUERY->material_ret_naznach_with_name(val));
+    QList<material> list=QUERY->mater_like_my(temp);
+    ui->new_standart_ned_materisl_naznach->setCurrentText(list[0].naznach);
     ui->new_standart_ned_materisl_naznach->setEnabled(false);
+    ui->new_standart_ned_mater_izmer_LE->setText(list[0].izmer);
 }
 
 void MainWindow::set_name_need_material(QString val)
@@ -222,6 +231,7 @@ void MainWindow::set_name_need_material(QString val)
 
 void MainWindow::set_day_count()
 {
+    ui->info_level_building_GrBox->setVisible(false);
     int day=0;
     int row=ui->new_standart_grafic_TW->rowCount();
     for (int i=0;i<row;i++)
@@ -235,6 +245,7 @@ void MainWindow::set_day_count()
 
 void MainWindow::set_price()
 {
+    ui->info_material_for_building_GrBox->setVisible(false);
     double price;
     if (ui->checkBox_is_ynical_progect->isChecked())
     {
@@ -378,9 +389,10 @@ void MainWindow::new_standart_main_clear()
 void MainWindow::load_material_name_all_for_need_material(QString val)
 {
     ui->new_standart_material_name->clear();
-    QList <material> list=QUERY->mater_like_my(val);
+    material temp;
+    temp.name=val;
+    QList <material> list=QUERY->mater_like_my(temp);
     int row=list.size();
-
     for (int i=0;i<row;i++)
     {
         ui->new_standart_material_name->addItem(list[i].name);
@@ -390,12 +402,21 @@ void MainWindow::load_material_name_all_for_need_material(QString val)
 void MainWindow::load_naznach_mater_standart(QString val)
 {
     ui->new_standart_ned_materisl_naznach->clear();
-    QList <material> list=QUERY->material_with_function(val);
+    material temp;
+    temp.naznach=val;
+    QList <material> list=QUERY->mater_like_my(temp);
+    QSet <QString>set_list;
+
     int row=list.size();
 
     for (int i=0;i<row;i++)
     {
-        ui->new_standart_ned_materisl_naznach->addItem(list[i].naznach);
+        if (list[i].naznach!="") set_list.insert(list[i].naznach);
+    }
+    row=set_list.size();
+    for (int i=0;i<row;i++)
+    {
+        ui->new_standart_ned_materisl_naznach->addItem(*(set_list.begin()+i));
     }
 }
 
@@ -406,6 +427,8 @@ void MainWindow::clear_needed_material_standart()
 
 void MainWindow::load_active_progect_TW()
 {
+    ui->active_progect_TW->setVisible(true);
+    ui->close_active_progect_PB->setVisible(true);
     ui->active_progect_TW->clear();
     ui->active_progect_TW->setRowCount(0);
     ui->active_progect_TW->setColumnCount(0);

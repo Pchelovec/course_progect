@@ -302,10 +302,11 @@ void query_result::insert_level(QString lev_str, QString id_building_s,  level v
 
 void query_result::insert_need_material_for_b(QString ID_b, material_ned material_)
 {
-    QString t=material_.name_material;
     reset ();
     QString q("insert into neded_materials (number_of_building, namber_material, count) values(");
-    QList <material> list_mat=mater_like_my(t);
+    material temp;
+    temp.name=material_.name_material;
+    QList <material> list_mat=mater_like_my(temp);
     material mat=list_mat[0];
     QString ID_M=mat.ID;
     q=q+ID_b+", "+ID_M+", "+material_.count_material+");";
@@ -441,4 +442,12 @@ double query_result::sum_material(QList<material_ned> val)
         result=result+DB->query->value(0).toDouble()*val[i].count_material.toInt();
     }
     return result;
+}
+
+void query_result::worker_change_status(QString id_worker)
+{
+   reset();
+   QString s("update worker set worker_status=1 where worker.id_worker="+id_worker+";");
+   qDebug()<<s<<endl;
+   DB->query->exec(s);
 }

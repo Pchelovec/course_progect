@@ -4,15 +4,19 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql printsupport
+QT       += core gui sql printsupport xml script
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = Kursovoi
 TEMPLATE = app
 RC_ICONS=res\home.ico
-
-
+#Z:/bin/
+win32:CONFIG(release, debug|release) : LIBS += -Lbin/ -lNCReport2
+else:win32:CONFIG(debug, debug|release): LIBS += -Lbin/ -lNCReportDebug2
+INCLUDEPATH +=bin
+INCLUDEPATH +=lib
+INCLUDEPATH +=platforms
 SOURCES += main.cpp\
         mainwindow.cpp \
     pictures_stroitel.cpp \
@@ -49,8 +53,6 @@ HEADERS  += mainwindow.h \
     printer.h
 
 FORMS    += mainwindow.ui
-
-
 
 RESOURCES += \
     resurs.qrc

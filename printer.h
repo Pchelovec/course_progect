@@ -1,38 +1,25 @@
 #ifndef PRINTER_H
 #define PRINTER_H
+#include <QWidget>
 #include <QString>
-#include <QList>
-#include "building.h"
-#include <QPrinter>
-#include <QPainter>
-#include <QTextDocument>
-#include <QPrintPreviewDialog>
-class printer
+#include <QMessageBox>
+#include "ncreport.h"
+#include "ncreportoutput.h"
+#include "ncreportpreviewoutput.h"
+#include "ncreportpreviewwindow.h"
+class printer: QWidget
 {
+    Q_OBJECT
 public:
 
-    void set_info(QList <material_ned> table, QString ID_progect, building info, QList<building> list);
-
-    void make_ntml();
-
-    void print();
-
-    void clear();
+    void print_contract(QString id_contract, QString id_house);
+    void print_all_material();
+    void print_worker_time(QString id_brig);
     printer();
     ~printer();
 
 private:
-    QList <material_ned> table_material_nedost;
-    QString ID;
-    building info_b;
-    QList<building> steps;
 
-
-    QTextStream out;
-
-    QString s;
-
-    QPrintPreviewDialog * prevDlg;
 };
 
 #endif // PRINTER_H

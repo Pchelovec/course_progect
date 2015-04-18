@@ -56,21 +56,12 @@ void plan_building_time::save_best_time_for_level(level val, QDate &min_start_ti
 
     QSet <QString> set_id_brig;
 
-//    for (int i=0;i<time_list.size();i++)
-//    {
-//        set_id_brig.insert(time_list[i].ID);
-//    }
+
     QList<QString> dop_list=QUEry->ret_list_brig_with_special(val.special_brig);
     for (int i=0;i<dop_list.size();i++)//бобавить бригады которые могут выйти на работу
     {
         set_id_brig.insert(dop_list[i]);
     }
-//    qDebug()<<"set=";
-//    for (int i=0;i<set_id_brig.size();i++)
-//    {
-//        qDebug<<*(set_id_brig.begin()+i);
-//    }
-//    qDebug()<<"==========";
     if (set_id_brig.size()!=0)
     {
     //проверка на 0 бригад
@@ -192,7 +183,7 @@ QList <material_ned> plan_building_time::sub_material_for_building(QString ID_bu
                 else //обычное списание
                 {
                     qDebug()<<"достаточно материала";
-                    QUEry->material_up_summ_count("0", temp.ID);
+                    QUEry->material_up_summ_count(QString::number(list_mat[0].count.toInt()-temp.count.toInt()), temp.ID);
                 }
             }
             else
